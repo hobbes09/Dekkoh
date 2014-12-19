@@ -5,4 +5,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    
+    <!-- Facebook sdk integration -->
+    <string  name="facebook_app_id">313134202213240</string>
+    
+    
+    <!-- Splash Activity Strings -->
+    <string  name="connect_with">Connect with</string>
 </resources>
