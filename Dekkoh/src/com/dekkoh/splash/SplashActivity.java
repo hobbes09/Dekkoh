@@ -1,13 +1,19 @@
-package com.dekkoh.Splash;
+package com.dekkoh.splash;
 
 import java.util.Arrays;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -24,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dekkoh.R;
+import com.dekkoh.application.Dekkoh_Application;
+import com.dekkoh.gpstracker.GPSTracker;
 import com.facebook.FacebookException;
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -43,6 +51,7 @@ public class SplashActivity extends Activity {
 	private RelativeLayout loginOptionsHolderLayout;
 	private Context mContext;
 	private UiLifecycleHelper uiHelper;
+	private Dekkoh_Application dekkohApplication;
 	
 	
     @Override
@@ -51,6 +60,11 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.splash_activity_layout);
         
         mContext=getApplicationContext();
+        
+        dekkohApplication = (Dekkoh_Application)getApplication();
+        
+        //Start GPS
+        startGPSTracker();
         
         //UIIHelper for facebook
         uiHelper = new UiLifecycleHelper(this, statusCallback);
@@ -217,5 +231,67 @@ public class SplashActivity extends Activity {
         return px;
     }
     
+    //Intializing GPS Tracker
+    private void startGPSTracker() {
+		// TODO Auto-generated method stub
+		GPSTracker gpsTracker=new GPSTracker(getApplicationContext(),dekkohApplication,5,1*60*1000);//Meters : 5 ; Time : 1*60*1000 - 1min
+	    if(gpsTracker.canGetLocation()){
+	    	dekkohApplication.updateLocationOfUser(gpsTracker.getLocation());
+	    	// Acquire a reference to the system Location Manager 
+			LocationManager locationManager = (LocationManager) this .getSystemService(Context.LOCATION_SERVICE); 
+			// Define a listener that responds to location updates 
+			LocationListener locationListener = new LocationListener() 
+			{ 
+				public void onLocationChanged(Location location) 
+				{ 
+					dekkohApplication.updateLocationOfUser(location);
+				} 
+				public void onStatusChanged(String provider, int status, Bundle extras) 
+				{ } 
+				public void onProviderEnabled(String provider) { } 
+				public void onProviderDisabled(String provider) { } 
+				}; 
+				if(gpsTracker.isGPSEnabled){
+					locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5,1*60*1000, locationListener); 
+				}
+				if(gpsTracker.isNetworkEnabled){
+					locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener); 
+				}
+				
+	    }else{
+	    	showSettingsAlert();
+	    }
+	}
+    
+    
+    
+    private void showSettingsAlert(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        
+        // Setting Dialog Title
+        alertDialog.setTitle("GPS is settings");
+
+        // Setting Dialog Message
+        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
+
+        // On pressing Settings button
+        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int which) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                mContext.startActivity(intent);
+            }
+        });
+
+        // on pressing cancel button
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            dialog.cancel();
+            }
+        });
+
+        // Showing Alert Message
+        alertDialog.show();
+    }
+
     
 }
