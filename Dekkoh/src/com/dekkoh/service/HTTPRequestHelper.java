@@ -27,12 +27,12 @@ import com.dekkoh.util.Log;
 public final class HTTPRequestHelper {
 	private static final String TAG = "HTTPRequestHelper";
 
-	public String processGetRequest(String serviceURL)
+	public static String processGetRequest(String serviceURL)
 			throws ClientProtocolException, IOException {
 		return processGetRequest(serviceURL, getJSONRequestHeader());
 	}
 
-	public String processGetRequest(String serviceURL,
+	public static String processGetRequest(String serviceURL,
 			Map<String, String> requestHeaders) throws ClientProtocolException,
 			IOException {
 		if (Log.DEBUG) {
@@ -61,13 +61,13 @@ public final class HTTPRequestHelper {
 		return responseString;
 	}
 
-	public String processPostRequest(String serviceURL, String requestData)
-			throws ClientProtocolException, IOException {
+	public static String processPostRequest(String serviceURL,
+			String requestData) throws ClientProtocolException, IOException {
 		return processPostRequest(serviceURL, getJSONRequestHeader(),
 				requestData);
 	}
 
-	public String processPostRequest(String serviceURL,
+	public static String processPostRequest(String serviceURL,
 			Map<String, String> requestHeaders, String requestData)
 			throws ClientProtocolException, IOException {
 		if (Log.DEBUG) {
@@ -99,12 +99,12 @@ public final class HTTPRequestHelper {
 		return responseString;
 	}
 
-	public String processDeleteRequest(String serviceURL)
+	public static String processDeleteRequest(String serviceURL)
 			throws ClientProtocolException, IOException {
 		return processDeleteRequest(serviceURL, getJSONRequestHeader());
 	}
 
-	public String processDeleteRequest(String serviceURL,
+	public static String processDeleteRequest(String serviceURL,
 			Map<String, String> requestHeaders) throws ClientProtocolException,
 			IOException {
 		if (Log.DEBUG) {
@@ -133,13 +133,13 @@ public final class HTTPRequestHelper {
 		return responseString;
 	}
 
-	public String processPutRequest(String serviceURL, String requestData)
+	public static String processPutRequest(String serviceURL, String requestData)
 			throws ClientProtocolException, IOException {
 		return processPostRequest(serviceURL, getJSONRequestHeader(),
 				requestData);
 	}
 
-	public String processPutRequest(String serviceURL,
+	public static String processPutRequest(String serviceURL,
 			Map<String, String> requestHeaders, String requestData)
 			throws IllegalStateException, IOException {
 		if (Log.DEBUG) {
