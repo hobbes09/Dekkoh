@@ -19,9 +19,12 @@ public final class APIConstants {
 		public static final String QA_SERVICE_URL = "http://104.131.64.246:3000";
 		public static final String PROD_SERVICE_URL = "http://104.131.64.246:3000";
 
-		public static final String GROUP_INTERESTS_SUFFIX = "/interests";
-		public static final String GROUP_QUESTIONS_SUFFIX = "/questions";
-		public static final String GROUP_QUESTIONS_BY_INTEREST_SUFFIX = "/questions_by_interest/";
+		public static final String INTERESTS_SUFFIX = "/interests";
+		public static final String QUESTIONS_SUFFIX = "/questions";
+		public static final String QUESTIONS_LOCATIONS_SUFFIX = "/questions/locations";
+		public static final String QUESTIONS_NEARBY_SUFFIX = "/questions/nearby";
+		public static final String QUESTIONS_COUNT_SUFFIX = "/questions/count";
+		public static final String QUESTIONS_BY_INTEREST_SUFFIX = "/questions_by_interest/";
 		public static final String USER_QUESTIONS_SUFFIX = "/user/my_questions/";
 		public static final String USER_FEED_SUFFIX = "/user/feed/";
 		public static final String USER_ANSWERS_SUFFIX = "/user/my_answers/";
