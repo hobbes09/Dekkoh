@@ -17,5 +17,13 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    
+    <!-- the theme applied to the application or activity -->
+    <style name="CustomActionBarTheme"
+           parent="@android:style/Theme.Holo">
+        <item name="android:windowActionBarOverlay">true</item>
+
+        <!-- Support library compatibility -->
+    </style>
  
 </resources>
