@@ -8,7 +8,7 @@ public class Interest {
 	private String image_url;
 	private String interest_name;
 	private String updated_at;
-	private ID _id = new ID();
+	private InterestID _id = new InterestID();
 
 	/**
 	 * @return the created_at
@@ -100,7 +100,7 @@ public class Interest {
 		this._id.setInterestID(interestID);
 	}
 
-	class ID {
+	class InterestID {
 		@SerializedName("$oid")
 		private String interestID;
 
