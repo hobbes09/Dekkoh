@@ -150,9 +150,6 @@ public class SplashActivity extends Activity {
 			
 		}
 	});
-			
-       new Samplecall().execute();
-       
         
     }
 
@@ -297,23 +294,4 @@ public class SplashActivity extends Activity {
         // Showing Alert Message
         alertDialog.show();
     }
-    
-    class Samplecall extends AsyncTask<Void, Void, Boolean>{
-
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			try {
-				APIProcessor.getInteresetList();
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-				Log.e(e);
-			} catch (IOException e) {
-				e.printStackTrace();
-				Log.e(e);
-			}
-			return false;
-		}
-    	
-    }
-    
 }

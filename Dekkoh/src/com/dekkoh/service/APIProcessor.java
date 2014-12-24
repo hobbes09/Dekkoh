@@ -431,7 +431,7 @@ public class APIProcessor {
 	 * @return List<Question>
 	 * @throws Exception
 	 */
-	public static List<Question> getQuestionsByUser(Activity activity,
+	public static List<Question> getUserQuestionList(Activity activity,
 			String user_id, int offset, int limit, long fromTimestamp,
 			long toTimestamp, String sort) throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
