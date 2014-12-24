@@ -1,19 +1,16 @@
 package com.dekkoh.gpstracker;
 
-import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.provider.Settings;
 import android.util.Log;
 
-import com.dekkoh.application.Dekkoh_Application;
+import com.dekkoh.application.DekkohApplication;
 
 
 public class GPSTracker extends Service implements LocationListener {
@@ -44,9 +41,9 @@ public class GPSTracker extends Service implements LocationListener {
     
    
     //Dekkoh Application for Storing lati n longi
-    Dekkoh_Application dekkohApplication;
+    DekkohApplication dekkohApplication;
 
-    public GPSTracker(Context context,Dekkoh_Application dekkohApplication,long minDistanceInMetersForGPSUpdates, long minTimeInMilliSecondsForGPSUpdate) {
+    public GPSTracker(Context context,DekkohApplication dekkohApplication,long minDistanceInMetersForGPSUpdates, long minTimeInMilliSecondsForGPSUpdate) {
         this.mContext = context;
         MIN_DISTANCE_CHANGE_FOR_UPDATES=minDistanceInMetersForGPSUpdates;
         MIN_TIME_BW_UPDATES=minTimeInMilliSecondsForGPSUpdate;

@@ -2,8 +2,6 @@ package com.dekkoh.slidingmenu;
 
 import java.util.ArrayList;
 
-import com.dekkoh.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.dekkoh.R;
 
 public class NavDrawerListAdapter extends BaseAdapter{
 

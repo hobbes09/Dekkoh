@@ -39,7 +39,7 @@ public final class APIConstants {
 		public static final String STAR_MESSAGES_SUFFIX = "/message/star/";
 		public static final String MESSAGE_DETAILS_SUFFIX = "/messages/";
 		public static final String USER_LOGIN_SUFFIX = "/user/login";
-		public static final String USER_SUFFIX = "users";
+		public static final String USER_SUFFIX = "/users";
 		public static final String USER_PROFILE_UPDATE_SUFFIX = "/user/profile_update/";
 		public static final String USER_INTEREST_UPDATE_SUFFIX = "/user/interest_update/";
 		public static final String USER_INTERESETS_SUFFIX = "/user/interests/";

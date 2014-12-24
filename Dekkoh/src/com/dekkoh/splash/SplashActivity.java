@@ -1,6 +1,9 @@
 package com.dekkoh.splash;
 
+import java.io.IOException;
 import java.util.Arrays;
+
+import org.apache.http.client.ClientProtocolException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,11 +14,11 @@ import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,8 +33,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dekkoh.R;
-import com.dekkoh.application.Dekkoh_Application;
+import com.dekkoh.application.DekkohApplication;
 import com.dekkoh.gpstracker.GPSTracker;
+import com.dekkoh.service.APIProcessor;
+import com.dekkoh.util.Log;
 import com.facebook.FacebookException;
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -51,7 +56,7 @@ public class SplashActivity extends Activity {
 	private RelativeLayout loginOptionsHolderLayout;
 	private Context mContext;
 	private UiLifecycleHelper uiHelper;
-	private Dekkoh_Application dekkohApplication;
+	private DekkohApplication dekkohApplication;
 	
 	
     @Override
@@ -61,7 +66,7 @@ public class SplashActivity extends Activity {
         
         mContext=getApplicationContext();
         
-        dekkohApplication = (Dekkoh_Application)getApplication();
+        dekkohApplication = (DekkohApplication)getApplication();
         
         //Start GPS
         startGPSTracker();
@@ -146,7 +151,7 @@ public class SplashActivity extends Activity {
 		}
 	});
 			
-       
+       new Samplecall().execute();
        
         
     }
@@ -292,6 +297,23 @@ public class SplashActivity extends Activity {
         // Showing Alert Message
         alertDialog.show();
     }
+    
+    class Samplecall extends AsyncTask<Void, Void, Boolean>{
 
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			try {
+				APIProcessor.getInteresetList();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+				Log.e(e);
+			} catch (IOException e) {
+				e.printStackTrace();
+				Log.e(e);
+			}
+			return false;
+		}
+    	
+    }
     
 }
