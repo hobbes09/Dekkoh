@@ -1,20 +1,18 @@
 package com.dekkoh.splash;
 
-import java.io.IOException;
 import java.util.Arrays;
-
-import org.apache.http.client.ClientProtocolException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -34,8 +32,8 @@ import android.widget.Toast;
 
 import com.dekkoh.R;
 import com.dekkoh.application.DekkohApplication;
+import com.dekkoh.googleplusloginhandler.GooglePlusLoginController;
 import com.dekkoh.gpstracker.GPSTracker;
-import com.dekkoh.service.APIProcessor;
 import com.dekkoh.util.Log;
 import com.facebook.FacebookException;
 import com.facebook.Session;
@@ -58,6 +56,8 @@ public class SplashActivity extends Activity {
 	private UiLifecycleHelper uiHelper;
 	private DekkohApplication dekkohApplication;
 	
+	//Google login helper
+	GooglePlusLoginController googleLoginController;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,13 +141,30 @@ public class SplashActivity extends Activity {
 			}
 		});
       
-       //Google Plus
+       //Google Plus Login
        googleLoginButton.setOnClickListener(new View.OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
-			// TODO integrate with Google Plus SDK
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+			    // Make the call to GoogleApiClient
+				
+				try{
+					//Check if Goolge Plu App is installed or not
+			        getPackageManager().getApplicationInfo("com.google.android.apps.plus", 0 );
+			        googleLoginController=new GooglePlusLoginController(SplashActivity.this);
+					 googleLoginController.connect();
+					Log.e("google login", "button clicked");
+			    }catch(PackageManager.NameNotFoundException e){
+			    	Toast.makeText(getApplicationContext(), "You have no Google Plus App Installled on your Device. Please try Facebook login.", Toast.LENGTH_LONG).show();
+			    }
+				
+			}else{
+				Toast.makeText(getApplicationContext(), "Google Plus Login available for Android Versions grater than GINGERBREAD. Please try Facebook login.", Toast.LENGTH_LONG).show();
+			}
 			
+			
+			//TODO:Go to onConnected method in GooglePlusLoginController class to get the user info and forward him to his home screen
 		}
 	});
         
@@ -194,12 +211,23 @@ public class SplashActivity extends Activity {
 	public void onDestroy() {
 		super.onDestroy();
 		uiHelper.onDestroy();
+		googleLoginController.disconnect();
 	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		uiHelper.onActivityResult(requestCode, resultCode, data);
+		 if (requestCode == googleLoginController.getRcSignIn()) {
+			 googleLoginController.mIntentInProgress = false;
+
+			    if (!googleLoginController.isconnecting()) {
+			    	googleLoginController.connect();
+			    }
+			  }
+			  uiHelper.onActivityResult(requestCode, resultCode, data);
+		  
+		
+		
 	}
 
 	@Override
@@ -235,7 +263,6 @@ public class SplashActivity extends Activity {
     
     //Intializing GPS Tracker
     private void startGPSTracker() {
-		// TODO Auto-generated method stub
 		GPSTracker gpsTracker=new GPSTracker(getApplicationContext(),dekkohApplication,5,1*60*1000);//Meters : 5 ; Time : 1*60*1000 - 1min
 	    if(gpsTracker.canGetLocation()){
 	    	dekkohApplication.updateLocationOfUser(gpsTracker.getLocation());
