@@ -82,7 +82,9 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
 		// TODO Auto-generated method stub
 		Log.e("google login", "Connected");
 		  if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+			  
 			    Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+			    String userToken = currentPerson.getId();
 			    String personName = currentPerson.getDisplayName();
 			    String personPhotoUrl = currentPerson.getImage().getUrl();
 			    String personGooglePlusProfile = currentPerson.getUrl();

@@ -134,6 +134,7 @@ public class SplashActivity extends Activity {
 			@Override
 			public void onUserInfoFetched(GraphUser user) {
 				if (user != null) {
+					String userToken=user.getId();
 					Toast.makeText(mContext, "Name:"+user.getName()+"\n"+"Email:"+user.asMap().get("email").toString(), Toast.LENGTH_LONG).show();
 				} else {
 					
@@ -150,7 +151,7 @@ public class SplashActivity extends Activity {
 			    // Make the call to GoogleApiClient
 				
 				try{
-					//Check if Goolge Plu App is installed or not
+					//Check if Goolge Plus App is installed or not
 			        getPackageManager().getApplicationInfo("com.google.android.apps.plus", 0 );
 			        googleLoginController=new GooglePlusLoginController(SplashActivity.this);
 					 googleLoginController.connect();
