@@ -51,12 +51,7 @@
                         android:layout_height="match_parent"
                         android:layout_width= "match_parent"
                         android:background="#00ff00"
-                        >         
-                        <com.dekkoh.util.RoundedImageView 
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/background"
-                        />               
+                        >               
                     </com.dekkoh.util.SquareLinearLayout>
                     
                     <TextView 
