@@ -74,13 +74,18 @@ public class QuestionFragment extends Fragment{
                 	case FragmentTransitionManager.SWIPE_DOWN:
                 				Fragment nextQuestionFragment = new QuestionFragment();
                 				nextQuestionFragment.setArguments(QuestionContentManager.setNextQuestion());
-                				FragmentTransaction transaction = HomeScreen.supportFragmentManager.beginTransaction();
-                				transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
-                				transaction.replace(R.id.contentHomeActivity, nextQuestionFragment);
-                			    transaction.commit();
+                				FragmentTransaction transactionNext = HomeScreen.supportFragmentManager.beginTransaction();
+                				transactionNext.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
+                				transactionNext.replace(R.id.contentHomeActivity, nextQuestionFragment);
+                			    transactionNext.commit();
                 				break;
                 	case FragmentTransitionManager.SWIPE_UP:
-                				Toast.makeText(getActivity(), "Swipe up Detected", Toast.LENGTH_SHORT).show();
+		                		Fragment previousQuestionFragment = new QuestionFragment();
+		                		previousQuestionFragment.setArguments(QuestionContentManager.setPreviousQuestion());
+		        				FragmentTransaction transactionPrevious = HomeScreen.supportFragmentManager.beginTransaction();
+		        				transactionPrevious.setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_down);
+		        				transactionPrevious.replace(R.id.contentHomeActivity, previousQuestionFragment);
+		        			    transactionPrevious.commit();
                 				break;
                 	case FragmentTransitionManager.SWIPE_LEFT:
                 				Toast.makeText(getActivity(), "Swipe left Detected", Toast.LENGTH_SHORT).show();

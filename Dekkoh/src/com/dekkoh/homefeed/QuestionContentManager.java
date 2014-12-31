@@ -14,4 +14,13 @@ public class QuestionContentManager {
 		questionFragArgs.putString("QUESTION", "Question" + counter);
 		return questionFragArgs;
 	}
+	
+	public static Bundle setPreviousQuestion(){
+		counter--;
+		Bundle questionFragArgs = new Bundle();
+		questionFragArgs.putString("LOCATION", "Location"+counter);
+		questionFragArgs.putString("USERNAME", "Username"+counter);
+		questionFragArgs.putString("QUESTION", "Question" + counter);
+		return questionFragArgs;
+	}
 }
