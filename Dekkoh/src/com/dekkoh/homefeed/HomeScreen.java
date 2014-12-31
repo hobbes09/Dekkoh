@@ -58,6 +58,8 @@ public class HomeScreen extends FragmentActivity implements OnClickListener {
     private ArrayList<NavDrawerItem> navDrawerItems;
     private NavDrawerListAdapter adapter;
     
+    static FragmentManager supportFragmentManager;
+    
     
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,7 @@ public class HomeScreen extends FragmentActivity implements OnClickListener {
 		ibMap.setOnClickListener(this);
 		ibPost.setOnClickListener(this);
 		
+		supportFragmentManager = getSupportFragmentManager();
 		navigationDrawerInitialisation(savedInstanceState);
 	}
 
@@ -231,6 +234,7 @@ public class HomeScreen extends FragmentActivity implements OnClickListener {
         }
  
         if (fragment != null) {
+
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.contentHomeActivity, fragment).commit();
@@ -243,6 +247,7 @@ public class HomeScreen extends FragmentActivity implements OnClickListener {
         } 
         else {
         	fragment = new QuestionFragment();
+        	fragment.setArguments(QuestionContentManager.setNextQuestion());
         	FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
     		transaction.setCustomAnimations(R.animator.frag_slide_in_from_bottom, 0);
     	    transaction.replace(R.id.contentHomeActivity, fragment);

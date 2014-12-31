@@ -15,6 +15,8 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,13 +27,15 @@ import android.widget.Toast;
 
 public class QuestionFragment extends Fragment{
 	
+	private float xDown, xUp, yDown, yUp;
+	private int SWIPE_ACTION = 0;
 	private TextView tvLocation;
 	private TextView tvUsername;
 	private TextView tvQuestion;
 	private ImageView ivHomeImage;
 	private SquareLinearLayout sllProfilePic;
 	
-	
+		
 	private static int currentIndex = 0;  //store and keep updating in shared preference
 	
 	QuestionFragment(){				
@@ -41,30 +45,67 @@ public class QuestionFragment extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View root = inflater.inflate(R.layout.question_fragment, null);
-		
-		root.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
 
-                if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    Toast.makeText(getActivity(), "QuestionFragment touch detected", Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            }
-		});
+		initializeTouchListeners(root);
 
-		
 		initialize(root);
 		setValues();
 		
         return root;		
 	}
 
+	private void initializeTouchListeners(View root) {
+		
+		root.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+            	
+
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    xDown = event.getX();
+                    yDown = event.getY();                    
+                }
+                
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                	xUp = event.getX();
+                	yUp = event.getY();  
+                	
+                	SWIPE_ACTION = FragmentTransitionManager.detectSwipe(xDown, xUp, yDown, yUp);
+                	switch(SWIPE_ACTION){
+                	case FragmentTransitionManager.SWIPE_DOWN:
+                				Fragment nextQuestionFragment = new QuestionFragment();
+                				nextQuestionFragment.setArguments(QuestionContentManager.setNextQuestion());
+                				FragmentTransaction transaction = HomeScreen.supportFragmentManager.beginTransaction();
+                				transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
+                				transaction.replace(R.id.contentHomeActivity, nextQuestionFragment);
+                			    transaction.commit();
+                				break;
+                	case FragmentTransitionManager.SWIPE_UP:
+                				Toast.makeText(getActivity(), "Swipe up Detected", Toast.LENGTH_SHORT).show();
+                				break;
+                	case FragmentTransitionManager.SWIPE_LEFT:
+                				Toast.makeText(getActivity(), "Swipe left Detected", Toast.LENGTH_SHORT).show();
+                				break;
+                	case FragmentTransitionManager.SWIPE_RIGHT:
+                				Toast.makeText(getActivity(), "Swipe right Detected", Toast.LENGTH_SHORT).show();
+                				break;
+                	case FragmentTransitionManager.SWIPE_NULL:
+                				Toast.makeText(getActivity(), "Swipe null Detected", Toast.LENGTH_SHORT).show();
+                				break;               	
+                	}
+                	
+                	xDown = yDown = xUp = yUp = 0;
+                }              
+                return true;
+            }
+		});
+		
+	}
+
 	private void setValues() {
-//		tvLocation.setText(getArguments().getString("LOCATION"));
-//		tvUsername.setText(getArguments().getString("USERNAME"));
-//		tvQuestion.setText(getArguments().getString("QUESTION"));
+		tvLocation.setText(getArguments().getString("LOCATION"));
+		tvUsername.setText(getArguments().getString("USERNAME"));
+		tvQuestion.setText(getArguments().getString("QUESTION"));
 //		ivHomeImage.setImageBitmap(getArguments().get);
-//		root.setBackgroundColor(getArguments().getInt(COLOR));
 		RoundedImageView.setCircledLinearLayoutBackground(sllProfilePic, R.drawable.test, getResources());		
 	}
 
