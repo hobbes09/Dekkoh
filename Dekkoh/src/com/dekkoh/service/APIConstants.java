@@ -34,6 +34,7 @@ public final class APIConstants {
 		public static final String UNFOLLOW_QUESTION_SUFFIX = "/question/unfollow/";
 		public static final String FLAG_QUESTION_SUFFIX = "/question/flag/";
 		public static final String UNFLAG_QUESTION_SUFFIX = "/question/unflag/";
+		public static final String CHECK_QUESTION_FLAG_SUFFIX = "/questions/flag/check/";
 		public static final String LIKE_ANSWER_SUFFIX = "/user/like_answer/";
 		public static final String UNLIKE_ANSWER_SUFFIX = "/user/unlike_answer/";
 		public static final String GROUP_ANSWERS_SUFFIX = "/answers";
@@ -43,6 +44,9 @@ public final class APIConstants {
 		public static final String MESSAGE_DETAILS_SUFFIX = "/messages/";
 		public static final String USER_LOGIN_SUFFIX = "/user/login";
 		public static final String USER_SUFFIX = "/users";
+		public static final String USER_COUNT_SUFFIX = USER_SUFFIX + "/count";
+		public static final String USER_IMAGES_SUFFIX = USER_SUFFIX + "/images";
+		public static final String USER_LOCATION_SUFFIX = USER_SUFFIX + "/locations";
 		public static final String USER_PROFILE_UPDATE_SUFFIX = "/user/profile_update/";
 		public static final String USER_INTEREST_UPDATE_SUFFIX = "/user/interest_update/";
 		public static final String USER_INTERESETS_SUFFIX = "/user/interests/";

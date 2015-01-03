@@ -1,23 +1,27 @@
 package com.dekkoh.datamodel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 
 public class Question {
-	private int answer_count;
-	private int follow_count;
-	private String created_at;
-	private String delete_flg;
-	private String image;
-	private String interest_name;
-	private String latitude;
-	private String location;
-	private String longitude;
-	private String question;
-	private String updated_at;
-	private String user_name;
-	private InterestId interest_id = new InterestId();
-	private UserId user_id = new UserId();
-	private QuestionId _id = new QuestionId();
+	protected int answer_count;
+	protected String follow_count;
+	protected String coordinates;
+	protected String created_at;
+	protected String delete_flg;
+	protected String image;
+	protected String interest_name;
+	protected String location;
+	protected String question;
+	protected String updated_at;
+	protected String user_image;
+	protected String user_name;
+	protected InterestId interest_id = new InterestId();
+	protected UserId user_id = new UserId();
+	protected QuestionId _id = new QuestionId();
+	protected List<Follower> followers = new ArrayList<Follower>();
 
 	/**
 	 * @return the answer_count
@@ -37,7 +41,7 @@ public class Question {
 	/**
 	 * @return the follow_count
 	 */
-	public int getFollow_count() {
+	public String getFollow_count() {
 		return follow_count;
 	}
 
@@ -45,7 +49,7 @@ public class Question {
 	 * @param follow_count
 	 *            the follow_count to set
 	 */
-	public void setFollow_count(int follow_count) {
+	public void setFollow_count(String follow_count) {
 		this.follow_count = follow_count;
 	}
 
@@ -110,21 +114,6 @@ public class Question {
 	}
 
 	/**
-	 * @return the latitude
-	 */
-	public String getLatitude() {
-		return latitude;
-	}
-
-	/**
-	 * @param latitude
-	 *            the latitude to set
-	 */
-	public void setLatitude(String latitude) {
-		this.latitude = latitude;
-	}
-
-	/**
 	 * @return the location
 	 */
 	public String getLocation() {
@@ -137,21 +126,6 @@ public class Question {
 	 */
 	public void setLocation(String location) {
 		this.location = location;
-	}
-
-	/**
-	 * @return the longitude
-	 */
-	public String getLongitude() {
-		return longitude;
-	}
-
-	/**
-	 * @param longitude
-	 *            the longitude to set
-	 */
-	public void setLongitude(String longitude) {
-		this.longitude = longitude;
 	}
 
 	/**
@@ -289,9 +263,54 @@ public class Question {
 		this._id.setQuestionId(questionId);
 	}
 
+	/**
+	 * @return the coordinates
+	 */
+	public String getCoordinates() {
+		return coordinates;
+	}
+
+	/**
+	 * @param coordinates
+	 *            the coordinates to set
+	 */
+	public void setCoordinates(String coordinates) {
+		this.coordinates = coordinates;
+	}
+
+	/**
+	 * @return the user_image
+	 */
+	public String getUser_image() {
+		return user_image;
+	}
+
+	/**
+	 * @param user_image
+	 *            the user_image to set
+	 */
+	public void setUser_image(String user_image) {
+		this.user_image = user_image;
+	}
+
+	/**
+	 * @return the followers
+	 */
+	public List<Follower> getFollowers() {
+		return followers;
+	}
+
+	/**
+	 * @param followers
+	 *            the followers to set
+	 */
+	public void setFollowers(List<Follower> followers) {
+		this.followers = followers;
+	}
+
 	class InterestId {
 		@SerializedName("$oid")
-		private String interestId;
+		protected String interestId;
 
 		/**
 		 * @return the interestId
@@ -311,7 +330,7 @@ public class Question {
 
 	class UserId {
 		@SerializedName("$oid")
-		private String userId;
+		protected String userId;
 
 		/**
 		 * @return the userId
@@ -332,7 +351,7 @@ public class Question {
 
 	class QuestionId {
 		@SerializedName("$oid")
-		private String questionId;
+		protected String questionId;
 
 		/**
 		 * @return the questionId
@@ -348,5 +367,78 @@ public class Question {
 		public void setQuestionId(String questionId) {
 			this.questionId = questionId;
 		}
+	}
+
+	class Follower {
+		private String name = "";
+		private String profile_pic_url = "";
+		private FollowerId _id = new FollowerId();
+
+		/**
+		 * @return the followerId
+		 */
+		public String getFollowerId() {
+			return _id.getFollowerId();
+		}
+
+		/**
+		 * @param followerId
+		 *            the followerId to set
+		 */
+		public void setFollowerId(String followerId) {
+			this._id.setFollowerId(followerId);
+		}
+
+		/**
+		 * @return the profile_pic_url
+		 */
+		public String getProfile_pic_url() {
+			return profile_pic_url;
+		}
+
+		/**
+		 * @param profile_pic_url
+		 *            the profile_pic_url to set
+		 */
+		public void setProfile_pic_url(String profile_pic_url) {
+			this.profile_pic_url = profile_pic_url;
+		}
+
+		/**
+		 * @return the name
+		 */
+		public String getName() {
+			return name;
+		}
+
+		/**
+		 * @param name
+		 *            the name to set
+		 */
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		class FollowerId {
+			@SerializedName("$oid")
+			private String followerId = "";
+
+			/**
+			 * @return the followerId
+			 */
+			public String getFollowerId() {
+				return followerId;
+			}
+
+			/**
+			 * @param followerId
+			 *            the followerId to set
+			 */
+			public void setFollowerId(String followerId) {
+				this.followerId = followerId;
+			}
+
+		}
+
 	}
 }

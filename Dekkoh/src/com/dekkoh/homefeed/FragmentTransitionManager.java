@@ -1,6 +1,5 @@
 package com.dekkoh.homefeed;
 
-import android.util.Log;
 
 public class FragmentTransitionManager {
 	

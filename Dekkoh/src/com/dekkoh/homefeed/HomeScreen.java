@@ -2,17 +2,7 @@ package com.dekkoh.homefeed;
 
 import java.util.ArrayList;
 
-import com.dekkoh.R;
-import com.dekkoh.following.Following;
-import com.dekkoh.messages.Messages;
-import com.dekkoh.myactivity.MyActivity;
-import com.dekkoh.myprofile.MyProfile;
-import com.dekkoh.settings.Settings;
-import com.dekkoh.slidingmenu.NavDrawerItem;
-import com.dekkoh.slidingmenu.NavDrawerListAdapter;
-
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -35,6 +25,15 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.dekkoh.R;
+import com.dekkoh.following.Following;
+import com.dekkoh.messages.Messages;
+import com.dekkoh.myactivity.MyActivity;
+import com.dekkoh.myprofile.MyProfile;
+import com.dekkoh.settings.Settings;
+import com.dekkoh.slidingmenu.NavDrawerItem;
+import com.dekkoh.slidingmenu.NavDrawerListAdapter;
 
 public class HomeScreen extends FragmentActivity implements OnClickListener {
 	private ImageButton ibPost;

@@ -1,22 +1,8 @@
 package com.dekkoh.homefeed;
 
-import com.dekkoh.R;
-import com.dekkoh.util.RoundedImageView;
-import com.dekkoh.util.SquareLinearLayout;
-
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.dekkoh.R;
+import com.dekkoh.util.RoundedImageView;
+import com.dekkoh.util.SquareLinearLayout;
 
 public class QuestionFragment extends Fragment{
 	
