@@ -2,7 +2,6 @@ package com.dekkoh.application;
 
 import android.app.Application;
 import android.location.Location;
-import android.widget.Toast;
 
 import com.dekkoh.datamodel.DekkohUser;
 
@@ -23,10 +22,10 @@ public class DekkohApplication extends Application {
 	// Updated location
 	public void updateLocationOfUser(Location location) {
 		// TODO: Use these Lati n longi to store on server.
-		Toast.makeText(
-				getApplicationContext(),
-				"Lati: " + location.getLatitude() + "\n" + "Longi: "
-						+ location.getLongitude(), Toast.LENGTH_SHORT).show();
+	//	Toast.makeText(
+	//			getApplicationContext(),
+	//			"Lati: " + location.getLatitude() + "\n" + "Longi: "
+	//					+ location.getLongitude(), Toast.LENGTH_SHORT).show();
 		setLocationLatitude(location.getLatitude());
 		setLocationLongitude(location.getLongitude());
 	}

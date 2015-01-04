@@ -111,6 +111,18 @@ public class APIProcessor {
 					responseHeaderMap.get("Token"));
 			DekkohUser dekkohUser = convertToObject(responseString,
 					DekkohUser.class);
+			sharedPreferenceManager.save(
+					SharedPreferenceConstants.DEKKOH_USER_ID,
+					dekkohUser.getDekkohUserID());
+			sharedPreferenceManager.save(
+					SharedPreferenceConstants.DEKKOH_USER_EMAIL,
+					dekkohUser.getEmail());
+			sharedPreferenceManager.save(
+					SharedPreferenceConstants.DEKKOH_USER_GENDER,
+					dekkohUser.getGender());
+			sharedPreferenceManager.save(
+					SharedPreferenceConstants.DEKKOH_USER_NAME,
+					dekkohUser.getName());
 			DekkohApplication dekkohApplication = (DekkohApplication) activity
 					.getApplication();
 			dekkohApplication.setDekkohUser(dekkohUser);
