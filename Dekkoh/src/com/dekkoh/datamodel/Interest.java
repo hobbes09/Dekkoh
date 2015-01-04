@@ -13,7 +13,7 @@ public class Interest {
 	/**
 	 * @return the created_at
 	 */
-	public String getCreated_at() {
+	public String getCreatedAt() {
 		return created_at;
 	}
 
@@ -21,14 +21,14 @@ public class Interest {
 	 * @param created_at
 	 *            the created_at to set
 	 */
-	public void setCreated_at(String created_at) {
+	public void setCreatedAt(String created_at) {
 		this.created_at = created_at;
 	}
 
 	/**
 	 * @return the image_url
 	 */
-	public String getImage_url() {
+	public String getImageUrl() {
 		return image_url;
 	}
 
@@ -36,14 +36,14 @@ public class Interest {
 	 * @param image_url
 	 *            the image_url to set
 	 */
-	public void setImage_url(String image_url) {
+	public void setImageUrl(String image_url) {
 		this.image_url = image_url;
 	}
 
 	/**
 	 * @return the interest_name
 	 */
-	public String getInterest_name() {
+	public String getInterestName() {
 		return interest_name;
 	}
 
@@ -51,14 +51,14 @@ public class Interest {
 	 * @param interest_name
 	 *            the interest_name to set
 	 */
-	public void setInterest_name(String interest_name) {
+	public void setInterestName(String interest_name) {
 		this.interest_name = interest_name;
 	}
 
 	/**
 	 * @return the updated_at
 	 */
-	public String getUpdated_at() {
+	public String getUpdatedAt() {
 		return updated_at;
 	}
 
@@ -66,7 +66,7 @@ public class Interest {
 	 * @param updated_at
 	 *            the updated_at to set
 	 */
-	public void setUpdated_at(String updated_at) {
+	public void setUpdatedAt(String updated_at) {
 		this.updated_at = updated_at;
 	}
 

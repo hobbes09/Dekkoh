@@ -16,7 +16,7 @@ public class DekkohUserConnection {
 	/**
 	 * @return the connection_id
 	 */
-	public String getConnection_id() {
+	public String getConnectionId() {
 		return connection_id;
 	}
 
@@ -24,14 +24,14 @@ public class DekkohUserConnection {
 	 * @param connection_id
 	 *            the connection_id to set
 	 */
-	public void setConnection_id(String connection_id) {
+	public void setConnectionId(String connection_id) {
 		this.connection_id = connection_id;
 	}
 
 	/**
 	 * @return the connection_name
 	 */
-	public String getConnection_name() {
+	public String getConnectionName() {
 		return connection_name;
 	}
 
@@ -39,14 +39,14 @@ public class DekkohUserConnection {
 	 * @param connection_name
 	 *            the connection_name to set
 	 */
-	public void setConnection_name(String connection_name) {
+	public void setConnectionName(String connection_name) {
 		this.connection_name = connection_name;
 	}
 
 	/**
 	 * @return the connection_pic
 	 */
-	public String getConnection_pic() {
+	public String getConnectionPic() {
 		return connection_pic;
 	}
 
@@ -54,14 +54,14 @@ public class DekkohUserConnection {
 	 * @param connection_pic
 	 *            the connection_pic to set
 	 */
-	public void setConnection_pic(String connection_pic) {
+	public void setConnectionPic(String connection_pic) {
 		this.connection_pic = connection_pic;
 	}
 
 	/**
 	 * @return the connection_type
 	 */
-	public String getConnection_type() {
+	public String getConnectionType() {
 		return connection_type;
 	}
 
@@ -69,14 +69,14 @@ public class DekkohUserConnection {
 	 * @param connection_type
 	 *            the connection_type to set
 	 */
-	public void setConnection_type(String connection_type) {
+	public void setConnectionType(String connection_type) {
 		this.connection_type = connection_type;
 	}
 
 	/**
 	 * @return the created_at
 	 */
-	public String getCreated_at() {
+	public String getCreatedAt() {
 		return created_at;
 	}
 
@@ -84,13 +84,13 @@ public class DekkohUserConnection {
 	 * @param created_at
 	 *            the created_at to set
 	 */
-	public void setCreated_at(String created_at) {
+	public void setCreatedAt(String created_at) {
 		this.created_at = created_at;
 	}
 	/**
 	 * @return the updated_at
 	 */
-	public String getUpdated_at() {
+	public String getUpdatedAt() {
 		return updated_at;
 	}
 
@@ -98,7 +98,7 @@ public class DekkohUserConnection {
 	 * @param updated_at
 	 *            the updated_at to set
 	 */
-	public void setUpdated_at(String updated_at) {
+	public void setUpdatedAt(String updated_at) {
 		this.updated_at = updated_at;
 	}
 

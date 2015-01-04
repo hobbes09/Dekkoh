@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Question {
 	private int answer_count;
-	private String follow_count;
+	private int follow_count;
 	private String coordinates;
 	private String created_at;
 	private String image;
@@ -26,7 +26,7 @@ public class Question {
 	/**
 	 * @return the answer_count
 	 */
-	public int getAnswer_count() {
+	public int getAnswerCount() {
 		return answer_count;
 	}
 
@@ -34,14 +34,14 @@ public class Question {
 	 * @param answer_count
 	 *            the answer_count to set
 	 */
-	public void setAnswer_count(int answer_count) {
+	public void setAnswerCount(int answer_count) {
 		this.answer_count = answer_count;
 	}
 
 	/**
 	 * @return the follow_count
 	 */
-	public String getFollow_count() {
+	public int getFollowCount() {
 		return follow_count;
 	}
 
@@ -49,14 +49,14 @@ public class Question {
 	 * @param follow_count
 	 *            the follow_count to set
 	 */
-	public void setFollow_count(String follow_count) {
+	public void setFollowCount(int follow_count) {
 		this.follow_count = follow_count;
 	}
 
 	/**
 	 * @return the created_at
 	 */
-	public String getCreated_at() {
+	public String getCreatedAt() {
 		return created_at;
 	}
 
@@ -64,7 +64,7 @@ public class Question {
 	 * @param created_at
 	 *            the created_at to set
 	 */
-	public void setCreated_at(String created_at) {
+	public void setCreatedAt(String created_at) {
 		this.created_at = created_at;
 	}
 
@@ -86,7 +86,7 @@ public class Question {
 	/**
 	 * @return the interest_name
 	 */
-	public String getInterest_name() {
+	public String getInterestName() {
 		return interest_name;
 	}
 
@@ -94,7 +94,7 @@ public class Question {
 	 * @param interest_name
 	 *            the interest_name to set
 	 */
-	public void setInterest_name(String interest_name) {
+	public void setInterestName(String interest_name) {
 		this.interest_name = interest_name;
 	}
 
@@ -131,7 +131,7 @@ public class Question {
 	/**
 	 * @return the updated_at
 	 */
-	public String getUpdated_at() {
+	public String getUpdatedAt() {
 		return updated_at;
 	}
 
@@ -139,14 +139,14 @@ public class Question {
 	 * @param updated_at
 	 *            the updated_at to set
 	 */
-	public void setUpdated_at(String updated_at) {
+	public void setUpdatedAt(String updated_at) {
 		this.updated_at = updated_at;
 	}
 
 	/**
 	 * @return the user_name
 	 */
-	public String getUser_name() {
+	public String getUserName() {
 		return user_name;
 	}
 
@@ -154,53 +154,8 @@ public class Question {
 	 * @param user_name
 	 *            the user_name to set
 	 */
-	public void setUser_name(String user_name) {
+	public void setUserName(String user_name) {
 		this.user_name = user_name;
-	}
-
-	/**
-	 * @return the interest_id
-	 */
-	public InterestId getInterest_id() {
-		return interest_id;
-	}
-
-	/**
-	 * @param interest_id
-	 *            the interest_id to set
-	 */
-	public void setInterest_id(InterestId interest_id) {
-		this.interest_id = interest_id;
-	}
-
-	/**
-	 * @return the user_id
-	 */
-	public UserId getUser_id() {
-		return user_id;
-	}
-
-	/**
-	 * @param user_id
-	 *            the user_id to set
-	 */
-	public void setUser_id(UserId user_id) {
-		this.user_id = user_id;
-	}
-
-	/**
-	 * @return the _id
-	 */
-	public QuestionId get_id() {
-		return _id;
-	}
-
-	/**
-	 * @param _id
-	 *            the _id to set
-	 */
-	public void set_id(QuestionId _id) {
-		this._id = _id;
 	}
 
 	/**
@@ -266,7 +221,7 @@ public class Question {
 	/**
 	 * @return the user_image
 	 */
-	public String getUser_image() {
+	public String getUserImage() {
 		return user_image;
 	}
 
@@ -274,7 +229,7 @@ public class Question {
 	 * @param user_image
 	 *            the user_image to set
 	 */
-	public void setUser_image(String user_image) {
+	public void setUserImage(String user_image) {
 		this.user_image = user_image;
 	}
 

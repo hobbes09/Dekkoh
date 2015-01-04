@@ -6,10 +6,10 @@ public class Answer {
 	private String answer;
 	private String created_at;
 	private String image;
-	private String like_count;
 	private String location;
 	private String updated_at;
 	private String user_name;
+	private int like_count;
 	private boolean liked;
 	private boolean delete_flg;
 	private AnswerId _id;
@@ -34,7 +34,7 @@ public class Answer {
 	/**
 	 * @return the created_at
 	 */
-	public String getCreated_at() {
+	public String getCreatedAt() {
 		return created_at;
 	}
 
@@ -42,7 +42,7 @@ public class Answer {
 	 * @param created_at
 	 *            the created_at to set
 	 */
-	public void setCreated_at(String created_at) {
+	public void setCreatedAt(String created_at) {
 		this.created_at = created_at;
 	}
 
@@ -64,7 +64,7 @@ public class Answer {
 	/**
 	 * @return the like_count
 	 */
-	public String getLike_count() {
+	public int getLikeCount() {
 		return like_count;
 	}
 
@@ -72,7 +72,7 @@ public class Answer {
 	 * @param like_count
 	 *            the like_count to set
 	 */
-	public void setLike_count(String like_count) {
+	public void setLikeCount(int like_count) {
 		this.like_count = like_count;
 	}
 
@@ -94,7 +94,7 @@ public class Answer {
 	/**
 	 * @return the updated_at
 	 */
-	public String getUpdated_at() {
+	public String getUpdatedAt() {
 		return updated_at;
 	}
 
@@ -102,14 +102,14 @@ public class Answer {
 	 * @param updated_at
 	 *            the updated_at to set
 	 */
-	public void setUpdated_at(String updated_at) {
+	public void setUpdatedAt(String updated_at) {
 		this.updated_at = updated_at;
 	}
 
 	/**
 	 * @return the user_name
 	 */
-	public String getUser_name() {
+	public String getUserName() {
 		return user_name;
 	}
 
@@ -117,7 +117,7 @@ public class Answer {
 	 * @param user_name
 	 *            the user_name to set
 	 */
-	public void setUser_name(String user_name) {
+	public void setUserName(String user_name) {
 		this.user_name = user_name;
 	}
 

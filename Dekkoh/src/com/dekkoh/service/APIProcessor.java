@@ -42,10 +42,10 @@ public class APIProcessor {
 	 * @throws Exception
 	 */
 	public static DekkohUser loginUserWithGoogle(Activity activity,
-			String user_id, String token, String email) throws Exception {
+			String token, String email) throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
 		requestJsonObject.put("provider", "Google");
-		requestJsonObject.put("user_id", user_id);
+		requestJsonObject.put("user_id", getUserId(activity));
 		requestJsonObject.put("token", token);
 		requestJsonObject.put("email", email);
 		Map<String, String> responseHeaderMap = new HashMap<String, String>();
@@ -61,6 +61,18 @@ public class APIProcessor {
 					responseHeaderMap.get("Token"));
 			DekkohUser dekkohUser = convertToObject(responseString,
 					DekkohUser.class);
+			sharedPreferenceManager.save(
+					SharedPreferenceConstants.DEKKOH_USER_ID,
+					dekkohUser.getDekkohUserID());
+			sharedPreferenceManager.save(
+					SharedPreferenceConstants.DEKKOH_USER_EMAIL,
+					dekkohUser.getEmail());
+			sharedPreferenceManager.save(
+					SharedPreferenceConstants.DEKKOH_USER_GENDER,
+					dekkohUser.getGender());
+			sharedPreferenceManager.save(
+					SharedPreferenceConstants.DEKKOH_USER_NAME,
+					dekkohUser.getName());
 			DekkohApplication dekkohApplication = (DekkohApplication) activity
 					.getApplication();
 			dekkohApplication.setDekkohUser(dekkohUser);
@@ -80,10 +92,10 @@ public class APIProcessor {
 	 * @throws Exception
 	 */
 	public static DekkohUser loginUserWithFacebook(Activity activity,
-			String user_id, String token) throws Exception {
+			String token) throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
 		requestJsonObject.put("provider", "Google");
-		requestJsonObject.put("user_id", user_id);
+		requestJsonObject.put("user_id", getUserId(activity));
 		requestJsonObject.put("token", token);
 		Map<String, String> responseHeaderMap = new HashMap<String, String>();
 		String serviceURL = getBaseURL() + APIURL.USER_LOGIN_SUFFIX;
@@ -263,10 +275,10 @@ public class APIProcessor {
 	 * @throws Exception
 	 */
 	public static DekkohUser updateUserProfile(Activity activity,
-			String user_id, String gender, String name, String home_city,
-			String profile_pic, String home_neighbourhood) throws Exception {
+			String gender, String name, String home_city, String profile_pic,
+			String home_neighbourhood) throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
-		requestJsonObject.put("user_id", user_id);
+		requestJsonObject.put("user_id", getUserId(activity));
 		requestJsonObject.put("gender", gender);
 		requestJsonObject.put("name", name);
 		requestJsonObject.put("home_city", home_city);
@@ -274,7 +286,7 @@ public class APIProcessor {
 		requestJsonObject.put("home_neighbourhood", home_neighbourhood);
 		Map<String, String> responseHeaderMap = new HashMap<String, String>();
 		String serviceURL = getBaseURL() + APIURL.USER_PROFILE_UPDATE_SUFFIX
-				+ user_id;
+				+ getUserId(activity);
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestJsonObject.toString(), responseHeaderMap);
 		if (HTTPRequestHelper.getResponseCode() == 200) {
@@ -299,14 +311,14 @@ public class APIProcessor {
 	 * @throws Exception
 	 */
 	public static DekkohUser updateUserInterest(Activity activity,
-			String user_id, String[] interestIdArray) throws Exception {
+			String[] interestIdArray) throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
 		JSONArray interestJsonArray = new JSONArray(interestIdArray);
-		requestJsonObject.put("user_id", user_id);
+		requestJsonObject.put("user_id", getUserId(activity));
 		requestJsonObject.put("interest_id", interestJsonArray);
 		Map<String, String> responseHeaderMap = new HashMap<String, String>();
 		String serviceURL = getBaseURL() + APIURL.USER_INTEREST_UPDATE_SUFFIX
-				+ user_id;
+				+ getUserId(activity);
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestJsonObject.toString(), responseHeaderMap);
 		if (HTTPRequestHelper.getResponseCode() == 200) {
@@ -451,15 +463,15 @@ public class APIProcessor {
 	 * @throws Exception
 	 */
 	public static Question postQuestion(Activity activity, String question,
-			String location, String longitude, String latitude, String user_id,
-			String image, String interest_id, String user_image,
-			String timestamp) throws Exception {
+			String location, String longitude, String latitude, String image,
+			String interest_id, String user_image, String timestamp)
+			throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
 		requestJsonObject.put("question", question);
 		requestJsonObject.put("location", location);
 		requestJsonObject.put("longitude", longitude);
 		requestJsonObject.put("latitude", latitude);
-		requestJsonObject.put("user_id", user_id);
+		requestJsonObject.put("user_id", getUserId(activity));
 		requestJsonObject.put("image", image);
 		requestJsonObject.put("interest_id", interest_id);
 		requestJsonObject.put("user_image", user_image);
@@ -721,10 +733,10 @@ public class APIProcessor {
 	 * @throws Exception
 	 */
 	public static List<Question> getUserQuestionList(Activity activity,
-			String user_id, int offset, int limit, long fromTimestamp,
-			long toTimestamp, String sort) throws Exception {
+			int offset, int limit, long fromTimestamp, long toTimestamp,
+			String sort) throws Exception {
 		Map<String, String> requestHeader = getJSONRequestHeader(getAuthorizationToken(activity));
-		requestHeader.put("user_id", user_id);
+		requestHeader.put("user_id", getUserId(activity));
 		if (offset > 0)
 			requestHeader.put("offset", offset + "");
 		if (limit > 0)
@@ -736,7 +748,7 @@ public class APIProcessor {
 		if (!TextUtils.isEmpty(sort))
 			requestHeader.put("sort", sort);
 		String serviceURL = getBaseURL() + APIURL.USER_QUESTIONS_SUFFIX
-				+ user_id;
+				+ getUserId(activity);
 		String responseString = HTTPRequestHelper.processGetRequest(serviceURL,
 				requestHeader);
 		if (TextUtils.isEmpty(responseString)) {
@@ -761,15 +773,16 @@ public class APIProcessor {
 	 * @return List<Question>
 	 * @throws Exception
 	 */
-	public static List<Question> getUserHomeFeed(Activity activity,
-			String user_id, int offset, int limit) throws Exception {
+	public static List<Question> getUserHomeFeed(Activity activity, int offset,
+			int limit) throws Exception {
 		Map<String, String> requestHeader = getJSONRequestHeader(getAuthorizationToken(activity));
-		requestHeader.put("user_id", user_id);
+		requestHeader.put("user_id", getUserId(activity));
 		if (offset > 0)
 			requestHeader.put("offset", offset + "");
 		if (limit > 0)
 			requestHeader.put("limit", limit + "");
-		String serviceURL = getBaseURL() + APIURL.USER_FEED_SUFFIX + user_id;
+		String serviceURL = getBaseURL() + APIURL.USER_FEED_SUFFIX
+				+ getUserId(activity);
 		String responseString = HTTPRequestHelper.processGetRequest(serviceURL,
 				requestHeader);
 		if (TextUtils.isEmpty(responseString)) {
@@ -795,17 +808,17 @@ public class APIProcessor {
 	 * @throws Exception
 	 */
 	public static List<Question> getUserAnswersList(Activity activity,
-			String user_id, int offset, int limit, String sort)
-			throws Exception {
+			int offset, int limit, String sort) throws Exception {
 		Map<String, String> requestHeader = getJSONRequestHeader(getAuthorizationToken(activity));
-		requestHeader.put("user_id", user_id);
+		requestHeader.put("user_id", getUserId(activity));
 		if (offset > 0)
 			requestHeader.put("offset", offset + "");
 		if (limit > 0)
 			requestHeader.put("limit", limit + "");
 		if (!TextUtils.isEmpty(sort))
 			requestHeader.put("sort", sort);
-		String serviceURL = getBaseURL() + APIURL.USER_ANSWERS_SUFFIX + user_id;
+		String serviceURL = getBaseURL() + APIURL.USER_ANSWERS_SUFFIX
+				+ getUserId(activity);
 		String responseString = HTTPRequestHelper.processGetRequest(serviceURL,
 				requestHeader);
 		if (TextUtils.isEmpty(responseString)) {
@@ -1009,10 +1022,10 @@ public class APIProcessor {
 	 * @throws Exception
 	 */
 	public static List<Question> getUserFollowedQuestionList(Activity activity,
-			String user_id, int offset, int limit, long fromTimestamp,
-			long toTimestamp, String sort) throws Exception {
+			int offset, int limit, long fromTimestamp, long toTimestamp,
+			String sort) throws Exception {
 		Map<String, String> requestHeader = getJSONRequestHeader(getAuthorizationToken(activity));
-		requestHeader.put("user_id", user_id);
+		requestHeader.put("user_id", getUserId(activity));
 		if (offset > 0)
 			requestHeader.put("offset", offset + "");
 		if (limit > 0)
@@ -1024,7 +1037,7 @@ public class APIProcessor {
 		if (!TextUtils.isEmpty(sort))
 			requestHeader.put("sort", sort);
 		String serviceURL = getBaseURL()
-				+ APIURL.USER_FOLLOWED_QUESTIONS_SUFFIX + user_id;
+				+ APIURL.USER_FOLLOWED_QUESTIONS_SUFFIX + getUserId(activity);
 		String responseString = HTTPRequestHelper.processGetRequest(serviceURL,
 				requestHeader);
 		if (TextUtils.isEmpty(responseString)) {
@@ -1050,12 +1063,12 @@ public class APIProcessor {
 	 * @throws Exception
 	 */
 	public static Answer postAnswer(Activity activity, String answer,
-			String question_id, String user_id, String image, String location,
-			String timestamp) throws Exception {
+			String question_id, String image, String location, String timestamp)
+			throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
 		requestJsonObject.put("answer", answer);
 		requestJsonObject.put("question_id", question_id);
-		requestJsonObject.put("user_id", user_id);
+		requestJsonObject.put("user_id", getUserId(activity));
 		requestJsonObject.put("image", image);
 		requestJsonObject.put("location", location);
 		requestJsonObject.put("timestamp", timestamp);
@@ -1153,11 +1166,11 @@ public class APIProcessor {
 	}
 
 	public static List<Answer> getAnswersWithQuestionID(Activity activity,
-			String question_id, String user_id, int offset, int limit,
-			long fromTimestamp, long toTimestamp, String sort) throws Exception {
+			String question_id, int offset, int limit, long fromTimestamp,
+			long toTimestamp, String sort) throws Exception {
 		Map<String, String> requestHeader = getJSONRequestHeader(getAuthorizationToken(activity));
 		requestHeader.put("question_id", question_id);
-		requestHeader.put("user_id", user_id);
+		requestHeader.put("user_id", getUserId(activity));
 		if (offset > 0)
 			requestHeader.put("offset", offset + "");
 		if (limit > 0)
@@ -1357,5 +1370,12 @@ public class APIProcessor {
 		requestHeaders.put("Accept", "application/json");
 		requestHeaders.put("Content-type", "application/json");
 		return requestHeaders;
+	}
+
+	public static String getUserId(Activity activity) {
+		SharedPreferenceManager sharedPreferenceManager = SharedPreferenceManager
+				.getInstance(activity);
+		return sharedPreferenceManager
+				.getString(SharedPreferenceConstants.DEKKOH_USER_ID);
 	}
 }

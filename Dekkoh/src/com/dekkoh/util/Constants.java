@@ -5,6 +5,10 @@ public class Constants {
 
 	public static class SharedPreferenceConstants {
 		public static final String AUTHORIZATION_TOCKEN = "AUTHORIZATION_TOCKEN";
+		public static final String DEKKOH_USER_ID = "DEKKOH_USER_ID";
+		public static final String DEKKOH_USER_EMAIL = "DEKKOH_USER_EMAIL";
+		public static final String DEKKOH_USER_NAME = "DEKKOH_USER_NAME";
+		public static final String DEKKOH_USER_GENDER = "DEKKOH_USER_GENDER";
 	}
 
 	public static class DekkohExceptionErrorCodes {

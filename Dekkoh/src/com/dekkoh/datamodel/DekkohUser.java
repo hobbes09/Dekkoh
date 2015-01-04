@@ -24,7 +24,7 @@ public class DekkohUser {
 	/**
 	 * @return the created_at
 	 */
-	public String getCreated_at() {
+	public String getCreatedAt() {
 		return created_at;
 	}
 
@@ -32,14 +32,14 @@ public class DekkohUser {
 	 * @param created_at
 	 *            the created_at to set
 	 */
-	public void setCreated_at(String created_at) {
+	public void setCreatedAt(String created_at) {
 		this.created_at = created_at;
 	}
 
 	/**
 	 * @return the e_mail
 	 */
-	public String getE_mail() {
+	public String getEmail() {
 		return e_mail;
 	}
 
@@ -47,7 +47,7 @@ public class DekkohUser {
 	 * @param e_mail
 	 *            the e_mail to set
 	 */
-	public void setE_mail(String e_mail) {
+	public void setEmail(String e_mail) {
 		this.e_mail = e_mail;
 	}
 
@@ -69,7 +69,7 @@ public class DekkohUser {
 	/**
 	 * @return the home_city
 	 */
-	public String getHome_city() {
+	public String getHomeCity() {
 		return home_city;
 	}
 
@@ -77,14 +77,14 @@ public class DekkohUser {
 	 * @param home_city
 	 *            the home_city to set
 	 */
-	public void setHome_city(String home_city) {
+	public void setHomeCity(String home_city) {
 		this.home_city = home_city;
 	}
 
 	/**
 	 * @return the home_neighbourhood
 	 */
-	public String getHome_neighbourhood() {
+	public String getHomeNeighbourhood() {
 		return home_neighbourhood;
 	}
 
@@ -92,7 +92,7 @@ public class DekkohUser {
 	 * @param home_neighbourhood
 	 *            the home_neighbourhood to set
 	 */
-	public void setHome_neighbourhood(String home_neighbourhood) {
+	public void setHomeNeighbourhood(String home_neighbourhood) {
 		this.home_neighbourhood = home_neighbourhood;
 	}
 
@@ -129,7 +129,7 @@ public class DekkohUser {
 	/**
 	 * @return the profile_pic
 	 */
-	public String getProfile_pic() {
+	public String getProfilePic() {
 		return profile_pic;
 	}
 
@@ -137,7 +137,7 @@ public class DekkohUser {
 	 * @param profile_pic
 	 *            the profile_pic to set
 	 */
-	public void setProfile_pic(String profile_pic) {
+	public void setProfilePic(String profile_pic) {
 		this.profile_pic = profile_pic;
 	}
 
@@ -159,7 +159,7 @@ public class DekkohUser {
 	/**
 	 * @return the provider_id
 	 */
-	public String getProvider_id() {
+	public String getProviderId() {
 		return provider_id;
 	}
 
@@ -167,7 +167,7 @@ public class DekkohUser {
 	 * @param provider_id
 	 *            the provider_id to set
 	 */
-	public void setProvider_id(String provider_id) {
+	public void setProviderId(String provider_id) {
 		this.provider_id = provider_id;
 	}
 
@@ -239,7 +239,8 @@ public class DekkohUser {
 	}
 
 	/**
-	 * @param delete_flg the delete_flg to set
+	 * @param delete_flg
+	 *            the delete_flg to set
 	 */
 	public void setDeleted(boolean delete_flg) {
 		this.delete_flg = delete_flg;
