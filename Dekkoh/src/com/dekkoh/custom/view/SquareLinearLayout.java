@@ -1,4 +1,4 @@
-package com.dekkoh.util;
+package com.dekkoh.custom.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

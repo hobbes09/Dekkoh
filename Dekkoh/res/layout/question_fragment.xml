@@ -46,13 +46,13 @@
                     android:gravity="center_vertical"
                     >   
                                      
-                    <com.dekkoh.util.SquareLinearLayout 
+                    <com.dekkoh.custom.view.SquareLinearLayout 
                         android:id="@+id/sllProfilePic"
                         android:layout_height="match_parent"
                         android:layout_width= "match_parent"
                         android:background="#00ff00"
                         >               
-                    </com.dekkoh.util.SquareLinearLayout>
+                    </com.dekkoh.custom.view.SquareLinearLayout>
                     
                     <TextView 
                         android:id="@+id/tvUsername"
@@ -61,7 +61,6 @@
                         android:text="Username"
                         android:padding="10dp"
                         />
-
                 
                     <TextView 
                         android:id="@+id/tvLocation"

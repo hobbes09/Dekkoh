@@ -1,5 +1,17 @@
 package com.dekkoh.homefeed;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.Bitmap.Config;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,8 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dekkoh.R;
-import com.dekkoh.util.RoundedImageView;
-import com.dekkoh.util.SquareLinearLayout;
+import com.dekkoh.custom.view.RoundedImageView;
+import com.dekkoh.custom.view.SquareLinearLayout;
 
 public class QuestionFragment extends Fragment{
 	
@@ -23,7 +35,8 @@ public class QuestionFragment extends Fragment{
 	private TextView tvUsername;
 	private TextView tvQuestion;
 	private ImageView ivHomeImage;
-	private SquareLinearLayout sllProfilePic;
+	private static SquareLinearLayout sllProfilePic;
+	private static Resources resources;
 	
 		
 	private static int currentIndex = 0;  //store and keep updating in shared preference
@@ -101,7 +114,8 @@ public class QuestionFragment extends Fragment{
 		tvUsername.setText(getArguments().getString("USERNAME"));
 		tvQuestion.setText(getArguments().getString("QUESTION"));
 //		ivHomeImage.setImageBitmap(getArguments().get);
-		RoundedImageView.setCircledLinearLayoutBackground(sllProfilePic, R.drawable.test, getResources());		
+//		RoundedImageView.setCircledLinearLayoutBackground(sllProfilePic, R.drawable.test, getResources());		
+		new RoundedImagePainter().execute(Integer.toString(R.drawable.test));
 	}
 
 	private void initialize(View root) {
@@ -110,10 +124,51 @@ public class QuestionFragment extends Fragment{
 		tvQuestion = (TextView)root.findViewById(R.id.tvQuestion);
 		ivHomeImage = (ImageView)root.findViewById(R.id.ivHomeImage);
 		sllProfilePic = (SquareLinearLayout)root.findViewById(R.id.sllProfilePic);
+		resources = getResources();
 	}
 
 	
+	public class RoundedImagePainter extends AsyncTask<String, String, BitmapDrawable>{
+
+		@Override
+		protected BitmapDrawable doInBackground(String... params) {
+			int drawableObject = Integer.parseInt(params[0]);
+			Bitmap bMap = BitmapFactory.decodeResource(resources, drawableObject);
+			bMap = circledimage(bMap);
+			BitmapDrawable bitmapDrawable = new BitmapDrawable(resources, bMap);
+			return bitmapDrawable;
+		}
+
+		@Override
+		protected void onPostExecute(BitmapDrawable bitmapDrawable) {
+			//super.onPostExecute(bitmapDrawable);
+			sllProfilePic.setBackgroundDrawable(bitmapDrawable);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			sllProfilePic.setBackgroundColor(Color.BLACK);
+		}
+		
+		public Bitmap circledimage(final Bitmap source) {
+	        final Paint paint = new Paint();
+	        paint.setAntiAlias(true);
+	        paint.setShader(new BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+	 
+	        Bitmap output = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Config.ARGB_8888);
+	        Canvas canvas = new Canvas(output);
+	        float radius = (source.getHeight()>source.getWidth())? source.getWidth() : source.getHeight();
+	        canvas.drawRoundRect(new RectF(0, 0, source.getWidth(), source.getHeight()), radius, radius, paint);
+	 
+	        if (source != output) {
+	            source.recycle();
+	        }
+	 
+	        return output;
+	    }
+
 	
+	}
  
 	
 
