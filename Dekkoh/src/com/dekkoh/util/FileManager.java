@@ -1,10 +1,10 @@
 package com.dekkoh.util;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import android.app.Activity;
@@ -12,6 +12,11 @@ import android.content.Context;
 
 public class FileManager {
 	private static FileManager fileManager;
+	private FileInputStream fileInputStream = null;
+	private ObjectInputStream objectInputStream = null;
+	private FileOutputStream fileOutputStream = null;
+	private ObjectOutputStream objectOutputStream = null;
+	private File file = null;
 
 	private FileManager() {
 
@@ -24,158 +29,138 @@ public class FileManager {
 		return fileManager;
 	}
 
-	public String readFileFromInternalStorage(Activity activity, String fileName)
-			throws Exception {
-		BufferedReader input = null;
-		File file = null;
+	public Object readObjectFromInternalStorage(Activity activity,
+			String fileName) throws Exception {
 		try {
 			file = new File(activity.getFilesDir(), fileName);
-			input = new BufferedReader(new InputStreamReader(
-					new FileInputStream(file)));
-			String line;
-			StringBuffer buffer = new StringBuffer();
-			while ((line = input.readLine()) != null) {
-				buffer.append(line);
-			}
-			return buffer.toString();
+			fileInputStream = new FileInputStream(file);
+			objectInputStream = new ObjectInputStream(fileInputStream);
+			return objectInputStream.readObject();
 		} catch (Exception exception) {
 			Log.e(exception);
 			throw exception;
 		} finally {
-			IOUtils.closeStream(input);
+			IOUtils.closeStream(fileInputStream);
+			IOUtils.closeStream(objectInputStream);
 		}
 	}
 
-	public String readFileFromInternalCache(Activity activity, String fileName)
+	public Object readObjectFromInternalCache(Activity activity, String fileName)
 			throws Exception {
-		BufferedReader input = null;
-		File file = null;
 		try {
-			file = new File(activity.getCacheDir(), fileName);
-			input = new BufferedReader(new InputStreamReader(
-					new FileInputStream(file)));
-			String line;
-			StringBuffer buffer = new StringBuffer();
-			while ((line = input.readLine()) != null) {
-				buffer.append(line);
-			}
-			return buffer.toString();
+			file = new File(activity.getCacheDir(), fileName + ".dat");
+			fileInputStream = new FileInputStream(file);
+			objectInputStream = new ObjectInputStream(fileInputStream);
+			return objectInputStream.readObject();
 		} catch (Exception exception) {
 			Log.e(exception);
 			throw exception;
 		} finally {
-			IOUtils.closeStream(input);
+			IOUtils.closeStream(fileInputStream);
+			IOUtils.closeStream(objectInputStream);
 		}
 	}
 
-	public String readFileFromExternalStorage(Activity activity, String fileName)
+	public Object readObjectFromExternalStorage(Activity activity,
+			String fileName) throws Exception {
+		try {
+			file = new File(activity.getExternalFilesDir(null), fileName
+					+ ".dat");
+			fileInputStream = new FileInputStream(file);
+			objectInputStream = new ObjectInputStream(fileInputStream);
+			return objectInputStream.readObject();
+		} catch (Exception exception) {
+			Log.e(exception);
+			throw exception;
+		} finally {
+			IOUtils.closeStream(fileInputStream);
+			IOUtils.closeStream(objectInputStream);
+		}
+	}
+
+	public Object readObjectFromExternalCache(Activity activity, String fileName)
 			throws Exception {
-		BufferedReader input = null;
-		File file = null;
 		try {
-			file = new File(activity.getExternalFilesDir(null), fileName);
-			input = new BufferedReader(new InputStreamReader(
-					new FileInputStream(file)));
-			String line;
-			StringBuffer buffer = new StringBuffer();
-			while ((line = input.readLine()) != null) {
-				buffer.append(line);
-			}
-			return buffer.toString();
+			file = new File(activity.getExternalCacheDir(), fileName + ".dat");
+			fileInputStream = new FileInputStream(file);
+			objectInputStream = new ObjectInputStream(fileInputStream);
+			return objectInputStream.readObject();
 		} catch (Exception exception) {
 			Log.e(exception);
 			throw exception;
 		} finally {
-			IOUtils.closeStream(input);
+			IOUtils.closeStream(fileInputStream);
+			IOUtils.closeStream(objectInputStream);
 		}
 	}
 
-	public String readFileFromExternalCache(Activity activity, String fileName)
-			throws Exception {
-		BufferedReader input = null;
-		File file = null;
+	public void writeObjectInInternalStorage(Activity activity,
+			String fileName, Object object) throws Exception {
 		try {
-			file = new File(activity.getExternalCacheDir(), fileName);
-			input = new BufferedReader(new InputStreamReader(
-					new FileInputStream(file)));
-			String line;
-			StringBuffer buffer = new StringBuffer();
-			while ((line = input.readLine()) != null) {
-				buffer.append(line);
-			}
-			return buffer.toString();
-		} catch (Exception exception) {
-			Log.e(exception);
-			throw exception;
-		} finally {
-			IOUtils.closeStream(input);
-		}
-	}
-
-	public void writeFileInInternalStorage(Activity activity, String fileName,
-			String dataString) throws Exception {
-		FileOutputStream outputStream = null;
-		try {
-			outputStream = activity.openFileOutput(fileName,
+			fileOutputStream = activity.openFileOutput(fileName + ".dat",
 					Context.MODE_PRIVATE);
-			outputStream.write(dataString.getBytes());
+			objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			objectOutputStream.writeObject(object);
 		} catch (Exception exception) {
 			Log.e(exception);
 			throw exception;
 		} finally {
-			IOUtils.closeStream(outputStream);
+			IOUtils.closeStream(fileOutputStream);
+			IOUtils.closeStream(objectOutputStream);
 		}
 	}
 
-	public void writeFileInInternalCache(Activity activity, String fileName,
-			String dataString) throws Exception {
+	public void writeObjectInInternalCache(Activity activity, String fileName,
+			Object object) throws Exception {
 		File file;
-		FileOutputStream outputStream = null;
 		try {
 			// file = File.createTempFile("MyCache", null, getCacheDir());
-			file = new File(activity.getCacheDir(), fileName);
-			outputStream = new FileOutputStream(file);
-			outputStream.write(dataString.getBytes());
-			outputStream.close();
+			file = new File(activity.getCacheDir(), fileName + ".dat");
+			fileOutputStream = new FileOutputStream(file);
+			objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			objectOutputStream.writeObject(object);
 		} catch (Exception exception) {
 			Log.e(exception);
 			throw exception;
 		} finally {
-			IOUtils.closeStream(outputStream);
+			IOUtils.closeStream(fileOutputStream);
+			IOUtils.closeStream(objectOutputStream);
 		}
 	}
 
-	public void writeFileInExternalStorage(Activity activity, String fileName,
-			String dataString) throws Exception {
-		File file = new File(activity.getExternalFilesDir(null), fileName);
-		OutputStream outputStream = null;
+	public void writeObjectInExternalStorage(Activity activity,
+			String fileName, Object object) throws Exception {
+		File file = new File(activity.getExternalFilesDir(null), fileName
+				+ ".dat");
+		OutputStream fileOutputStream = null;
 		try {
-			outputStream = new FileOutputStream(file);
-			outputStream.write(dataString.getBytes());
-			outputStream.close();
+			fileOutputStream = new FileOutputStream(file);
+			objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			objectOutputStream.writeObject(object);
 		} catch (Exception exception) {
 			Log.e(exception);
 			throw exception;
 		} finally {
-			IOUtils.closeStream(outputStream);
+			IOUtils.closeStream(fileOutputStream);
+			IOUtils.closeStream(objectOutputStream);
 		}
 	}
 
-	public void writeFileInExternalCache(Activity activity, String fileName,
-			String dataString) throws Exception {
+	public void writeObjectInExternalCache(Activity activity, String fileName,
+			Object object) throws Exception {
 		File file;
-		FileOutputStream outputStream = null;
 		try {
 			// file = File.createTempFile("MyCache", null, getCacheDir());
-			file = new File(activity.getExternalCacheDir(), fileName);
-			outputStream = new FileOutputStream(file);
-			outputStream.write(dataString.getBytes());
-			outputStream.close();
+			file = new File(activity.getExternalCacheDir(), fileName + ".dat");
+			fileOutputStream = new FileOutputStream(file);
+			objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			objectOutputStream.writeObject(object);
 		} catch (Exception exception) {
 			Log.e(exception);
 			throw exception;
 		} finally {
-			IOUtils.closeStream(outputStream);
+			IOUtils.closeStream(fileOutputStream);
+			IOUtils.closeStream(objectOutputStream);
 		}
 	}
 
