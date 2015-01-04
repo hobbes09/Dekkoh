@@ -287,4 +287,26 @@ public class DekkohUser {
 		}
 
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final DekkohUser other = (DekkohUser) obj;
+		if (this.getDekkohUserID() != other.getDekkohUserID()) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 47 * hash + this.getDekkohUserID().hashCode();
+		return hash;
+	}
 }

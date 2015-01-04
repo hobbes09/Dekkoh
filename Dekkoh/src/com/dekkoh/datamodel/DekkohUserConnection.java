@@ -87,6 +87,7 @@ public class DekkohUserConnection {
 	public void setCreatedAt(String created_at) {
 		this.created_at = created_at;
 	}
+
 	/**
 	 * @return the updated_at
 	 */
@@ -141,7 +142,8 @@ public class DekkohUserConnection {
 	}
 
 	/**
-	 * @param delete_flg the delete_flg to set
+	 * @param delete_flg
+	 *            the delete_flg to set
 	 */
 	public void setDeleted(boolean delete_flg) {
 		this.delete_flg = delete_flg;
@@ -187,5 +189,27 @@ public class DekkohUserConnection {
 			this.userID = userID;
 		}
 
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final DekkohUserConnection other = (DekkohUserConnection) obj;
+		if (this.getConnectionId() != other.getConnectionId()) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 47 * hash + this.getConnectionId().hashCode();
+		return hash;
 	}
 }

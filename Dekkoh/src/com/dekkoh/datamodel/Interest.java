@@ -120,4 +120,26 @@ public class Interest {
 		}
 
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Interest other = (Interest) obj;
+		if (this.getInterestID() != other.getInterestID()) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 47 * hash + this.getInterestID().hashCode();
+		return hash;
+	}
 }
