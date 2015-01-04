@@ -59,7 +59,7 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
     
 	@Override
 	public void onConnectionFailed(ConnectionResult result) {
-		// TODO Auto-generated method stub
+		
 		Log.e("google login", result.toString());
 		if (!mIntentInProgress && result.hasResolution()) {
 		    try {
@@ -79,7 +79,7 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
 
 	@Override
 	public void onConnected(Bundle arg0) {
-		// TODO Auto-generated method stub
+		
 		Log.e("google login", "Connected");
 		  if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
 			  
@@ -98,7 +98,7 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
 
 	@Override
 	public void onConnectionSuspended(int arg0) {
-		// TODO Auto-generated method stub
+		
 		 mGoogleApiClient.connect();
 	}
 
