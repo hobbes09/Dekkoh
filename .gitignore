@@ -54,3 +54,4 @@ gen
 .metadata
 .svn
 project.properties
+.gitignore
