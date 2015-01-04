@@ -218,7 +218,10 @@ public class APIProcessor {
 	public static HashMap<String, String> getUsersImages(Activity activity,
 			String[] userIDArray) throws Exception {
 		Map<String, String> requestHeader = getJSONRequestHeader(getAuthorizationToken(activity));
-		requestHeader.put("users", Arrays.toString(userIDArray));
+		requestHeader.put(
+				"users",
+				Arrays.toString(userIDArray).replaceAll("{", "")
+						.replaceAll("}", ""));
 		String serviceURL = getBaseURL() + APIURL.USER_IMAGES_SUFFIX;
 		String responseString = HTTPRequestHelper.processGetRequest(serviceURL,
 				requestHeader);
