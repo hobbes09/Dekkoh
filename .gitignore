@@ -55,3 +55,10 @@ gen
 .svn
 project.properties
 .gitignore
+bin
+gen
+.metadata
+.svn
+project.properties
+.gitignore
+project.properties

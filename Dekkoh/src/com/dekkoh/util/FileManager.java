@@ -29,7 +29,15 @@ public class FileManager {
 		return fileManager;
 	}
 
-	public Object readObjectFromInternalStorage(Activity activity,
+	/**
+	 * Method to read Object File from Internal Storage
+	 * 
+	 * @param activity
+	 * @param fileName
+	 * @return Object
+	 * @throws Exception
+	 */
+	public Object readObjectFileFromInternalStorage(Activity activity,
 			String fileName) throws Exception {
 		try {
 			file = new File(activity.getFilesDir(), fileName);
@@ -45,8 +53,16 @@ public class FileManager {
 		}
 	}
 
-	public Object readObjectFromInternalCache(Activity activity, String fileName)
-			throws Exception {
+	/**
+	 * Method to read Object File from Internal Cache
+	 * 
+	 * @param activity
+	 * @param fileName
+	 * @return Object
+	 * @throws Exception
+	 */
+	public Object readObjectFileFromInternalCache(Activity activity,
+			String fileName) throws Exception {
 		try {
 			file = new File(activity.getCacheDir(), fileName + ".dat");
 			fileInputStream = new FileInputStream(file);
@@ -61,7 +77,15 @@ public class FileManager {
 		}
 	}
 
-	public Object readObjectFromExternalStorage(Activity activity,
+	/**
+	 * Method to read Object File from External Storage
+	 * 
+	 * @param activity
+	 * @param fileName
+	 * @return Object
+	 * @throws Exception
+	 */
+	public Object readObjectFileFromExternalStorage(Activity activity,
 			String fileName) throws Exception {
 		try {
 			file = new File(activity.getExternalFilesDir(null), fileName
@@ -78,8 +102,16 @@ public class FileManager {
 		}
 	}
 
-	public Object readObjectFromExternalCache(Activity activity, String fileName)
-			throws Exception {
+	/**
+	 * Method to read Object File from External Cache
+	 * 
+	 * @param activity
+	 * @param fileName
+	 * @return Object
+	 * @throws Exception
+	 */
+	public Object readObjectFileFromExternalCache(Activity activity,
+			String fileName) throws Exception {
 		try {
 			file = new File(activity.getExternalCacheDir(), fileName + ".dat");
 			fileInputStream = new FileInputStream(file);
@@ -94,7 +126,15 @@ public class FileManager {
 		}
 	}
 
-	public void writeObjectInInternalStorage(Activity activity,
+	/**
+	 * Method to write Object File In Internal Storage
+	 * 
+	 * @param activity
+	 * @param fileName
+	 * @param object
+	 * @throws Exception
+	 */
+	public void writeObjectFileInInternalStorage(Activity activity,
 			String fileName, Object object) throws Exception {
 		try {
 			fileOutputStream = activity.openFileOutput(fileName + ".dat",
@@ -110,8 +150,16 @@ public class FileManager {
 		}
 	}
 
-	public void writeObjectInInternalCache(Activity activity, String fileName,
-			Object object) throws Exception {
+	/**
+	 * Method to write Object File In Internal Cache
+	 * 
+	 * @param activity
+	 * @param fileName
+	 * @param object
+	 * @throws Exception
+	 */
+	public void writeObjectFileInInternalCache(Activity activity,
+			String fileName, Object object) throws Exception {
 		File file;
 		try {
 			// file = File.createTempFile("MyCache", null, getCacheDir());
@@ -128,7 +176,15 @@ public class FileManager {
 		}
 	}
 
-	public void writeObjectInExternalStorage(Activity activity,
+	/**
+	 * Method to write Object File In External Storage
+	 * 
+	 * @param activity
+	 * @param fileName
+	 * @param object
+	 * @throws Exception
+	 */
+	public void writeObjectFileInExternalStorage(Activity activity,
 			String fileName, Object object) throws Exception {
 		File file = new File(activity.getExternalFilesDir(null), fileName
 				+ ".dat");
@@ -146,8 +202,16 @@ public class FileManager {
 		}
 	}
 
-	public void writeObjectInExternalCache(Activity activity, String fileName,
-			Object object) throws Exception {
+	/**
+	 * Method to write Object File In External Cache
+	 * 
+	 * @param activity
+	 * @param fileName
+	 * @param object
+	 * @throws Exception
+	 */
+	public void writeObjectFileInExternalCache(Activity activity,
+			String fileName, Object object) throws Exception {
 		File file;
 		try {
 			// file = File.createTempFile("MyCache", null, getCacheDir());
@@ -164,53 +228,103 @@ public class FileManager {
 		}
 	}
 
-	public void deleteFileFromInternalStorage(Activity activity, String fileName) {
-		File file = new File(activity.getFilesDir(), fileName);
+	/**
+	 * Method to delete Object File From Internal Storage
+	 * 
+	 * @param activity
+	 * @param fileName
+	 */
+	public void deleteObjectFileFromInternalStorage(Activity activity,
+			String fileName) {
+		File file = new File(activity.getFilesDir(), fileName + ".dat");
 		if (file != null) {
 			file.delete();
 		}
 	}
 
-	public void deleteFileFromInternalCache(Activity activity, String fileName) {
+	/**
+	 * Method to delete Object File From Internal Cache
+	 * 
+	 * @param activity
+	 * @param fileName
+	 */
+	public void deleteObjectFileFromInternalCache(Activity activity,
+			String fileName) {
+		File file = new File(activity.getCacheDir(), fileName + ".dat");
+		if (file != null) {
+			file.delete();
+		}
+	}
+
+	/**
+	 * Method to delete Object File From External Storage
+	 * 
+	 * @param activity
+	 * @param fileName
+	 */
+	public void deleteObjectFileFromExternalStorage(Activity activity,
+			String fileName) {
+		File file = new File(activity.getExternalFilesDir(null), fileName
+				+ ".dat");
+		if (file != null) {
+			file.delete();
+		}
+	}
+
+	/**
+	 * Method to delete Object File From External Cache
+	 * 
+	 * @param activity
+	 * @param fileName
+	 */
+	public void deleteObjectFileFromExternalCache(Activity activity,
+			String fileName) {
+		File file = new File(activity.getExternalCacheDir(), fileName + ".dat");
+		if (file != null) {
+			file.delete();
+		}
+	}
+
+	/**
+	 * Method to check if Object File Exists In InternalStorage
+	 * 
+	 * @param activity
+	 * @param fileName
+	 * @return boolean
+	 */
+	public boolean isObjectFileExistsInInternalStorage(Activity activity,
+			String fileName) {
+		File file = new File(activity.getFilesDir(), fileName + ".dat");
+		if (file != null) {
+			return file.exists();
+		} else
+			return false;
+	}
+
+	/**
+	 * Method to check if Object File Exists In Internal Cache
+	 * 
+	 * @param activity
+	 * @param fileName
+	 * @return boolean
+	 */
+	public boolean isObjectFileExistsInInternalCache(Activity activity,
+			String fileName) {
 		File file = new File(activity.getCacheDir(), fileName);
 		if (file != null) {
-			file.delete();
-		}
-	}
-
-	public void deleteFileFromExternalStorage(Activity activity, String fileName) {
-		File file = new File(activity.getExternalFilesDir(null), fileName);
-		if (file != null) {
-			file.delete();
-		}
-	}
-
-	public void deleteFileFromExternalCache(Activity activity, String fileName) {
-		File file = new File(activity.getExternalCacheDir(), fileName);
-		if (file != null) {
-			file.delete();
-		}
-	}
-
-	public boolean isFileExistsInInternalStorage(Activity activity,
-			String fileName) {
-		File file = new File(activity.getFilesDir(), fileName);
-		if (file != null) {
 			return file.exists();
 		} else
 			return false;
 	}
 
-	public boolean isFileExistsInInternalCache(Activity activity,
-			String fileName) {
-		File file = new File(activity.getCacheDir(), fileName);
-		if (file != null) {
-			return file.exists();
-		} else
-			return false;
-	}
-
-	public boolean isFileExistsInExternalStorage(Activity activity,
+	/**
+	 * Method to check if Object File Exists In External Storage
+	 * 
+	 * @param activity
+	 * @param fileName
+	 * @return boolean
+	 */
+	public boolean isObjectFileExistsInExternalStorage(Activity activity,
 			String fileName) {
 		File file = new File(activity.getExternalFilesDir(null), fileName);
 		if (file != null) {
@@ -219,7 +333,14 @@ public class FileManager {
 			return false;
 	}
 
-	public boolean isFileExistsInExternalcache(Activity activity,
+	/**
+	 * Method to check if Object File Exists In External Cache
+	 * 
+	 * @param activity
+	 * @param fileName
+	 * @return boolean
+	 */
+	public boolean isObjectFileExistsInExternalCache(Activity activity,
 			String fileName) {
 		File file = new File(activity.getExternalCacheDir(), fileName);
 		if (file != null) {
@@ -228,11 +349,18 @@ public class FileManager {
 			return false;
 	}
 
-	public boolean isFileExists(Activity activity, String fileName) {
-		return isFileExistsInExternalcache(activity, fileName)
-				|| isFileExistsInExternalStorage(activity, fileName)
-				|| isFileExistsInInternalCache(activity, fileName)
-				|| isFileExistsInInternalStorage(activity, fileName);
+	/**
+	 * Method to check if Object File Exists
+	 * 
+	 * @param activity
+	 * @param fileName
+	 * @return boolean
+	 */
+	public boolean isObjectFileExists(Activity activity, String fileName) {
+		return isObjectFileExistsInExternalCache(activity, fileName)
+				|| isObjectFileExistsInExternalStorage(activity, fileName)
+				|| isObjectFileExistsInInternalCache(activity, fileName)
+				|| isObjectFileExistsInInternalStorage(activity, fileName);
 	}
 
 }
