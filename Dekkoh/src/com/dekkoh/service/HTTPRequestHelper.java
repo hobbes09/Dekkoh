@@ -9,7 +9,6 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -54,19 +53,21 @@ public final class HTTPRequestHelper {
 	public static final String PUT = "PUT";
 
 	public static String processGetRequest(String serviceURL) throws Exception {
-		return processGetRequest(serviceURL, getJSONRequestHeader());
+		return processGetRequest(serviceURL,
+				APIProcessor.getJSONRequestHeader());
 	}
 
 	public static String processGetRequest(String serviceURL,
 			String authorizationToken) throws Exception {
 		return processGetRequest(serviceURL,
-				getJSONRequestHeader(authorizationToken));
+				APIProcessor.getJSONRequestHeader(authorizationToken));
 	}
 
 	public static String processGetRequest(String serviceURL,
 			String authorizationToken, String requestData) throws Exception {
 		return processRequest(serviceURL, GET,
-				getJSONRequestHeader(authorizationToken), requestData);
+				APIProcessor.getJSONRequestHeader(authorizationToken),
+				requestData);
 	}
 
 	public static String processGetRequest(String serviceURL,
@@ -108,29 +109,38 @@ public final class HTTPRequestHelper {
 
 	public static String processPostRequest(String serviceURL,
 			String requestData) throws Exception {
-		return processPostRequest(serviceURL, getJSONRequestHeader(),
-				requestData, null);
+		return processPostRequest(serviceURL,
+				APIProcessor.getJSONRequestHeader(), requestData, null);
 	}
 
 	public static String processPostRequest(String serviceURL,
 			String requestData, Map<String, String> responseHeaderMap)
 			throws Exception {
-		return processPostRequest(serviceURL, getJSONRequestHeader(),
-				requestData, responseHeaderMap);
+		return processPostRequest(serviceURL,
+				APIProcessor.getJSONRequestHeader(), requestData,
+				responseHeaderMap);
 	}
 
 	public static String processPostRequest(String serviceURL,
 			String requestData, String authorizationToken) throws Exception {
 		return processPostRequest(serviceURL,
-				getJSONRequestHeader(authorizationToken), requestData, null);
+				APIProcessor.getJSONRequestHeader(authorizationToken),
+				requestData, null);
 	}
 
 	public static String processPostRequest(String serviceURL,
 			String requestData, String authorizationToken,
 			Map<String, String> responseHeaderMap) throws Exception {
 		return processPostRequest(serviceURL,
-				getJSONRequestHeader(authorizationToken), requestData,
-				responseHeaderMap);
+				APIProcessor.getJSONRequestHeader(authorizationToken),
+				requestData, responseHeaderMap);
+	}
+
+	public static String processPostRequest(String serviceURL,
+			Map<String, String> requestHeaders, String requestData)
+			throws Exception {
+		return processPostRequest(serviceURL, requestHeaders, requestData,
+				null);
 	}
 
 	public static String processPostRequest(String serviceURL,
@@ -186,13 +196,14 @@ public final class HTTPRequestHelper {
 
 	public static String processDeleteRequest(String serviceURL)
 			throws Exception {
-		return processDeleteRequest(serviceURL, getJSONRequestHeader());
+		return processDeleteRequest(serviceURL,
+				APIProcessor.getJSONRequestHeader());
 	}
 
 	public static String processDeleteRequest(String serviceURL,
 			String authorizationToken) throws Exception {
 		return processDeleteRequest(serviceURL,
-				getJSONRequestHeader(authorizationToken));
+				APIProcessor.getJSONRequestHeader(authorizationToken));
 	}
 
 	public static String processDeleteRequest(String serviceURL,
@@ -234,14 +245,15 @@ public final class HTTPRequestHelper {
 
 	public static String processPutRequest(String serviceURL, String requestData)
 			throws Exception {
-		return processPutRequest(serviceURL, getJSONRequestHeader(),
-				requestData);
+		return processPutRequest(serviceURL,
+				APIProcessor.getJSONRequestHeader(), requestData);
 	}
 
 	public static String processPutRequest(String serviceURL,
 			String requestData, String authorizationToken) throws Exception {
 		return processPutRequest(serviceURL,
-				getJSONRequestHeader(authorizationToken), requestData);
+				APIProcessor.getJSONRequestHeader(authorizationToken),
+				requestData);
 	}
 
 	public static String processPutRequest(String serviceURL,
@@ -520,24 +532,6 @@ public final class HTTPRequestHelper {
 		throw new DekkohException(
 				DekkohExceptionErrorCodes.NETWOR_TIMEOUT_CODE,
 				exception.getMessage());
-	}
-
-	public static Map<String, String> getJSONRequestHeader(
-			String authorizationToken) {
-		Map<String, String> requestHeaders = new HashMap<String, String>();
-		requestHeaders.put("Accept", "application/json");
-		requestHeaders.put("Content-type", "application/json");
-		if (authorizationToken != null) {
-			requestHeaders.put("Authorization", authorizationToken);
-		}
-		return requestHeaders;
-	}
-
-	public static Map<String, String> getJSONRequestHeader() {
-		Map<String, String> requestHeaders = new HashMap<String, String>();
-		requestHeaders.put("Accept", "application/json");
-		requestHeaders.put("Content-type", "application/json");
-		return requestHeaders;
 	}
 
 	public static int getResponseCode() {

@@ -8,8 +8,8 @@ public class DekkohUserConnection {
 	private String connection_pic;
 	private String connection_type;
 	private String created_at;
-	private String delete_flg;
 	private String updated_at;
+	private boolean delete_flg;
 	private ConnectionID _id;
 	private UserID user_id;
 
@@ -87,22 +87,6 @@ public class DekkohUserConnection {
 	public void setCreated_at(String created_at) {
 		this.created_at = created_at;
 	}
-
-	/**
-	 * @return the delete_flg
-	 */
-	public String getDelete_flg() {
-		return delete_flg;
-	}
-
-	/**
-	 * @param delete_flg
-	 *            the delete_flg to set
-	 */
-	public void setDelete_flg(String delete_flg) {
-		this.delete_flg = delete_flg;
-	}
-
 	/**
 	 * @return the updated_at
 	 */
@@ -147,6 +131,20 @@ public class DekkohUserConnection {
 	public void setUserID(String userID) {
 		this.user_id.setUserID(userID);
 		;
+	}
+
+	/**
+	 * @return the delete_flg
+	 */
+	public boolean isDeleted() {
+		return delete_flg;
+	}
+
+	/**
+	 * @param delete_flg the delete_flg to set
+	 */
+	public void setDeleted(boolean delete_flg) {
+		this.delete_flg = delete_flg;
 	}
 
 	class ConnectionID {

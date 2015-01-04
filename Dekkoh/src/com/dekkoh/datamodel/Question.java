@@ -6,22 +6,22 @@ import java.util.List;
 import com.google.gson.annotations.SerializedName;
 
 public class Question {
-	protected int answer_count;
-	protected String follow_count;
-	protected String coordinates;
-	protected String created_at;
-	protected String delete_flg;
-	protected String image;
-	protected String interest_name;
-	protected String location;
-	protected String question;
-	protected String updated_at;
-	protected String user_image;
-	protected String user_name;
-	protected InterestId interest_id = new InterestId();
-	protected UserId user_id = new UserId();
-	protected QuestionId _id = new QuestionId();
-	protected List<Follower> followers = new ArrayList<Follower>();
+	private int answer_count;
+	private String follow_count;
+	private String coordinates;
+	private String created_at;
+	private String image;
+	private String interest_name;
+	private String location;
+	private String question;
+	private String updated_at;
+	private String user_image;
+	private String user_name;
+	private boolean delete_flg;
+	private InterestId interest_id = new InterestId();
+	private UserId user_id = new UserId();
+	private QuestionId _id = new QuestionId();
+	private List<Follower> followers = new ArrayList<Follower>();
 
 	/**
 	 * @return the answer_count
@@ -66,21 +66,6 @@ public class Question {
 	 */
 	public void setCreated_at(String created_at) {
 		this.created_at = created_at;
-	}
-
-	/**
-	 * @return the delete_flg
-	 */
-	public String getDelete_flg() {
-		return delete_flg;
-	}
-
-	/**
-	 * @param delete_flg
-	 *            the delete_flg to set
-	 */
-	public void setDelete_flg(String delete_flg) {
-		this.delete_flg = delete_flg;
 	}
 
 	/**
@@ -308,9 +293,24 @@ public class Question {
 		this.followers = followers;
 	}
 
+	/**
+	 * @return the delete_flg
+	 */
+	public boolean isDeleted() {
+		return delete_flg;
+	}
+
+	/**
+	 * @param delete_flg
+	 *            the delete_flg to set
+	 */
+	public void setDeleted(boolean delete_flg) {
+		this.delete_flg = delete_flg;
+	}
+
 	class InterestId {
 		@SerializedName("$oid")
-		protected String interestId;
+		private String interestId;
 
 		/**
 		 * @return the interestId
@@ -330,7 +330,7 @@ public class Question {
 
 	class UserId {
 		@SerializedName("$oid")
-		protected String userId;
+		private String userId;
 
 		/**
 		 * @return the userId
@@ -351,7 +351,7 @@ public class Question {
 
 	class QuestionId {
 		@SerializedName("$oid")
-		protected String questionId;
+		private String questionId;
 
 		/**
 		 * @return the questionId

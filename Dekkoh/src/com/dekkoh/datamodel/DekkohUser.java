@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class DekkohUser {
 	private String created_at;
-	private String delete_flg;
 	private String e_mail;
 	private String gender;
 	private String home_city;
@@ -18,6 +17,7 @@ public class DekkohUser {
 	private String provider_id;
 	private String role;
 	private String updated_at;
+	private boolean delete_flg;
 	private List<InterestID> interest_ids;
 	private DekkohUserID _id;
 
@@ -34,21 +34,6 @@ public class DekkohUser {
 	 */
 	public void setCreated_at(String created_at) {
 		this.created_at = created_at;
-	}
-
-	/**
-	 * @return the delete_flg
-	 */
-	public String getDelete_flg() {
-		return delete_flg;
-	}
-
-	/**
-	 * @param delete_flg
-	 *            the delete_flg to set
-	 */
-	public void setDelete_flg(String delete_flg) {
-		this.delete_flg = delete_flg;
 	}
 
 	/**
@@ -244,6 +229,20 @@ public class DekkohUser {
 	 */
 	public void setInterestIds(List<InterestID> interest_ids) {
 		this.interest_ids = interest_ids;
+	}
+
+	/**
+	 * @return the delete_flg
+	 */
+	public boolean isDeleted() {
+		return delete_flg;
+	}
+
+	/**
+	 * @param delete_flg the delete_flg to set
+	 */
+	public void setDeleted(boolean delete_flg) {
+		this.delete_flg = delete_flg;
 	}
 
 	class DekkohUserID {

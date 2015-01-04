@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class Interest {
 	private String created_at;
-	private String delete_flg;
 	private String image_url;
 	private String interest_name;
 	private String updated_at;
+	private boolean delete_flg;
 	private InterestID _id = new InterestID();
 
 	/**
@@ -23,21 +23,6 @@ public class Interest {
 	 */
 	public void setCreated_at(String created_at) {
 		this.created_at = created_at;
-	}
-
-	/**
-	 * @return the delete_flg
-	 */
-	public String getDelete_flg() {
-		return delete_flg;
-	}
-
-	/**
-	 * @param delete_flg
-	 *            the delete_flg to set
-	 */
-	public void setDelete_flg(String delete_flg) {
-		this.delete_flg = delete_flg;
 	}
 
 	/**
@@ -98,6 +83,21 @@ public class Interest {
 	 */
 	public void setInterestID(String interestID) {
 		this._id.setInterestID(interestID);
+	}
+
+	/**
+	 * @return the delete_flg
+	 */
+	public boolean isDeleted() {
+		return delete_flg;
+	}
+
+	/**
+	 * @param delete_flg
+	 *            the delete_flg to set
+	 */
+	public void setDeleted(boolean delete_flg) {
+		this.delete_flg = delete_flg;
 	}
 
 	class InterestID {
