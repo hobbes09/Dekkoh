@@ -34,6 +34,8 @@ public final class APIConstants {
 		public static final String MESSAGE_DETAILS_SUFFIX = "/messages/";
 		public static final String ADMIN_SIGNUP_SUFFIX = "/admin/signup";
 		public static final String ADMIN_SIGNIN_SUFFIX = "/admin/signin";
+		public static final String MESSAGES_COUNT_SUFFIX = MESSAGES_SUFFIX
+				+ "/count";
 		public static final String QUESTIONS_LOCATIONS_SUFFIX = QUESTIONS_SUFFIX
 				+ "/locations";
 		public static final String QUESTIONS_NEARBY_SUFFIX = QUESTIONS_SUFFIX

@@ -18,6 +18,7 @@ import com.dekkoh.datamodel.Answer;
 import com.dekkoh.datamodel.DekkohUser;
 import com.dekkoh.datamodel.DekkohUserConnection;
 import com.dekkoh.datamodel.Interest;
+import com.dekkoh.datamodel.Message;
 import com.dekkoh.datamodel.Question;
 import com.dekkoh.service.APIConstants.APIURL;
 import com.dekkoh.util.Constants;
@@ -220,8 +221,8 @@ public class APIProcessor {
 		Map<String, String> requestHeader = getJSONRequestHeader(getAuthorizationToken(activity));
 		requestHeader.put(
 				"users",
-				Arrays.toString(userIDArray).replaceAll("{", "")
-						.replaceAll("}", ""));
+				Arrays.toString(userIDArray).replaceAll("[", "")
+						.replaceAll("]", ""));
 		String serviceURL = getBaseURL() + APIURL.USER_IMAGES_SUFFIX;
 		String responseString = HTTPRequestHelper.processGetRequest(serviceURL,
 				requestHeader);
@@ -510,10 +511,10 @@ public class APIProcessor {
 	 * @return List<Question>
 	 * @throws Exception
 	 */
-	public static List<Question> getQuestionList(Activity activity, int offset,
+	public static List<Question> getQuestions(Activity activity, int offset,
 			int limit, long fromTimestamp, long toTimestamp, String date,
 			String location, int perimeter, String keyword, Boolean unanswered,
-			String user, String interest, String sort) throws Exception {
+			String user, String[] interest, String sort) throws Exception {
 		Map<String, String> requestHeader = getJSONRequestHeader(getAuthorizationToken(activity));
 		if (offset > 0)
 			requestHeader.put("offset", offset + "");
@@ -535,8 +536,11 @@ public class APIProcessor {
 			requestHeader.put("unanswered", unanswered + "");
 		if (!TextUtils.isEmpty(user))
 			requestHeader.put("user", user);
-		if (!TextUtils.isEmpty(interest))
-			requestHeader.put("interest", interest);
+		if (interest != null && interest.length > 0)
+			requestHeader.put(
+					"interest",
+					Arrays.toString(interest).replaceAll("[", "")
+							.replaceAll("]", ""));
 		if (!TextUtils.isEmpty(sort))
 			requestHeader.put("sort", sort);
 		String serviceURL = getBaseURL() + APIURL.QUESTIONS_SUFFIX;
@@ -1295,6 +1299,99 @@ public class APIProcessor {
 			return null;
 		} else {
 			Type listType = new TypeToken<List<Interest>>() {
+			}.getType();
+			return convertToObject(responseString, listType);
+		}
+	}
+
+	/**
+	 * Method to Post a message
+	 * 
+	 * @param activity
+	 * @param message
+	 * @param recipients
+	 * @return Message
+	 * @throws Exception
+	 */
+	public static Message postMessage(Activity activity, String message,
+			String[] recipients) throws Exception {
+		JSONObject requestJsonObject = new JSONObject();
+		requestJsonObject.put("message", message);
+		requestJsonObject.put("recipients", Arrays.toString(recipients)
+				.replaceAll("[", "").replaceAll("]", ""));
+		String serviceURL = getBaseURL() + APIURL.MESSAGES_SUFFIX;
+		String responseString = HTTPRequestHelper.processPostRequest(
+				serviceURL, requestJsonObject.toString(),
+				getAuthorizationToken(activity));
+		if (TextUtils.isEmpty(responseString)) {
+			return null;
+		} else {
+			return convertToObject(responseString, Message.class);
+		}
+	}
+
+	/**
+	 * Method to Get all messages
+	 * 
+	 * @param activity
+	 * @param user
+	 * @param offset
+	 * @param limit
+	 * @param fromTimestamp
+	 * @param toTimestamp
+	 * @param sort
+	 * @return List<Message>
+	 * @throws Exception
+	 */
+	public static List<Message> getMessages(Activity activity, String user,
+			int offset, int limit, long fromTimestamp, long toTimestamp,
+			String sort) throws Exception {
+		Map<String, String> requestHeader = getJSONRequestHeader(getAuthorizationToken(activity));
+		requestHeader.put("user", user);
+		if (offset > 0)
+			requestHeader.put("offset", offset + "");
+		if (limit > 0)
+			requestHeader.put("limit", limit + "");
+		if (fromTimestamp > 0)
+			requestHeader.put("from", fromTimestamp + "");
+		if (toTimestamp > 0)
+			requestHeader.put("to", toTimestamp + "");
+		if (!TextUtils.isEmpty(sort))
+			requestHeader.put("sort", sort);
+		String serviceURL = getBaseURL() + APIURL.MESSAGES_SUFFIX;
+		String responseString = HTTPRequestHelper.processGetRequest(serviceURL,
+				requestHeader);
+		if (TextUtils.isEmpty(responseString)) {
+			return null;
+		} else {
+			Type listType = new TypeToken<List<Message>>() {
+			}.getType();
+			return convertToObject(responseString, listType);
+		}
+	}
+
+	public static List<Message> getMessagesCount(Activity activity, String user,
+			int offset, int limit, long fromTimestamp, long toTimestamp,
+			String sort) throws Exception {
+		Map<String, String> requestHeader = getJSONRequestHeader(getAuthorizationToken(activity));
+		requestHeader.put("user", user);
+		if (offset > 0)
+			requestHeader.put("offset", offset + "");
+		if (limit > 0)
+			requestHeader.put("limit", limit + "");
+		if (fromTimestamp > 0)
+			requestHeader.put("from", fromTimestamp + "");
+		if (toTimestamp > 0)
+			requestHeader.put("to", toTimestamp + "");
+		if (!TextUtils.isEmpty(sort))
+			requestHeader.put("sort", sort);
+		String serviceURL = getBaseURL() + APIURL.MESSAGES_COUNT_SUFFIX;
+		String responseString = HTTPRequestHelper.processGetRequest(serviceURL,
+				requestHeader);
+		if (TextUtils.isEmpty(responseString)) {
+			return null;
+		} else {
+			Type listType = new TypeToken<List<Message>>() {
 			}.getType();
 			return convertToObject(responseString, listType);
 		}
