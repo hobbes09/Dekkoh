@@ -1328,8 +1328,9 @@ public class APIProcessor {
 	}
 
 	public static String getAuthorizationToken(Activity activity) {
-		return SharedPreferenceManager.getInstance(activity).getString(
-				SharedPreferenceConstants.AUTHORIZATION_TOCKEN);
+		return "Token token=\""
+				+ SharedPreferenceManager.getInstance(activity).getString(
+						SharedPreferenceConstants.AUTHORIZATION_TOCKEN) + "\"";
 	}
 
 	public static String getBaseURL() {
