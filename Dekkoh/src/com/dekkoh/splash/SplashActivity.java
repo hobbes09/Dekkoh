@@ -12,6 +12,7 @@ import android.graphics.Typeface;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,9 +33,15 @@ import android.widget.Toast;
 
 import com.dekkoh.R;
 import com.dekkoh.application.DekkohApplication;
+import com.dekkoh.datamodel.DekkohUser;
 import com.dekkoh.googleplusloginhandler.GooglePlusLoginController;
 import com.dekkoh.gpstracker.GPSTracker;
+import com.dekkoh.homefeed.HomeScreen;
+import com.dekkoh.interests.InterestScreen;
+import com.dekkoh.service.APIProcessor;
+import com.dekkoh.util.Constants.SharedPreferenceConstants;
 import com.dekkoh.util.Log;
+import com.dekkoh.util.SharedPreferenceManager;
 import com.facebook.FacebookException;
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -68,6 +75,7 @@ public class SplashActivity extends Activity {
         
         dekkohApplication = (DekkohApplication)getApplication();
         
+       
         //Start GPS
         startGPSTracker();
         
@@ -95,21 +103,31 @@ public class SplashActivity extends Activity {
 		@Override
 		public void run() {
 			//Make other views Visible and translate with scaling of logo to position
-			 AnimationSet animSet = new AnimationSet(true);
-			TranslateAnimation anim_move = new TranslateAnimation(0, 0, 0, -dpToPx(200));
-			anim_move.setDuration(1000);
-			animSet.addAnimation(anim_move);
-			ScaleAnimation anim_scale = new ScaleAnimation(1f, 0.75f, 1f, 0.75f,50f,50f);
-			anim_scale.setDuration(1000);
-			animSet.addAnimation(anim_scale);
-			animSet.setFillAfter(true);
-			appLogo.startAnimation(animSet);
-			Animation animFadein = AnimationUtils.loadAnimation(mContext,
-	                R.anim.fade_in_anim);
-			appName.setVisibility(View.VISIBLE);
-			loginOptionsHolderLayout.setVisibility(View.VISIBLE);
-			appName.setAnimation(animFadein);
-			loginOptionsHolderLayout.setAnimation(animFadein);
+			
+			SharedPreferenceManager sharedPreferenceManager = SharedPreferenceManager
+					.getInstance(SplashActivity.this);
+			if(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ID)!=null && sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ID).compareTo("")!=0){
+				Intent intent=new Intent(SplashActivity.this,HomeScreen.class);
+				startActivity(intent);
+				SplashActivity.this.finish();
+			}else{
+				 AnimationSet animSet = new AnimationSet(true);
+					TranslateAnimation anim_move = new TranslateAnimation(0, 0, 0, -dpToPx(200));
+					anim_move.setDuration(1000);
+					animSet.addAnimation(anim_move);
+					ScaleAnimation anim_scale = new ScaleAnimation(1f, 0.75f, 1f, 0.75f,50f,50f);
+					anim_scale.setDuration(1000);
+					animSet.addAnimation(anim_scale);
+					animSet.setFillAfter(true);
+					appLogo.startAnimation(animSet);
+					Animation animFadein = AnimationUtils.loadAnimation(mContext,
+			                R.anim.fade_in_anim);
+					appName.setVisibility(View.VISIBLE);
+					loginOptionsHolderLayout.setVisibility(View.VISIBLE);
+					appName.setAnimation(animFadein);
+					loginOptionsHolderLayout.setAnimation(animFadein);
+					
+			}
 			
 		}
     	   
@@ -134,10 +152,12 @@ public class SplashActivity extends Activity {
 			@Override
 			public void onUserInfoFetched(GraphUser user) {
 				if (user != null) {
-					String userToken=user.getId();
-					Toast.makeText(mContext, "Name:"+user.getName()+"\n"+"Email:"+user.asMap().get("email").toString(), Toast.LENGTH_LONG).show();
-				} else {
+					final Session session = Session.getActiveSession();
 					
+					new LoginTheUser(SplashActivity.this,session).execute();
+				//	Toast.makeText(mContext, "Name:"+user.getName()+"\n"+"Email:"+user.asMap().get("email").toString(), Toast.LENGTH_LONG).show();
+				} else {
+					//Toast.makeText(getApplicationContext(), "Unable to Login ... Please Try Again.", Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -218,14 +238,23 @@ public class SplashActivity extends Activity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		 if (requestCode == googleLoginController.getRcSignIn()) {
-			 googleLoginController.mIntentInProgress = false;
+		if(data != null && data.getStringExtra("error") != null){
+			Log.e("Facebook Login Error", data.getStringExtra("error"));
+		}else{
+			if (googleLoginController!=null && resultCode != RESULT_CANCELED && requestCode == googleLoginController.getRcSignIn()) {
+				 googleLoginController.mIntentInProgress = false;
 
-			    if (!googleLoginController.isconnecting()) {
-			    	googleLoginController.connect();
-			    }
-			  }
-			  uiHelper.onActivityResult(requestCode, resultCode, data);
+				    if (!googleLoginController.isconnecting()) {
+				    	googleLoginController.connect();
+				    }
+				  }else if(googleLoginController!=null && resultCode != RESULT_CANCELED && requestCode == googleLoginController.getREQ_SIGN_IN_REQUIRED()){
+					  googleLoginController.requestForAccessToken();
+				  }else{
+					  uiHelper.onActivityResult(requestCode, resultCode, data); 
+				  }
+				
+		}
+		 
 		  
 		
 		
@@ -323,3 +352,51 @@ public class SplashActivity extends Activity {
         alertDialog.show();
     }
 }
+
+
+class LoginTheUser extends AsyncTask<Void,Void,Void>{
+	SplashActivity activity;
+	Session session;
+	public LoginTheUser(SplashActivity activity,Session session){
+	
+	   this.activity=activity;
+	   this.session=session;
+		
+	}
+	@Override
+	protected Void doInBackground(Void... params) {
+		
+		try {
+			DekkohUser dekkohUser=APIProcessor.loginUserWithFacebook(activity, session.getAccessToken());
+			if(dekkohUser!=null){
+				
+				Intent intent=new Intent(activity,InterestScreen.class);
+				activity.startActivity(intent);
+				activity.finish();
+				
+			}else{
+				//Toast.makeText(getApplicationContext(), "Unable to Login ... Please Try Again.", Toast.LENGTH_LONG).show();
+				
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			//Toast.makeText(getApplicationContext(), "Unable to Login ... Please Try Again.\n"+e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+			e.printStackTrace();
+		}
+		
+		return null;
+		// TODO Auto-generated method stub
+		
+		
+	}
+	protected void onPostExecute(Void result){
+		
+		
+	}
+	
+}
+
+
+
+
+

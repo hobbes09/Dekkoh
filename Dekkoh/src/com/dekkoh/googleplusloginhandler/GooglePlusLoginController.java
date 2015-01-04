@@ -1,20 +1,32 @@
 package com.dekkoh.googleplusloginhandler;
 
-import android.app.Activity;
+import java.io.IOException;
+
+import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Toast;
 
+import com.dekkoh.datamodel.DekkohUser;
+import com.dekkoh.interests.InterestScreen;
+import com.dekkoh.service.APIProcessor;
+import com.dekkoh.splash.SplashActivity;
 import com.dekkoh.util.Log;
+import com.google.android.gms.auth.GoogleAuthException;
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
 
 public class GooglePlusLoginController implements ConnectionCallbacks, OnConnectionFailedListener {
 
+	private static final String TAG = "RetrieveAccessToken";
+    private static final int REQ_SIGN_IN_REQUIRED = 55664;
     private static final int RC_SIGN_IN = 0;
     
     /* Client used to interact with Google APIs. */
@@ -25,9 +37,12 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
      */
     public boolean mIntentInProgress;
 
-    private Activity activity;
+    private SplashActivity activity;
+    
+    //user Email
+    public String email="";
 
-    public GooglePlusLoginController(Activity activity) {
+    public GooglePlusLoginController(SplashActivity activity) {
         this.activity = activity;
 
 
@@ -82,15 +97,16 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
 		
 		Log.e("google login", "Connected");
 		  if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-			  
-			    Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-			    String userToken = currentPerson.getId();
-			    String personName = currentPerson.getDisplayName();
-			    String personPhotoUrl = currentPerson.getImage().getUrl();
-			    String personGooglePlusProfile = currentPerson.getUrl();
-			    String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-			    Toast.makeText(activity.getApplicationContext(), email+" "+personName, Toast.LENGTH_LONG).show();
-			    Log.e("google login", email+" "+personName);  
+			    
+			   // Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+			   // String userToken = currentPerson.getId();
+			    //String personName = currentPerson.getDisplayName();
+			   // String personPhotoUrl = currentPerson.getImage().getUrl();
+			   // String personGooglePlusProfile = currentPerson.getUrl();
+			    email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+			    new RetrieveTokenTask(activity).execute(email);
+			   // Toast.makeText(activity.getApplicationContext(), email+" "+personName, Toast.LENGTH_LONG).show();
+			   // Log.e("google login", email+" "+personName);  
 		  }
 	}
 
@@ -106,6 +122,66 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
 	public int getRcSignIn() {
 		return RC_SIGN_IN;
 	}
+	
+	public int getREQ_SIGN_IN_REQUIRED(){
+		return REQ_SIGN_IN_REQUIRED;
+	}
+	
+	public void requestForAccessToken(){
+		 new RetrieveTokenTask(activity).execute(email);
+	}
 
+	
+	private class RetrieveTokenTask extends AsyncTask<String, Void, String> {
+		 
+		SplashActivity activity;
+		String email="";
+		
+		RetrieveTokenTask(SplashActivity activity){
+			this.activity=activity;
+		}
+		
+        @Override
+        protected String doInBackground(String... params) {
+            String accountName = params[0];
+            email=accountName;
+            String scopes = "oauth2:profile email";
+            String token = null;
+            try {
+                token = GoogleAuthUtil.getToken(activity.getApplicationContext(), accountName, scopes);
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+            } catch (UserRecoverableAuthException e) {
+                activity.startActivityForResult(e.getIntent(), REQ_SIGN_IN_REQUIRED);
+            } catch (GoogleAuthException e) {
+                Log.e(TAG, e.getMessage());
+            }
+            try {
+            	DekkohUser dekkohUser=APIProcessor.loginUserWithGoogle(activity, token, email);
+						if(dekkohUser!=null){
+							
+							Intent intent=new Intent(activity,InterestScreen.class);
+							activity.startActivity(intent);
+							activity.finish();
+							
+						}else{
+							
+							//Toast.makeText(activity.getApplicationContext(), "Unable to Login ... Please Try Again.", Toast.LENGTH_LONG).show();
+							
+								}
+							}catch (Exception e) {
+						// TODO Auto-generated catch block
+					//	Toast.makeText(activity.getApplicationContext(), "Unable to Login ... Please Try Again.\n"+e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+						e.printStackTrace();
+					}	
+            return token;
+        }
+ 
+        @Override
+        protected void onPostExecute(final String token) {
+            super.onPostExecute(token);
+           
+        }
+    }
 
 }
