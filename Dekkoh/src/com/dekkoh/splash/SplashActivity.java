@@ -154,7 +154,7 @@ public class SplashActivity extends Activity {
 				if (user != null) {
 					final Session session = Session.getActiveSession();
 					
-					new LoginTheUser(SplashActivity.this,session).execute();
+					new LoginTheUser(SplashActivity.this,session,user.getId()).execute();
 				//	Toast.makeText(mContext, "Name:"+user.getName()+"\n"+"Email:"+user.asMap().get("email").toString(), Toast.LENGTH_LONG).show();
 				} else {
 					//Toast.makeText(getApplicationContext(), "Unable to Login ... Please Try Again.", Toast.LENGTH_LONG).show();
@@ -188,7 +188,7 @@ public class SplashActivity extends Activity {
 			//TODO:Go to onConnected method in GooglePlusLoginController class to get the user info and forward him to his home screen
 		}
 	});
-        new SampleCall(this).execute();
+       
     }
 
     //Session Callback for facebook
@@ -357,17 +357,19 @@ public class SplashActivity extends Activity {
 class LoginTheUser extends AsyncTask<Void,Void,Void>{
 	SplashActivity activity;
 	Session session;
-	public LoginTheUser(SplashActivity activity,Session session){
+	String userId="";
+	public LoginTheUser(SplashActivity activity,Session session,String userId){
 	
 	   this.activity=activity;
 	   this.session=session;
+	   this.userId=userId;
 		
 	}
 	@Override
 	protected Void doInBackground(Void... params) {
 		
 		try {
-			DekkohUser dekkohUser=APIProcessor.loginUserWithFacebook(activity,"10205025372424583", session.getAccessToken());
+			DekkohUser dekkohUser=APIProcessor.loginUserWithFacebook(activity,userId, session.getAccessToken());
 			if(dekkohUser!=null){
 				
 				Intent intent=new Intent(activity,InterestScreen.class);
@@ -394,26 +396,6 @@ class LoginTheUser extends AsyncTask<Void,Void,Void>{
 		
 	}
 	
-}
-
-class SampleCall extends AsyncTask<Void, Void, Void> {
-	Activity activity;
-
-	public SampleCall(Activity activity) {
-		this.activity = activity;
-	}
-
-	@Override
-	protected Void doInBackground(Void... params) {
-		try {
-			APIProcessor.loginUserWithGoogle(activity, "10205025372424583",
-					"76t62535GVGHVY6752", "mohan@foofys.com");
-		} catch (Exception e) {
-			Log.e(e);
-			e.printStackTrace();
-		}
-		return null;
-	}
 }
 
 

@@ -22,6 +22,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 
 public class GooglePlusLoginController implements ConnectionCallbacks, OnConnectionFailedListener {
 
@@ -41,6 +42,7 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
     
     //user Email
     public String email="";
+    public String userId="";
 
     public GooglePlusLoginController(SplashActivity activity) {
         this.activity = activity;
@@ -98,13 +100,13 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
 		Log.e("google login", "Connected");
 		  if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
 			    
-			   // Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-			   // String userToken = currentPerson.getId();
+			    Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+			     userId = currentPerson.getId();
 			    //String personName = currentPerson.getDisplayName();
 			   // String personPhotoUrl = currentPerson.getImage().getUrl();
 			   // String personGooglePlusProfile = currentPerson.getUrl();
 			    email = Plus.AccountApi.getAccountName(mGoogleApiClient);
-			    new RetrieveTokenTask(activity).execute(email);
+			    new RetrieveTokenTask(activity,userId).execute(email);
 			   // Toast.makeText(activity.getApplicationContext(), email+" "+personName, Toast.LENGTH_LONG).show();
 			   // Log.e("google login", email+" "+personName);  
 		  }
@@ -128,17 +130,18 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
 	}
 	
 	public void requestForAccessToken(){
-		 new RetrieveTokenTask(activity).execute(email);
+		 new RetrieveTokenTask(activity,userId).execute(email);
 	}
 
 	
 	private class RetrieveTokenTask extends AsyncTask<String, Void, String> {
 		 
 		SplashActivity activity;
-		String email="";
+		String email="",userId="";
 		
-		RetrieveTokenTask(SplashActivity activity){
+		RetrieveTokenTask(SplashActivity activity,String userId){
 			this.activity=activity;
+			this.userId=userId;
 		}
 		
         @Override
@@ -157,7 +160,7 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
                 Log.e(TAG, e.getMessage());
             }
             try {
-            	DekkohUser dekkohUser=APIProcessor.loginUserWithGoogle(activity, "102694438878006585797",token, email);
+            	DekkohUser dekkohUser=APIProcessor.loginUserWithGoogle(activity, userId,token, email);
 						if(dekkohUser!=null){
 							
 							Intent intent=new Intent(activity,InterestScreen.class);
