@@ -43,10 +43,10 @@ public class APIProcessor {
 	 * @throws Exception
 	 */
 	public static DekkohUser loginUserWithGoogle(Activity activity,
-			String token, String email) throws Exception {
+			String user_id, String token, String email) throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
 		requestJsonObject.put("provider", "Google");
-		requestJsonObject.put("user_id", getUserId(activity));
+		requestJsonObject.put("user_id", user_id);
 		requestJsonObject.put("token", token);
 		requestJsonObject.put("email", email);
 		Map<String, String> responseHeaderMap = new HashMap<String, String>();
@@ -93,10 +93,10 @@ public class APIProcessor {
 	 * @throws Exception
 	 */
 	public static DekkohUser loginUserWithFacebook(Activity activity,
-			String token) throws Exception {
+			String user_id, String token) throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
 		requestJsonObject.put("provider", "Google");
-		requestJsonObject.put("user_id", getUserId(activity));
+		requestJsonObject.put("user_id", user_id);
 		requestJsonObject.put("token", token);
 		Map<String, String> responseHeaderMap = new HashMap<String, String>();
 		String serviceURL = getBaseURL() + APIURL.USER_LOGIN_SUFFIX;
@@ -329,9 +329,8 @@ public class APIProcessor {
 	public static DekkohUser updateUserInterest(Activity activity,
 			String[] interestIdArray) throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
-		JSONArray interestJsonArray = new JSONArray(interestIdArray);
 		requestJsonObject.put("user_id", getUserId(activity));
-		requestJsonObject.put("interest_id", interestJsonArray);
+		requestJsonObject.put("interest_id", Arrays.toString(interestIdArray));
 		Map<String, String> responseHeaderMap = new HashMap<String, String>();
 		String serviceURL = getBaseURL() + APIURL.USER_INTEREST_UPDATE_SUFFIX
 				+ getUserId(activity);
@@ -1382,9 +1381,9 @@ public class APIProcessor {
 		}
 	}
 
-	public static List<Message> getMessagesCount(Activity activity, String user,
-			int offset, int limit, long fromTimestamp, long toTimestamp,
-			String sort) throws Exception {
+	public static List<Message> getMessagesCount(Activity activity,
+			String user, int offset, int limit, long fromTimestamp,
+			long toTimestamp, String sort) throws Exception {
 		Map<String, String> requestHeader = getJSONRequestHeader(getAuthorizationToken(activity));
 		requestHeader.put("user", user);
 		if (offset > 0)
