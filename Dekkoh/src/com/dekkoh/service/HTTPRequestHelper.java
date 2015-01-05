@@ -94,10 +94,10 @@ public final class HTTPRequestHelper {
 		HttpResponse httpResponse = httpClient.execute(httpGet);
 		responseCode = httpResponse.getStatusLine().getStatusCode();
 		Log.i(TAG, "Response Code : " + responseCode);
+		String responseString = IOUtils.toString(httpResponse.getEntity()
+				.getContent());
+		Log.i(TAG, "Response string : " + responseString);
 		if (responseCode == 200) {
-			String responseString = IOUtils.toString(httpResponse.getEntity()
-					.getContent());
-			Log.i(TAG, "Response string : " + responseString);
 			return responseString;
 
 		} else {
@@ -139,8 +139,7 @@ public final class HTTPRequestHelper {
 	public static String processPostRequest(String serviceURL,
 			Map<String, String> requestHeaders, String requestData)
 			throws Exception {
-		return processPostRequest(serviceURL, requestHeaders, requestData,
-				null);
+		return processPostRequest(serviceURL, requestHeaders, requestData, null);
 	}
 
 	public static String processPostRequest(String serviceURL,
@@ -181,10 +180,10 @@ public final class HTTPRequestHelper {
 		}
 		responseCode = httpResponse.getStatusLine().getStatusCode();
 		Log.i(TAG, "Response Code : " + responseCode);
+		String responseString = IOUtils.toString(httpResponse.getEntity()
+				.getContent());
+		Log.i(TAG, "Response string : " + responseString);
 		if (responseCode == 200) {
-			String responseString = IOUtils.toString(httpResponse.getEntity()
-					.getContent());
-			Log.i(TAG, "Response string : " + responseString);
 			return responseString;
 
 		} else {
@@ -230,10 +229,10 @@ public final class HTTPRequestHelper {
 		HttpResponse httpResponse = httpClient.execute(httpDelete);
 		responseCode = httpResponse.getStatusLine().getStatusCode();
 		Log.i(TAG, "Response Code : " + responseCode);
+		String responseString = IOUtils.toString(httpResponse.getEntity()
+				.getContent());
+		Log.i(TAG, "Response string : " + responseString);
 		if (responseCode == 200) {
-			String responseString = IOUtils.toString(httpResponse.getEntity()
-					.getContent());
-			Log.i(TAG, "Response string : " + responseString);
 			return responseString;
 
 		} else {
@@ -284,10 +283,10 @@ public final class HTTPRequestHelper {
 		HttpResponse httpResponse = httpClient.execute(httpPut);
 		responseCode = httpResponse.getStatusLine().getStatusCode();
 		Log.i(TAG, "Response Code : " + responseCode);
+		String responseString = IOUtils.toString(httpResponse.getEntity()
+				.getContent());
+		Log.i(TAG, "Response string : " + responseString);
 		if (responseCode == 200) {
-			String responseString = IOUtils.toString(httpResponse.getEntity()
-					.getContent());
-			Log.i(TAG, "Response string : " + responseString);
 			return responseString;
 
 		} else {
@@ -437,23 +436,13 @@ public final class HTTPRequestHelper {
 				responseHeaderMap.putAll(httpURLConnection.getHeaderFields());
 			}
 			Log.e(TAG, " Response code is:" + responseCode);
+			inputStream = httpURLConnection.getInputStream();
+			String responseString = IOUtils.toString(inputStream);
+			Log.i(TAG, "ResponseString : " + responseString);
 			// If it works fine
 			if (responseCode == 200 || responseCode == 204) {
-				try {
-					inputStream = httpURLConnection.getInputStream();
-					String responseString = IOUtils.toString(inputStream);
-					Log.i(TAG, "ResponseString : " + responseString);
-					return responseString;
-				} catch (final SocketTimeoutException e) {
-					throwTimeoutException(url, e);
-				} catch (final ConnectException e) {
-					throwTimeoutException(url, e);
-				} catch (final Exception ex) {
-					throwNetworkException(url, ex);
-				}
+				return responseString;
 			} else {
-				inputStream = httpURLConnection.getErrorStream();
-				Log.e(TAG, IOUtils.toString(inputStream));
 				throw new DekkohException(
 						DekkohExceptionErrorCodes.NETWOR_ERROR_CODE,
 						"Return responce code is not 200");

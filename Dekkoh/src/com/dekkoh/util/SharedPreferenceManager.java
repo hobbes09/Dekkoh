@@ -1,5 +1,6 @@
 package com.dekkoh.util;
 
+import java.util.Arrays;
 import java.util.Set;
 
 import android.app.Activity;
@@ -8,7 +9,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 public class SharedPreferenceManager {
-
+	private static final String TAG = "SharedPreferenceManager";
 	private static final String MyPREFERENCES = "DEKKOH_ANDROID";
 	private static SharedPreferenceManager sharedPreferenceManager;
 	private SharedPreferences sharedpreferences;
@@ -28,11 +29,17 @@ public class SharedPreferenceManager {
 	}
 
 	public void save(String key, String value) {
+		if (Log.DEBUG) {
+			Log.i(TAG, "save(key : " + key + " | value : " + value + ")");
+		}
 		editor.putString(key, value);
 		editor.apply();
 	}
 
 	public void save(String key, boolean value) {
+		if (Log.DEBUG) {
+			Log.i(TAG, "save(key : " + key + " | value : " + value + ")");
+		}
 		editor.putBoolean(key, value);
 		editor.apply();
 	}
@@ -43,16 +50,27 @@ public class SharedPreferenceManager {
 	}
 
 	public void save(String key, long value) {
+		if (Log.DEBUG) {
+			Log.i(TAG, "save(key : " + key + " | value : " + value + ")");
+		}
 		editor.putLong(key, value);
 		editor.apply();
 	}
 
 	public void save(String key, int value) {
+		if (Log.DEBUG) {
+			Log.i(TAG, "save(key : " + key + " | value : " + value + ")");
+		}
 		editor.putInt(key, value);
 		editor.apply();
 	}
 
 	public void save(String key, Set<String> values) {
+		if (Log.DEBUG) {
+			Log.i(TAG,
+					"save(key : " + key + " | value : "
+							+ Arrays.toString(values.toArray()) + ")");
+		}
 		editor.putStringSet(key, values);
 		editor.apply();
 	}
