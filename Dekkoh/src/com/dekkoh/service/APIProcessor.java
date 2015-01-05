@@ -95,7 +95,7 @@ public class APIProcessor {
 	public static DekkohUser loginUserWithFacebook(Activity activity,
 			String user_id, String token) throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
-		requestJsonObject.put("provider", "Google");
+		requestJsonObject.put("provider", "Facebook");
 		requestJsonObject.put("user_id", user_id);
 		requestJsonObject.put("token", token);
 		Map<String, String> responseHeaderMap = new HashMap<String, String>();
