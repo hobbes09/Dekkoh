@@ -1,8 +1,10 @@
 package com.dekkoh.datamodel;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class DekkohUserConnection {
+public class DekkohUserConnection implements Serializable{
 	private String connection_id;
 	private String connection_name;
 	private String connection_pic;

@@ -2,15 +2,11 @@ package com.dekkoh.googleplusloginhandler;
 
 import java.io.IOException;
 
-import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.widget.Toast;
 
 import com.dekkoh.datamodel.DekkohUser;
-import com.dekkoh.interests.InterestScreen;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.splash.SplashActivity;
 import com.dekkoh.util.Log;

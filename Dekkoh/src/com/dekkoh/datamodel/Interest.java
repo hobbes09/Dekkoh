@@ -1,8 +1,10 @@
 package com.dekkoh.datamodel;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Interest {
+public class Interest implements Serializable{
 	private String created_at;
 	private String image_url;
 	private String interest_name;

@@ -1,8 +1,10 @@
 package com.dekkoh.datamodel;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Answer {
+public class Answer implements Serializable {
 	private String answer;
 	private String created_at;
 	private String image;

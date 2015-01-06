@@ -1,10 +1,9 @@
 package com.dekkoh.interests;
 
-import com.dekkoh.R;
-import com.dekkoh.util.Constants.SharedPreferenceConstants;
-
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.dekkoh.R;
 
 public class InterestScreen extends Activity{
 	  @Override

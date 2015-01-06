@@ -1,8 +1,10 @@
 package com.dekkoh.datamodel;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Message {
+public class Message implements Serializable{
 	private String created_at;
 	private String updated_at;
 	private String message;

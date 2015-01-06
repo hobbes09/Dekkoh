@@ -2,6 +2,7 @@ package com.dekkoh.homefeed;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -9,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
-import android.graphics.Bitmap.Config;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.dekkoh.R;
 import com.dekkoh.application.ApplicationState;
-import com.dekkoh.custom.view.RoundedImageView;
 import com.dekkoh.custom.view.SquareLinearLayout;
 
 public class QuestionFragment extends Fragment{

@@ -1,11 +1,12 @@
 package com.dekkoh.datamodel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Question {
+public class Question implements Serializable {
 	private int answer_count;
 	private int follow_count;
 	private String coordinates;

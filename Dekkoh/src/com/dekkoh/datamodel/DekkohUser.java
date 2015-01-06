@@ -1,10 +1,11 @@
 package com.dekkoh.datamodel;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-public class DekkohUser {
+public class DekkohUser implements Serializable{
 	private String created_at;
 	private String e_mail;
 	private String gender;

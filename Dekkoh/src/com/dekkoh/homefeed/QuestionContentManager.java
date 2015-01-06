@@ -2,15 +2,14 @@ package com.dekkoh.homefeed;
 
 import java.util.List;
 
+import android.app.Activity;
+import android.os.Bundle;
+
 import com.dekkoh.application.ApplicationState;
 import com.dekkoh.datamodel.Question;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.util.FileManager;
 import com.dekkoh.util.Log;
-
-import android.app.Activity;
-import android.os.AsyncTask;
-import android.os.Bundle;
 
 public class QuestionContentManager implements Runnable{
 	
