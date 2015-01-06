@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dekkoh.R;
+import com.dekkoh.application.ApplicationState;
 import com.dekkoh.custom.view.RoundedImageView;
 import com.dekkoh.custom.view.SquareLinearLayout;
 
@@ -84,16 +85,18 @@ public class QuestionFragment extends Fragment{
                 			    transactionNext.commit();
                 				break;
                 	case FragmentTransitionManager.SWIPE_UP:
-                				QuestionFragment previousQuestionFragment = new QuestionFragment();
-								try {
-									previousQuestionFragment.setArguments(QuestionContentManager.getPreviousQuestionContent());
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-		        				FragmentTransaction transactionPrevious = HomeScreen.supportFragmentManager.beginTransaction();
-		        				transactionPrevious.setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_down);
-		        				transactionPrevious.replace(R.id.contentHomeActivity, previousQuestionFragment);
-		        			    transactionPrevious.commit();
+                				if(ApplicationState.getHomefeedQuestion_CurrentIndex()!=0){
+	                				QuestionFragment previousQuestionFragment = new QuestionFragment();
+									try {
+										previousQuestionFragment.setArguments(QuestionContentManager.getPreviousQuestionContent());
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+			        				FragmentTransaction transactionPrevious = HomeScreen.supportFragmentManager.beginTransaction();
+			        				transactionPrevious.setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_down);
+			        				transactionPrevious.replace(R.id.contentHomeActivity, previousQuestionFragment);
+			        			    transactionPrevious.commit();
+                				}
                 				break;
                 	case FragmentTransitionManager.SWIPE_LEFT:
                 				Toast.makeText(getActivity(), "Swipe left Detected", Toast.LENGTH_SHORT).show();
