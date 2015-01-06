@@ -214,7 +214,6 @@ public class FileManager {
 			String fileName, Object object) throws Exception {
 		File file;
 		try {
-			// file = File.createTempFile("MyCache", null, getCacheDir());
 			file = new File(activity.getExternalCacheDir(), fileName + ".dat");
 			fileOutputStream = new FileOutputStream(file);
 			objectOutputStream = new ObjectOutputStream(fileOutputStream);
