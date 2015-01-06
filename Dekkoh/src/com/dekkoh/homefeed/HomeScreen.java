@@ -3,6 +3,7 @@ package com.dekkoh.homefeed;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -58,6 +59,7 @@ public class HomeScreen extends FragmentActivity implements OnClickListener {
     private NavDrawerListAdapter adapter;
     
     static FragmentManager supportFragmentManager;
+    public static Context homeScreenContext;
     
     
     @Override
@@ -79,6 +81,7 @@ public class HomeScreen extends FragmentActivity implements OnClickListener {
 		ibPost.setOnClickListener(this);
 		
 		supportFragmentManager = getSupportFragmentManager();
+		homeScreenContext = HomeScreen.this;
 		navigationDrawerInitialisation(savedInstanceState);
 	}
 
@@ -246,7 +249,11 @@ public class HomeScreen extends FragmentActivity implements OnClickListener {
         } 
         else {
         	fragment = new QuestionFragment();
-        	fragment.setArguments(QuestionContentManager.setNextQuestion());
+        	try {
+				fragment.setArguments(QuestionContentManager.getNextQuestionContent());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
         	FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
     		transaction.setCustomAnimations(R.animator.frag_slide_in_from_bottom, 0);
     	    transaction.replace(R.id.contentHomeActivity, fragment);
