@@ -43,12 +43,18 @@ public class APIProcessor {
 	 * @throws Exception
 	 */
 	public static DekkohUser loginUserWithGoogle(Activity activity,
-			String user_id, String token, String email) throws Exception {
+			String user_id, String token, String email, String objectId)
+			throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
 		requestJsonObject.put("provider", "Google");
 		requestJsonObject.put("user_id", user_id);
 		requestJsonObject.put("token", token);
 		requestJsonObject.put("email", email);
+		if (objectId != null) {
+			requestJsonObject.put("objectId", objectId);
+		} else {
+			requestJsonObject.put("objectId", "uPJgT5nXke");
+		}
 		Map<String, String> responseHeaderMap = new HashMap<String, String>();
 		String serviceURL = getBaseURL() + APIURL.USER_LOGIN_SUFFIX;
 		String responseString = HTTPRequestHelper.processPostRequest(
@@ -89,15 +95,21 @@ public class APIProcessor {
 	 * @param activity
 	 * @param user_id
 	 * @param token
+	 * @param objectId
 	 * @return DekkohUser
 	 * @throws Exception
 	 */
 	public static DekkohUser loginUserWithFacebook(Activity activity,
-			String user_id, String token) throws Exception {
+			String user_id, String token, String objectId) throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
 		requestJsonObject.put("provider", "Facebook");
 		requestJsonObject.put("user_id", user_id);
 		requestJsonObject.put("token", token);
+		if (objectId != null) {
+			requestJsonObject.put("objectId", objectId);
+		} else {
+			requestJsonObject.put("objectId", "uPJgT5nXke");
+		}
 		Map<String, String> responseHeaderMap = new HashMap<String, String>();
 		String serviceURL = getBaseURL() + APIURL.USER_LOGIN_SUFFIX;
 		String responseString = HTTPRequestHelper.processPostRequest(
