@@ -5,7 +5,16 @@ public class ApplicationState {
 	private static int homefeedQuestion_Offset = 1;
 	private static int homefeedQuestion_Limit = 5;
 	private static int homefeedQuestion_CurrentIndex = -1;
+	private final static String questionsFile = "questionsFile";
+	private final static String answersFile = "answersFile";
 	
+	public static String getQuestionsfile() {
+		return questionsFile;
+	}
+
+	public static String getAnswersfile() {
+		return answersFile;
+	}
 
 	public static void updateOffset(){
 		setHomefeedQuestion_Offset(getHomefeedQuestion_Offset() + getHomefeedQuestion_Limit());
