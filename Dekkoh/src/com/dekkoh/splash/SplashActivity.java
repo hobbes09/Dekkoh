@@ -106,8 +106,12 @@ public class SplashActivity extends Activity {
 			
 			SharedPreferenceManager sharedPreferenceManager = SharedPreferenceManager
 					.getInstance(SplashActivity.this);
-			if(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ID)!=null && sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ID).compareTo("")!=0){
+			if(sharedPreferenceManager.getBoolean(SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS)==true && sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ID)!=null && sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ID).compareTo("")!=0){
 				Intent intent=new Intent(SplashActivity.this,HomeScreen.class);
+				startActivity(intent);
+				SplashActivity.this.finish();
+			}else if(sharedPreferenceManager.getBoolean(SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS)==false && sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ID)!=null && sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ID).compareTo("")!=0){
+				Intent intent=new Intent(SplashActivity.this,InterestScreen.class);
 				startActivity(intent);
 				SplashActivity.this.finish();
 			}else{
@@ -230,9 +234,14 @@ public class SplashActivity extends Activity {
 
 	@Override
 	public void onDestroy() {
+		if(uiHelper!=null){
+			uiHelper.onDestroy();
+		}
+		if(googleLoginController!=null){
+			googleLoginController.disconnect();	
+		}
+		
 		super.onDestroy();
-		uiHelper.onDestroy();
-		googleLoginController.disconnect();
 	}
 
 	@Override
@@ -351,6 +360,20 @@ public class SplashActivity extends Activity {
         // Showing Alert Message
         alertDialog.show();
     }
+
+	public void sendtoHomeScreen() {
+		// TODO Auto-generated method stub
+		Intent intent=new Intent(SplashActivity.this,HomeScreen.class);
+		startActivity(intent);
+		finish();
+	}
+	
+	public void sendtoInterestsScreen() {
+		// TODO Auto-generated method stub
+		Intent intent=new Intent(SplashActivity.this,InterestScreen.class);
+		startActivity(intent);
+		finish();
+	}
 }
 
 
@@ -369,12 +392,14 @@ class LoginTheUser extends AsyncTask<Void,Void,Void>{
 	protected Void doInBackground(Void... params) {
 		
 		try {
-			DekkohUser dekkohUser=APIProcessor.loginUserWithFacebook(activity,userId, session.getAccessToken());
+			DekkohUser dekkohUser=APIProcessor.loginUserWithFacebook(activity,userId, session.getAccessToken(),null);
 			if(dekkohUser!=null){
 				
-				Intent intent=new Intent(activity,InterestScreen.class);
-				activity.startActivity(intent);
-				activity.finish();
+				if(dekkohUser.getInterestIds().size()==0){
+					activity.sendtoInterestsScreen();
+				}else{
+					activity.sendtoHomeScreen();	
+				}
 				
 			}else{
 				//Toast.makeText(getApplicationContext(), "Unable to Login ... Please Try Again.", Toast.LENGTH_LONG).show();

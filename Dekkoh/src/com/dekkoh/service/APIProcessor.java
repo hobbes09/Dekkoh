@@ -43,17 +43,24 @@ public class APIProcessor {
 	 * @throws Exception
 	 */
 	public static DekkohUser loginUserWithGoogle(Activity activity,
-			String user_id, String token, String email) throws Exception {
+			String user_id, String token, String email, String objectId)
+			throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
 		requestJsonObject.put("provider", "Google");
 		requestJsonObject.put("user_id", user_id);
 		requestJsonObject.put("token", token);
 		requestJsonObject.put("email", email);
+		if (objectId != null) {
+			requestJsonObject.put("objectId", objectId);
+		} else {
+			requestJsonObject.put("objectId", "uPJgT5nXke");
+		}
 		Map<String, String> responseHeaderMap = new HashMap<String, String>();
 		String serviceURL = getBaseURL() + APIURL.USER_LOGIN_SUFFIX;
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestJsonObject.toString(), responseHeaderMap);
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 
 			SharedPreferenceManager sharedPreferenceManager = SharedPreferenceManager
 					.getInstance(activity);
@@ -74,8 +81,18 @@ public class APIProcessor {
 			sharedPreferenceManager.save(
 					SharedPreferenceConstants.DEKKOH_USER_NAME,
 					dekkohUser.getName());
+			if(dekkohUser.getInterestIds().size()==0){
+				sharedPreferenceManager.save(
+						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
+						false);
+			}else{
+				sharedPreferenceManager.save(
+						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
+						true);
+			}
 			DekkohApplication dekkohApplication = (DekkohApplication) activity
 					.getApplication();
+			
 			dekkohApplication.setDekkohUser(dekkohUser);
 			return dekkohUser;
 		}
@@ -89,20 +106,27 @@ public class APIProcessor {
 	 * @param activity
 	 * @param user_id
 	 * @param token
+	 * @param objectId
 	 * @return DekkohUser
 	 * @throws Exception
 	 */
 	public static DekkohUser loginUserWithFacebook(Activity activity,
-			String user_id, String token) throws Exception {
+			String user_id, String token, String objectId) throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
 		requestJsonObject.put("provider", "Facebook");
 		requestJsonObject.put("user_id", user_id);
 		requestJsonObject.put("token", token);
+		if (objectId != null) {
+			requestJsonObject.put("objectId", objectId);
+		} else {
+			requestJsonObject.put("objectId", "uPJgT5nXke");
+		}
 		Map<String, String> responseHeaderMap = new HashMap<String, String>();
 		String serviceURL = getBaseURL() + APIURL.USER_LOGIN_SUFFIX;
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestJsonObject.toString(), responseHeaderMap);
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 
 			SharedPreferenceManager sharedPreferenceManager = SharedPreferenceManager
 					.getInstance(activity);
@@ -123,6 +147,15 @@ public class APIProcessor {
 			sharedPreferenceManager.save(
 					SharedPreferenceConstants.DEKKOH_USER_NAME,
 					dekkohUser.getName());
+			if(dekkohUser.getInterestIds().size()==0){
+				sharedPreferenceManager.save(
+						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
+						false);
+			}else{
+				sharedPreferenceManager.save(
+						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
+						true);
+			}
 			DekkohApplication dekkohApplication = (DekkohApplication) activity
 					.getApplication();
 			dekkohApplication.setDekkohUser(dekkohUser);
@@ -305,7 +338,8 @@ public class APIProcessor {
 				+ getUserId(activity);
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestJsonObject.toString(), responseHeaderMap);
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 			DekkohUser dekkohUser = convertToObject(responseString,
 					DekkohUser.class);
 			DekkohApplication dekkohApplication = (DekkohApplication) activity
@@ -336,7 +370,8 @@ public class APIProcessor {
 				+ getUserId(activity);
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestJsonObject.toString(), responseHeaderMap);
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 			DekkohUser dekkohUser = convertToObject(responseString,
 					DekkohUser.class);
 			DekkohApplication dekkohApplication = (DekkohApplication) activity
@@ -395,7 +430,8 @@ public class APIProcessor {
 				+ connection_id + "/" + user_id;
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestHeader, requestJsonObject.toString());
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 			if (!TextUtils.isEmpty(responseString)) {
 				if (responseString.equalsIgnoreCase("true")) {
 					return true;
@@ -426,7 +462,8 @@ public class APIProcessor {
 				+ connection_id + "/" + user_id;
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestHeader, requestJsonObject.toString());
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 			if (!TextUtils.isEmpty(responseString)) {
 				if (responseString.equalsIgnoreCase("true")) {
 					return true;
@@ -495,7 +532,8 @@ public class APIProcessor {
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestJsonObject.toString(),
 				getAuthorizationToken(activity));
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 			if (!TextUtils.isEmpty(responseString)) {
 				return convertToObject(responseString, Question.class);
 			}
@@ -892,7 +930,8 @@ public class APIProcessor {
 				+ question_id + "/" + user_id;
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestHeader, requestJsonObject.toString());
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 			if (!TextUtils.isEmpty(responseString)) {
 				if (responseString.equalsIgnoreCase("true")) {
 					return true;
@@ -923,7 +962,8 @@ public class APIProcessor {
 				+ question_id + "/" + user_id;
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestHeader, requestJsonObject.toString());
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 			if (!TextUtils.isEmpty(responseString)) {
 				if (responseString.equalsIgnoreCase("true")) {
 					return true;
@@ -954,7 +994,8 @@ public class APIProcessor {
 				+ question_id + "/" + user_id;
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestHeader, requestJsonObject.toString());
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 			if (!TextUtils.isEmpty(responseString)) {
 				if (responseString.equalsIgnoreCase("true")) {
 					return true;
@@ -985,7 +1026,8 @@ public class APIProcessor {
 				+ question_id + "/" + user_id;
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestHeader, requestJsonObject.toString());
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 			if (!TextUtils.isEmpty(responseString)) {
 				if (responseString.equalsIgnoreCase("true")) {
 					return true;
@@ -1016,7 +1058,8 @@ public class APIProcessor {
 				+ question_id + "/" + user_id;
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestHeader, requestJsonObject.toString());
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 			if (!TextUtils.isEmpty(responseString)) {
 				if (responseString.equalsIgnoreCase("true")) {
 					return true;
@@ -1232,7 +1275,8 @@ public class APIProcessor {
 				+ answer_id + "/" + user_id;
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestHeader, requestJsonObject.toString());
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 			if (!TextUtils.isEmpty(responseString)) {
 				return Integer.parseInt(responseString);
 			}
@@ -1261,7 +1305,8 @@ public class APIProcessor {
 				+ answer_id + "/" + user_id;
 		String responseString = HTTPRequestHelper.processPostRequest(
 				serviceURL, requestHeader, requestJsonObject.toString());
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 			if (!TextUtils.isEmpty(responseString)) {
 				return Integer.parseInt(responseString);
 			}
@@ -1287,7 +1332,8 @@ public class APIProcessor {
 		String serviceURL = getBaseURL() + APIURL.INTERESTS_SUFFIX;
 		HTTPRequestHelper.processPostRequest(serviceURL,
 				requestJsonObject.toString(), getAuthorizationToken(activity));
-		if (HTTPRequestHelper.getResponseCode() == 200) {
+		if (HTTPRequestHelper.getResponseCode() == 200
+				|| HTTPRequestHelper.getResponseCode() == 201) {
 			return true;
 		}
 		return false;

@@ -97,7 +97,7 @@ public final class HTTPRequestHelper {
 		String responseString = IOUtils.toString(httpResponse.getEntity()
 				.getContent());
 		Log.i(TAG, "Response string : " + responseString);
-		if (responseCode == 200) {
+		if (responseCode == 200 || responseCode == 201) {
 			return responseString;
 
 		} else {
@@ -183,7 +183,7 @@ public final class HTTPRequestHelper {
 		String responseString = IOUtils.toString(httpResponse.getEntity()
 				.getContent());
 		Log.i(TAG, "Response string : " + responseString);
-		if (responseCode == 200) {
+		if (responseCode == 200 || responseCode == 201) {
 			return responseString;
 
 		} else {
@@ -232,7 +232,7 @@ public final class HTTPRequestHelper {
 		String responseString = IOUtils.toString(httpResponse.getEntity()
 				.getContent());
 		Log.i(TAG, "Response string : " + responseString);
-		if (responseCode == 200) {
+		if (responseCode == 200 || responseCode == 201) {
 			return responseString;
 
 		} else {
@@ -286,7 +286,7 @@ public final class HTTPRequestHelper {
 		String responseString = IOUtils.toString(httpResponse.getEntity()
 				.getContent());
 		Log.i(TAG, "Response string : " + responseString);
-		if (responseCode == 200) {
+		if (responseCode == 200 || responseCode == 201) {
 			return responseString;
 
 		} else {
@@ -440,7 +440,8 @@ public final class HTTPRequestHelper {
 			String responseString = IOUtils.toString(inputStream);
 			Log.i(TAG, "ResponseString : " + responseString);
 			// If it works fine
-			if (responseCode == 200 || responseCode == 204) {
+			if (responseCode == 200 || responseCode == 201
+					|| responseCode == 204) {
 				return responseString;
 			} else {
 				throw new DekkohException(
