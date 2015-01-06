@@ -82,6 +82,13 @@ public class HomeScreen extends FragmentActivity implements OnClickListener {
 		
 		supportFragmentManager = getSupportFragmentManager();
 		homeScreenContext = HomeScreen.this;
+		
+		try {
+			QuestionContentManager.fetchQuestionsFromBackend();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		navigationDrawerInitialisation(savedInstanceState);
 	}
 
