@@ -160,7 +160,7 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
                 Log.e(TAG, e.getMessage());
             }
             try {
-            	DekkohUser dekkohUser=APIProcessor.loginUserWithGoogle(activity, userId,token, email);
+            	DekkohUser dekkohUser=APIProcessor.loginUserWithGoogle(activity, userId,token, email,null);
 						if(dekkohUser!=null){
 							
 							Intent intent=new Intent(activity,InterestScreen.class);

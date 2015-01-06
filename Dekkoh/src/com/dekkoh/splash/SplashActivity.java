@@ -369,7 +369,7 @@ class LoginTheUser extends AsyncTask<Void,Void,Void>{
 	protected Void doInBackground(Void... params) {
 		
 		try {
-			DekkohUser dekkohUser=APIProcessor.loginUserWithFacebook(activity,userId, session.getAccessToken());
+			DekkohUser dekkohUser=APIProcessor.loginUserWithFacebook(activity,userId, session.getAccessToken(),null);
 			if(dekkohUser!=null){
 				
 				Intent intent=new Intent(activity,InterestScreen.class);
