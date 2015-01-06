@@ -37,10 +37,7 @@ public class QuestionFragment extends Fragment{
 	private ImageView ivHomeImage;
 	private static SquareLinearLayout sllProfilePic;
 	private static Resources resources;
-	
 		
-	private static int currentIndex = 0;  //store and keep updating in shared preference
-	
 	QuestionFragment(){				
 	}
 
@@ -50,7 +47,7 @@ public class QuestionFragment extends Fragment{
 		View root = inflater.inflate(R.layout.question_fragment, null);
 
 		initializeTouchListeners(root);
-
+		
 		initialize(root);
 		setValues();
 		
@@ -75,16 +72,24 @@ public class QuestionFragment extends Fragment{
                 	SWIPE_ACTION = FragmentTransitionManager.detectSwipe(xDown, xUp, yDown, yUp);
                 	switch(SWIPE_ACTION){
                 	case FragmentTransitionManager.SWIPE_DOWN:
-                				Fragment nextQuestionFragment = new QuestionFragment();
-                				nextQuestionFragment.setArguments(QuestionContentManager.setNextQuestion());
+                				QuestionFragment nextQuestionFragment = new QuestionFragment();
+								try {
+									nextQuestionFragment.setArguments(QuestionContentManager.getNextQuestionContent());
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
                 				FragmentTransaction transactionNext = HomeScreen.supportFragmentManager.beginTransaction();
                 				transactionNext.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
                 				transactionNext.replace(R.id.contentHomeActivity, nextQuestionFragment);
                 			    transactionNext.commit();
                 				break;
                 	case FragmentTransitionManager.SWIPE_UP:
-		                		Fragment previousQuestionFragment = new QuestionFragment();
-		                		previousQuestionFragment.setArguments(QuestionContentManager.setPreviousQuestion());
+                				QuestionFragment previousQuestionFragment = new QuestionFragment();
+								try {
+									previousQuestionFragment.setArguments(QuestionContentManager.getPreviousQuestionContent());
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
 		        				FragmentTransaction transactionPrevious = HomeScreen.supportFragmentManager.beginTransaction();
 		        				transactionPrevious.setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_down);
 		        				transactionPrevious.replace(R.id.contentHomeActivity, previousQuestionFragment);
