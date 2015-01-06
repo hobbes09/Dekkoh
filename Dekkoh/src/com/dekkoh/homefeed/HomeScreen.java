@@ -3,6 +3,7 @@ package com.dekkoh.homefeed;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dekkoh.R;
+import com.dekkoh.application.ApplicationState;
 import com.dekkoh.following.Following;
 import com.dekkoh.messages.Messages;
 import com.dekkoh.myactivity.MyActivity;
@@ -35,8 +37,9 @@ import com.dekkoh.myprofile.MyProfile;
 import com.dekkoh.settings.Settings;
 import com.dekkoh.slidingmenu.NavDrawerItem;
 import com.dekkoh.slidingmenu.NavDrawerListAdapter;
+import com.dekkoh.util.FileManager;
 
-public class HomeScreen extends FragmentActivity implements OnClickListener {
+public class HomeScreen extends FragmentActivity implements OnClickListener, Runnable {
 	private ImageButton ibPost;
 	private ImageButton ibMap;
 	private TextView tvTitle;
@@ -61,6 +64,8 @@ public class HomeScreen extends FragmentActivity implements OnClickListener {
     static FragmentManager supportFragmentManager;
     public static Context homeScreenContext;
     
+    public static Thread threadQuestionUpdater;
+    
     
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,20 +86,17 @@ public class HomeScreen extends FragmentActivity implements OnClickListener {
 		ibPost.setOnClickListener(this);
 		
 		supportFragmentManager = getSupportFragmentManager();
-		homeScreenContext = HomeScreen.this;
-		
-		try {
-			QuestionContentManager.fetchQuestionsFromBackend();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		homeScreenContext = HomeScreen.this;		
 		
 		navigationDrawerInitialisation(savedInstanceState);
+		
+		threadQuestionUpdater = new Thread("Question Updater");
+		threadQuestionUpdater.start();
 	}
 
 	private void customizeActionBar() {		
 		getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")) );
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#00000000")));
 		ActionBar actionBar = getActionBar();
 		LayoutInflater layoutInflater = LayoutInflater.from(this);
 		View mCustomView = layoutInflater.inflate(R.layout.custom_actionbar, null);
@@ -255,16 +257,26 @@ public class HomeScreen extends FragmentActivity implements OnClickListener {
             mDrawerLayout.closeDrawer(mDrawerList);
         } 
         else {
-        	fragment = new QuestionFragment();
         	try {
-				fragment.setArguments(QuestionContentManager.getNextQuestionContent());
-			} catch (Exception e) {
-				e.printStackTrace();
+				threadQuestionUpdater.join();
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
 			}
-        	FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-    		transaction.setCustomAnimations(R.animator.frag_slide_in_from_bottom, 0);
-    	    transaction.replace(R.id.contentHomeActivity, fragment);
-    	    transaction.commit();	
+        	
+        	if(QuestionContentManager.updateSuccessful){
+	        	fragment = new QuestionFragment();
+	        	try {
+					fragment.setArguments(QuestionContentManager.getNextQuestionContent());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	        	FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+	    		transaction.setCustomAnimations(R.animator.frag_slide_in_from_bottom, 0);
+	    	    transaction.replace(R.id.contentHomeActivity, fragment);
+	    	    transaction.commit();	
+        	}else{
+        		// Display dialog with "Unable to access server. Check your internet connection" message
+        	}
         }
     }
  
@@ -307,6 +319,28 @@ public class HomeScreen extends FragmentActivity implements OnClickListener {
 		}
 		
 	}
+	
+	@Override
+	protected void onDestroy() {
+		if(FileManager.getInstance().isObjectFileExistsInExternalStorage((Activity)HomeScreen.homeScreenContext, ApplicationState.getQuestionsfile())){
+			FileManager.getInstance().deleteObjectFileFromExternalStorage((Activity)HomeScreen.homeScreenContext, ApplicationState.getQuestionsfile());
+		}
+	}
+
+
+
+	@Override
+	public void run() {
+		try {
+			QuestionContentManager.fetchQuestionsFromBackend();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 
 }
+
+
+
+	
