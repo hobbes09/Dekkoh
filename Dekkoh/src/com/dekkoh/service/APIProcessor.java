@@ -81,8 +81,18 @@ public class APIProcessor {
 			sharedPreferenceManager.save(
 					SharedPreferenceConstants.DEKKOH_USER_NAME,
 					dekkohUser.getName());
+			if(dekkohUser.getInterestIds().size()==0){
+				sharedPreferenceManager.save(
+						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
+						false);
+			}else{
+				sharedPreferenceManager.save(
+						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
+						true);
+			}
 			DekkohApplication dekkohApplication = (DekkohApplication) activity
 					.getApplication();
+			
 			dekkohApplication.setDekkohUser(dekkohUser);
 			return dekkohUser;
 		}
@@ -137,6 +147,15 @@ public class APIProcessor {
 			sharedPreferenceManager.save(
 					SharedPreferenceConstants.DEKKOH_USER_NAME,
 					dekkohUser.getName());
+			if(dekkohUser.getInterestIds().size()==0){
+				sharedPreferenceManager.save(
+						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
+						false);
+			}else{
+				sharedPreferenceManager.save(
+						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
+						true);
+			}
 			DekkohApplication dekkohApplication = (DekkohApplication) activity
 					.getApplication();
 			dekkohApplication.setDekkohUser(dekkohUser);

@@ -162,10 +162,12 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
             try {
             	DekkohUser dekkohUser=APIProcessor.loginUserWithGoogle(activity, userId,token, email,null);
 						if(dekkohUser!=null){
+							if(dekkohUser.getInterestIds().size()==0){
+								activity.sendtoInterestsScreen();
+							}else{
+								activity.sendtoHomeScreen();	
+							}
 							
-							Intent intent=new Intent(activity,InterestScreen.class);
-							activity.startActivity(intent);
-							activity.finish();
 							
 						}else{
 							

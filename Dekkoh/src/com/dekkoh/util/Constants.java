@@ -9,6 +9,7 @@ public class Constants {
 		public static final String DEKKOH_USER_EMAIL = "DEKKOH_USER_EMAIL";
 		public static final String DEKKOH_USER_NAME = "DEKKOH_USER_NAME";
 		public static final String DEKKOH_USER_GENDER = "DEKKOH_USER_GENDER";
+		public static final String DEKKOH_USER_HAVE_INTERESTS = "DEKKOH_USER_HAVE_INTERESTS";
 	}
 
 	public static class DekkohExceptionErrorCodes {
