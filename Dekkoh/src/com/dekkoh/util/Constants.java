@@ -10,6 +10,16 @@ public class Constants {
 		public static final String DEKKOH_USER_NAME = "DEKKOH_USER_NAME";
 		public static final String DEKKOH_USER_GENDER = "DEKKOH_USER_GENDER";
 		public static final String DEKKOH_USER_HAVE_INTERESTS = "DEKKOH_USER_HAVE_INTERESTS";
+		public static final String DEKKOH_USER_CREATEDAT = "DEKKOH_USER_CREATEDAT";
+		public static final String DEKKOH_USER_HOMECITY = "DEKKOH_USER_HOMECITY";
+		public static final String DEKKOH_USER_HOMENEIGHBOURHOOD = "DEKKOH_USER_HOMENEIGHBOURHOOD";
+		public static final String DEKKOH_USER_PASSWORDDIGEST = "DEKKOH_USER_PASSWORDDIGEST";
+		public static final String DEKKOH_USER_PROFILEPIC = "DEKKOH_USER_PROFILEPIC";
+		public static final String DEKKOH_USER_PROVIDER = "DEKKOH_USER_PROVIDER";
+		public static final String DEKKOH_USER_PROVIDERID = "DEKKOH_USER_PROVIDERID";
+		public static final String DEKKOH_USER_ROLE = "DEKKOH_USER_ROLE";
+		public static final String DEKKOH_USER_UPDATEDAT= "DEKKOH_USER_UPDATEDAT";
+		public static final String DEKKOH_USER_DELETEFLAG = "DEKKOH_USER_DELETEFLAG";
 	}
 
 	public static class DekkohExceptionErrorCodes {

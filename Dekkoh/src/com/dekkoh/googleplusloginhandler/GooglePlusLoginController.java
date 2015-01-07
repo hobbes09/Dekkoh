@@ -102,6 +102,7 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
 			   // String personPhotoUrl = currentPerson.getImage().getUrl();
 			   // String personGooglePlusProfile = currentPerson.getUrl();
 			    email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+			    activity.showProgress();
 			    new RetrieveTokenTask(activity,userId).execute(email);
 			   // Toast.makeText(activity.getApplicationContext(), email+" "+personName, Toast.LENGTH_LONG).show();
 			   // Log.e("google login", email+" "+personName);  
