@@ -1,18 +1,24 @@
 package com.dekkoh.interests;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.dekkoh.R;
+import com.dekkoh.application.ApplicationState;
 import com.dekkoh.datamodel.Question;
+import com.dekkoh.homefeed.HomeScreen;
 import com.dekkoh.homefeed.QuestionContentManager;
+import com.dekkoh.service.APIProcessor;
 
 public class InterestScreen extends Activity implements Runnable{
 	
 	private static TextView tv;
 	Thread threadQuestionUpdater;
 	Question q1, q2;
+	List<Question> newQuestionList;
 	
 	  @Override
 		protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +40,8 @@ public class InterestScreen extends Activity implements Runnable{
 			}
 			
 			try {
-				q1 = QuestionContentManager.getQuestionFromExternalStorage();
-				q2 = QuestionContentManager.getQuestionFromExternalStorage();
+				q1 = newQuestionList.get(0);
+				q2 = newQuestionList.get(1);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -47,8 +53,8 @@ public class InterestScreen extends Activity implements Runnable{
 	@Override
 	public void run() {
 		try {
-			QuestionContentManager.fetchQuestionsFromBackend();
-		} catch (Exception e) {
+			newQuestionList = APIProcessor.getQuestions(InterestScreen.this, ApplicationState.getHomefeedQuestion_Offset(), ApplicationState.getHomefeedQuestion_Limit(), 0, 0, null, null, 0, null, false, null, null, null);
+			} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
