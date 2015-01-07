@@ -309,7 +309,7 @@ public class FileManager {
 	 */
 	public boolean isObjectFileExistsInInternalCache(Activity activity,
 			String fileName) {
-		File file = new File(activity.getCacheDir(), fileName);
+		File file = new File(activity.getCacheDir(), fileName + ".dat");
 		if (file != null) {
 			return file.exists();
 		} else
@@ -325,7 +325,8 @@ public class FileManager {
 	 */
 	public boolean isObjectFileExistsInExternalStorage(Activity activity,
 			String fileName) {
-		File file = new File(activity.getExternalFilesDir(null), fileName);
+		File file = new File(activity.getExternalFilesDir(null), fileName
+				+ ".dat");
 		if (file != null) {
 			return file.exists();
 		} else
@@ -341,7 +342,7 @@ public class FileManager {
 	 */
 	public boolean isObjectFileExistsInExternalCache(Activity activity,
 			String fileName) {
-		File file = new File(activity.getExternalCacheDir(), fileName);
+		File file = new File(activity.getExternalCacheDir(), fileName + ".dat");
 		if (file != null) {
 			return file.exists();
 		} else
@@ -356,10 +357,13 @@ public class FileManager {
 	 * @return boolean
 	 */
 	public boolean isObjectFileExists(Activity activity, String fileName) {
-		return isObjectFileExistsInExternalCache(activity, fileName)
-				|| isObjectFileExistsInExternalStorage(activity, fileName)
-				|| isObjectFileExistsInInternalCache(activity, fileName)
-				|| isObjectFileExistsInInternalStorage(activity, fileName);
+		return isObjectFileExistsInExternalCache(activity, fileName + ".dat")
+				|| isObjectFileExistsInExternalStorage(activity, fileName
+						+ ".dat")
+				|| isObjectFileExistsInInternalCache(activity, fileName
+						+ ".dat")
+				|| isObjectFileExistsInInternalStorage(activity, fileName
+						+ ".dat");
 	}
 
 }
