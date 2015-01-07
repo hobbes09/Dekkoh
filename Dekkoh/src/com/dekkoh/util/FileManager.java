@@ -234,7 +234,7 @@ public class FileManager {
 	 * @param fileName
 	 */
 	public void deleteObjectFileFromInternalStorage(Activity activity,
-			String fileName) {
+			String fileName) throws Exception {
 		File file = new File(activity.getFilesDir(), fileName + ".dat");
 		if (file != null) {
 			file.delete();
@@ -248,7 +248,7 @@ public class FileManager {
 	 * @param fileName
 	 */
 	public void deleteObjectFileFromInternalCache(Activity activity,
-			String fileName) {
+			String fileName) throws Exception {
 		File file = new File(activity.getCacheDir(), fileName + ".dat");
 		if (file != null) {
 			file.delete();
@@ -262,7 +262,7 @@ public class FileManager {
 	 * @param fileName
 	 */
 	public void deleteObjectFileFromExternalStorage(Activity activity,
-			String fileName) {
+			String fileName) throws Exception {
 		File file = new File(activity.getExternalFilesDir(null), fileName
 				+ ".dat");
 		if (file != null) {
@@ -277,7 +277,7 @@ public class FileManager {
 	 * @param fileName
 	 */
 	public void deleteObjectFileFromExternalCache(Activity activity,
-			String fileName) {
+			String fileName) throws Exception {
 		File file = new File(activity.getExternalCacheDir(), fileName + ".dat");
 		if (file != null) {
 			file.delete();
@@ -292,12 +292,19 @@ public class FileManager {
 	 * @return boolean
 	 */
 	public boolean isObjectFileExistsInInternalStorage(Activity activity,
-			String fileName) {
-		File file = new File(activity.getFilesDir(), fileName + ".dat");
-		if (file != null) {
-			return file.exists();
-		} else
-			return false;
+			String fileName) throws Exception {
+		try {
+			File file = new File(activity.getFilesDir(), fileName + ".dat");
+			if (file != null) {
+				return file.exists();
+			}
+		} catch (NullPointerException e) {
+			if (readObjectFileFromInternalStorage(activity, fileName) != null) {
+				return true;
+			}
+		}
+		return false;
+
 	}
 
 	/**
@@ -308,12 +315,19 @@ public class FileManager {
 	 * @return boolean
 	 */
 	public boolean isObjectFileExistsInInternalCache(Activity activity,
-			String fileName) {
-		File file = new File(activity.getCacheDir(), fileName + ".dat");
-		if (file != null) {
-			return file.exists();
-		} else
-			return false;
+			String fileName) throws Exception {
+		try {
+			File file = new File(activity.getCacheDir(), fileName + ".dat");
+			if (file != null) {
+				return file.exists();
+			}
+		} catch (NullPointerException e) {
+			if (readObjectFileFromInternalCache(activity, fileName) != null) {
+				return true;
+			}
+		}
+		return false;
+
 	}
 
 	/**
@@ -324,13 +338,20 @@ public class FileManager {
 	 * @return boolean
 	 */
 	public boolean isObjectFileExistsInExternalStorage(Activity activity,
-			String fileName) {
-		File file = new File(activity.getExternalFilesDir(null), fileName
-				+ ".dat");
-		if (file != null) {
-			return file.exists();
-		} else
-			return false;
+			String fileName) throws Exception {
+		try {
+			File file = new File(activity.getExternalFilesDir(null), fileName
+					+ ".dat");
+			if (file != null) {
+				return file.exists();
+			}
+		} catch (NullPointerException e) {
+			if (readObjectFileFromExternalStorage(activity, fileName) != null) {
+				return true;
+			}
+		}
+		return false;
+
 	}
 
 	/**
@@ -341,12 +362,20 @@ public class FileManager {
 	 * @return boolean
 	 */
 	public boolean isObjectFileExistsInExternalCache(Activity activity,
-			String fileName) {
-		File file = new File(activity.getExternalCacheDir(), fileName + ".dat");
-		if (file != null) {
-			return file.exists();
-		} else
-			return false;
+			String fileName) throws Exception {
+		try {
+			File file = new File(activity.getExternalCacheDir(), fileName
+					+ ".dat");
+			if (file != null) {
+				return file.exists();
+			}
+		} catch (NullPointerException e) {
+			if (readObjectFileFromExternalCache(activity, fileName) != null) {
+				return true;
+			}
+		}
+		return false;
+
 	}
 
 	/**
@@ -356,7 +385,8 @@ public class FileManager {
 	 * @param fileName
 	 * @return boolean
 	 */
-	public boolean isObjectFileExists(Activity activity, String fileName) {
+	public boolean isObjectFileExists(Activity activity, String fileName)
+			throws Exception {
 		return isObjectFileExistsInExternalCache(activity, fileName + ".dat")
 				|| isObjectFileExistsInExternalStorage(activity, fileName
 						+ ".dat")
