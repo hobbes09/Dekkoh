@@ -16,6 +16,7 @@ public class QuestionContentManager implements Runnable{
 	public static boolean updateSuccessful = false;
 
 	public static void fetchQuestionsFromBackend() throws Exception{
+		updateSuccessful = false;
 		List<Question> newQuestionList = APIProcessor.getQuestions((Activity)HomeScreen.homeScreenContext, ApplicationState.getHomefeedQuestion_Offset(), ApplicationState.getHomefeedQuestion_Limit(), 0, 0, null, null, 0, null, false, null, null, null);
 		List<Question> existingQuestionList;
 		if(newQuestionList != null){
@@ -30,7 +31,6 @@ public class QuestionContentManager implements Runnable{
 			updateSuccessful = true;
 		}
 		Log.e("Can't fetch question from Backend");
-		updateSuccessful = false;
 	}
 	
 	public static Question getQuestionFromExternalStorage() throws Exception{

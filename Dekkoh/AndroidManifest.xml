@@ -25,14 +25,20 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
+        <activity
+            android:name=".homefeed.HomeScreen"
+            android:label="@string/app_name"
+            android:theme="@style/CustomActionBarTheme">          "
+        </activity>
+        
         <activity
             android:name=".splash.SplashActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" >    
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>  
         </activity>
         <activity
             android:name="com.facebook.LoginActivity"
@@ -42,10 +48,6 @@
             android:name=".interests.InterestScreen"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name=".homefeed.HomeScreen"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent" />
 
         <!-- Facebook SDK Integration -->
         <meta-data
