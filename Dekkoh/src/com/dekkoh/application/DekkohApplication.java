@@ -7,6 +7,7 @@ import com.dekkoh.datamodel.DekkohUser;
 
 public class DekkohApplication extends Application {
 
+
 	// Location Parameters
 	private double locationLatitude = 0.00;
 	private double locationLongitude = 0.00;
@@ -60,5 +61,7 @@ public class DekkohApplication extends Application {
 	public void setDekkohUser(DekkohUser dekkohUser) {
 		this.dekkohUser = dekkohUser;
 	}
+	
+
 
 }
