@@ -9,6 +9,7 @@ import java.io.OutputStream;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Environment;
 
 public class FileManager {
 	private static FileManager fileManager;
@@ -88,8 +89,7 @@ public class FileManager {
 	public Object readObjectFileFromExternalStorage(Activity activity,
 			String fileName) throws Exception {
 		try {
-			file = new File(activity.getExternalFilesDir(null), fileName
-					+ ".dat");
+			file = new File(getExternalFileDir(activity), fileName + ".dat");
 			fileInputStream = new FileInputStream(file);
 			objectInputStream = new ObjectInputStream(fileInputStream);
 			return objectInputStream.readObject();
@@ -186,8 +186,7 @@ public class FileManager {
 	 */
 	public void writeObjectFileInExternalStorage(Activity activity,
 			String fileName, Object object) throws Exception {
-		File file = new File(activity.getExternalFilesDir(null), fileName
-				+ ".dat");
+		File file = new File(getExternalFileDir(activity), fileName + ".dat");
 		OutputStream fileOutputStream = null;
 		try {
 			fileOutputStream = new FileOutputStream(file);
@@ -263,8 +262,7 @@ public class FileManager {
 	 */
 	public void deleteObjectFileFromExternalStorage(Activity activity,
 			String fileName) throws Exception {
-		File file = new File(activity.getExternalFilesDir(null), fileName
-				+ ".dat");
+		File file = new File(getExternalFileDir(activity), fileName + ".dat");
 		if (file != null) {
 			file.delete();
 		}
@@ -340,8 +338,7 @@ public class FileManager {
 	public boolean isObjectFileExistsInExternalStorage(Activity activity,
 			String fileName) throws Exception {
 		try {
-			File file = new File(activity.getExternalFilesDir(null), fileName
-					+ ".dat");
+			File file = new File(getExternalFileDir(activity), fileName + ".dat");
 			if (file != null) {
 				return file.exists();
 			}
@@ -396,4 +393,14 @@ public class FileManager {
 						+ ".dat");
 	}
 
+	private File getExternalFileDir(Activity activity) {
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+			// We can read and write the media
+			return Environment.getExternalStorageDirectory();
+		} else {
+			// Load another directory, probably local memory
+			return activity.getFilesDir();
+		}
+	}
 }

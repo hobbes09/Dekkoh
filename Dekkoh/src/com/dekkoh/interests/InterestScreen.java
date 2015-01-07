@@ -10,7 +10,9 @@ import android.widget.TextView;
 import com.dekkoh.R;
 import com.dekkoh.application.ApplicationState;
 import com.dekkoh.datamodel.Question;
+import com.dekkoh.homefeed.HomeScreen;
 import com.dekkoh.service.APIProcessor;
+import com.dekkoh.util.FileManager;
 import com.dekkoh.util.Log;
 
 public class InterestScreen extends Activity {
@@ -36,6 +38,9 @@ public class InterestScreen extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			try {
+				FileManager.getInstance().isObjectFileExistsInExternalStorage(
+						(Activity) HomeScreen.homeScreenContext,
+						ApplicationState.getQuestionsfile());
 				newQuestionList = APIProcessor.getQuestions(
 						InterestScreen.this,
 						ApplicationState.getHomefeedQuestion_Offset(),

@@ -9,7 +9,6 @@ import com.google.gson.annotations.SerializedName;
 public class Question implements Serializable {
 	private int answer_count;
 	private int follow_count;
-	private String coordinates;
 	private String created_at;
 	private String image;
 	private String interest_name;
@@ -18,6 +17,7 @@ public class Question implements Serializable {
 	private String updated_at;
 	private String user_image;
 	private String user_name;
+	private String[] coordinates;
 	private boolean delete_flg;
 	private InterestId interest_id = new InterestId();
 	private UserId user_id = new UserId();
@@ -207,7 +207,7 @@ public class Question implements Serializable {
 	/**
 	 * @return the coordinates
 	 */
-	public String getCoordinates() {
+	public String[] getCoordinates() {
 		return coordinates;
 	}
 
@@ -215,7 +215,7 @@ public class Question implements Serializable {
 	 * @param coordinates
 	 *            the coordinates to set
 	 */
-	public void setCoordinates(String coordinates) {
+	public void setCoordinates(String coordinates[]) {
 		this.coordinates = coordinates;
 	}
 

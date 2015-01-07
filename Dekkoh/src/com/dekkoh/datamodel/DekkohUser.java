@@ -20,7 +20,7 @@ public class DekkohUser implements Serializable{
 	private String updated_at;
 	private boolean delete_flg;
 	private List<InterestID> interest_ids;
-	private DekkohUserID _id;
+	private DekkohUserID _id = new DekkohUserID();
 
 	/**
 	 * @return the created_at
