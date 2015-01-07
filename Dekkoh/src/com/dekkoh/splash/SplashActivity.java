@@ -67,6 +67,7 @@ public class SplashActivity extends Activity {
 	private ProgressDialog progress;
 	
 	private boolean activityRunning=true;
+	private boolean userLoggedIn=false;
 	
 	//Google login helper
 	GooglePlusLoginController googleLoginController;
@@ -118,10 +119,12 @@ public class SplashActivity extends Activity {
 			SharedPreferenceManager sharedPreferenceManager = SharedPreferenceManager
 					.getInstance(SplashActivity.this);
 			if(sharedPreferenceManager.getBoolean(SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS)==true && sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ID)!=null && sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ID).compareTo("")!=0){
+				userLoggedIn=true;
 				if(updateDekkohUserObject()==true){
 				  sendtoHomeScreen();	
 				}
 			}else if(sharedPreferenceManager.getBoolean(SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS)==false && sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ID)!=null && sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ID).compareTo("")!=0){
+				userLoggedIn=true;
 				if(updateDekkohUserObject()==true){
 					sendtoInterestsScreen();	
 				}
@@ -167,7 +170,7 @@ public class SplashActivity extends Activity {
        facebookLoginButton.setUserInfoChangedCallback(new UserInfoChangedCallback() {
 			@Override
 			public void onUserInfoFetched(GraphUser user) {
-				if (user != null && activityRunning==true) {
+				if (user != null && activityRunning==true && userLoggedIn==false) {
 					final Session session = Session.getActiveSession();
 					showProgress();
 					new LoginTheUser(SplashActivity.this,session,user.getId()).execute();
@@ -401,18 +404,8 @@ public class SplashActivity extends Activity {
 				.getInstance(this);
 		dekkohUser.setEmail(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_EMAIL));
 		dekkohUser.setDekkohUserID(String.valueOf(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ID)));
-		dekkohUser.setGender(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_GENDER));
 		dekkohUser.setName(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_NAME));
-		dekkohUser.setCreatedAt(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_CREATEDAT));
-		dekkohUser.setHomeNeighbourhood(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_HOMENEIGHBOURHOOD));
-		dekkohUser.setHomeCity(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_HOMECITY));
-		dekkohUser.setPassword_digest(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_PASSWORDDIGEST));
 		dekkohUser.setProfilePic(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_PROFILEPIC));
-		dekkohUser.setProvider(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_PROVIDER));
-		dekkohUser.setProviderId(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_PROVIDERID));
-		dekkohUser.setRole(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_ROLE));
-		dekkohUser.setUpdated_at(sharedPreferenceManager.getString(SharedPreferenceConstants.DEKKOH_USER_UPDATEDAT));
-		dekkohUser.setDeleted(sharedPreferenceManager.getBoolean(SharedPreferenceConstants.DEKKOH_USER_DELETEFLAG));
 		dekkohApplication.setDekkohUser(dekkohUser);
 		return true;
 	}

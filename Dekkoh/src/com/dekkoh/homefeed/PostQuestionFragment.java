@@ -103,7 +103,6 @@ public class PostQuestionFragment extends Fragment {
 		}
 		
 		userName.setText(dekkohUser.getName());
-		userLocation.setText(dekkohUser.getHomeCity());
 		
 		try{
 			Geocoder gcd = new Geocoder(mContext, Locale.getDefault());

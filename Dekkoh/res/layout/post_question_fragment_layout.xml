@@ -50,7 +50,7 @@
            android:layout_toRightOf="@id/post_question_fragment_userProfileImage"
            android:layout_marginLeft="5dp"
            android:layout_centerVertical="true"
-           android:text="userName"
+           android:text=""
            />
        
        <View 
@@ -88,7 +88,7 @@
            android:layout_centerVertical="true"
            android:lines="1"
            android:ellipsize="end"
-           android:text="userLocation"
+           android:text=""
            />
        
    </RelativeLayout>

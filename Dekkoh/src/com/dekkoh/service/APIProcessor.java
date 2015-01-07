@@ -76,45 +76,15 @@ public class APIProcessor {
 					SharedPreferenceConstants.DEKKOH_USER_EMAIL,
 					dekkohUser.getEmail());
 			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_GENDER,
-					dekkohUser.getGender());
-			sharedPreferenceManager.save(
 					SharedPreferenceConstants.DEKKOH_USER_NAME,
 					dekkohUser.getName());
 			if(dekkohUser.getInterestIds().size()==0){
 				sharedPreferenceManager.save(
 						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
 						false);
-			sharedPreferenceManager.save(
-						SharedPreferenceConstants.DEKKOH_USER_CREATEDAT,
-						dekkohUser.getCreatedAt());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_HOMECITY,
-					dekkohUser.getHomeCity());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_HOMENEIGHBOURHOOD,
-					dekkohUser.getHomeNeighbourhood());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_PASSWORDDIGEST,
-					dekkohUser.getPassword_digest());
-			sharedPreferenceManager.save(
+		      sharedPreferenceManager.save(
 					SharedPreferenceConstants.DEKKOH_USER_PROFILEPIC,
 					dekkohUser.getProfilePic());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_PROVIDER,
-					dekkohUser.getProvider());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_PROVIDERID,
-					dekkohUser.getProviderId());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_ROLE,
-					dekkohUser.getRole());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_UPDATEDAT,
-					dekkohUser.getUpdated_at());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_DELETEFLAG,
-					dekkohUser.isDeleted());	
 			}else{
 				sharedPreferenceManager.save(
 						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
@@ -171,10 +141,7 @@ public class APIProcessor {
 			sharedPreferenceManager.save(
 					SharedPreferenceConstants.DEKKOH_USER_EMAIL,
 					dekkohUser.getEmail());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_GENDER,
-					dekkohUser.getGender());
-			sharedPreferenceManager.save(
+				sharedPreferenceManager.save(
 					SharedPreferenceConstants.DEKKOH_USER_NAME,
 					dekkohUser.getName());
 			if(dekkohUser.getInterestIds().size()==0){
@@ -182,35 +149,8 @@ public class APIProcessor {
 						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
 						false);
 			sharedPreferenceManager.save(
-						SharedPreferenceConstants.DEKKOH_USER_CREATEDAT,
-						dekkohUser.getCreatedAt());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_HOMECITY,
-					dekkohUser.getHomeCity());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_HOMENEIGHBOURHOOD,
-					dekkohUser.getHomeNeighbourhood());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_PASSWORDDIGEST,
-					dekkohUser.getPassword_digest());
-			sharedPreferenceManager.save(
 					SharedPreferenceConstants.DEKKOH_USER_PROFILEPIC,
 					dekkohUser.getProfilePic());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_PROVIDER,
-					dekkohUser.getProvider());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_PROVIDERID,
-					dekkohUser.getProviderId());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_ROLE,
-					dekkohUser.getRole());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_UPDATEDAT,
-					dekkohUser.getUpdated_at());
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_DELETEFLAG,
-					dekkohUser.isDeleted());	
 			}else{
 				sharedPreferenceManager.save(
 						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
