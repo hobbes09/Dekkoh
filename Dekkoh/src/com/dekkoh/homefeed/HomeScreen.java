@@ -322,8 +322,12 @@ public class HomeScreen extends FragmentActivity implements OnClickListener, Run
 	
 	@Override
 	protected void onDestroy() {
-		if(FileManager.getInstance().isObjectFileExistsInExternalStorage((Activity)HomeScreen.homeScreenContext, ApplicationState.getQuestionsfile())){
-			FileManager.getInstance().deleteObjectFileFromExternalStorage((Activity)HomeScreen.homeScreenContext, ApplicationState.getQuestionsfile());
+		try{
+			if(FileManager.getInstance().isObjectFileExistsInExternalStorage((Activity)HomeScreen.homeScreenContext, ApplicationState.getQuestionsfile())){
+				FileManager.getInstance().deleteObjectFileFromExternalStorage((Activity)HomeScreen.homeScreenContext, ApplicationState.getQuestionsfile());
+			}
+		}catch(Exception e){
+			
 		}
 	}
 
