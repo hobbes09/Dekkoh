@@ -172,8 +172,7 @@ class PostQuestion extends AsyncTask<Void,Void,Void>{
 		if(hasActiveInternetConnection(parent.getActivity().getApplicationContext())){
 			no_net=false;
 			try {
-				Date date=new Date();
-				APIProcessor.postQuestion(parent.getActivity(), question, location, longi, lati, "", interest_id, userPictureUrl, String.valueOf(date));
+				APIProcessor.postQuestion(parent.getActivity(), question, location, longi, lati, "", interest_id, userPictureUrl, String.valueOf(System.currentTimeMillis()/1000L));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				//Toast.makeText(getApplicationContext(), "Unable to Login ... Please Try Again.\n"+e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
