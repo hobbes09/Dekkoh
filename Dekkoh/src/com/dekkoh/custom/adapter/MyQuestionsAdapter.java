@@ -1,0 +1,42 @@
+package com.dekkoh.custom.adapter;
+
+import java.util.List;
+
+import android.app.Activity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+
+import com.dekkoh.R;
+import com.dekkoh.datamodel.Question;
+
+public class MyQuestionsAdapter extends ArrayAdapter<Question> {
+	private List<Question> questionsList;
+	private LayoutInflater layoutInflater;
+
+	public MyQuestionsAdapter(Activity activity, int textViewResourceId,
+			List<Question> questionsList) {
+		super(activity, textViewResourceId, questionsList);
+		this.questionsList = questionsList;
+		layoutInflater = activity.getLayoutInflater();
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		Question question = questionsList.get(position);
+		if (convertView == null) {
+			convertView = layoutInflater.inflate(
+					R.layout.my_question_list_item, null);
+		}
+		TextView locationTextView = (TextView) convertView
+				.findViewById(R.id.locationTextView);
+		TextView questionTextView = (TextView) convertView
+				.findViewById(R.id.questionTextView);
+		locationTextView.setText(question.getLocation());
+		questionTextView.setText(question.getQuestion());
+		return convertView;
+	}
+
+}

@@ -5,15 +5,20 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
+import com.dekkoh.util.AlertDialogHandler;
 import com.dekkoh.util.Log;
+import com.dekkoh.util.ProgressDialogHandler;
 
 public class BaseFragment extends Fragment {
 	protected static String TAG = "BaseFragment";
 	protected Activity activity;
 	protected ActionBar actionBar;
 	protected FragmentManager fragmentManager;
-
+	protected ProgressDialogHandler progressDialogHandler;
+	protected AlertDialogHandler alertDialogHandler;
+	protected View rootView;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,6 +28,8 @@ public class BaseFragment extends Fragment {
 		actionBar = activity.getActionBar();
 		actionBar.hide();
 		fragmentManager = activity.getFragmentManager();
+		progressDialogHandler = ProgressDialogHandler.getInstance();
+		alertDialogHandler = AlertDialogHandler.getInstance();
 	}
 
 	@Override
