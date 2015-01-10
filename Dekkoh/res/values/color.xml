@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-	<color name="white">#ffffff</color>  
-	<color name="list_item_title">#fff</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="list_item_title">#FFf</color>
     <color name="list_background">#303030</color>
     <color name="list_background_pressed">#992416</color>
     <color name="list_divider">#272727</color>
     <color name="counter_text_bg">#626262</color>
-    <color name="counter_text_color">#c5c4c4</color>  
-    <color name="transparent_color">#ffffffff</color>  
-    
-    
+    <color name="counter_text_color">#c5c4c4</color>
+    <color name="transparent_color">#FFFFFFFF</color>
+    <color name="event_and_entertainment">#FF322B0D</color>
+    <color name="travel_and_adventure">#FF4B3F12</color>
+    <color name="food_and_resturant">#FF6D5A17</color>
+    <color name="sports_and_activities">#FF876F1C</color>
+    <color name="shopping_and_lifestyle">#FFAE9024</color>
+    <color name="pub_and_nightlife">#FFE2B72B</color>
+    <color name="accomodation">#FFFFCF30</color>
+    <color name="art_and_culture">#FFF7C82E</color>
+    <color name="utilities">#FF8C721B</color>
+    <color name="entertainment_and_event">#FFA6871F</color>
+    <color name="miscellaneous">#FFB89523</color>
+
 </resources>

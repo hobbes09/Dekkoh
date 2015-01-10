@@ -3,7 +3,6 @@ package com.dekkoh.homefeed;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,7 +13,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +23,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dekkoh.R;
+import com.dekkoh.application.BaseFragment;
 import com.dekkoh.application.DekkohApplication;
 import com.dekkoh.datamodel.DekkohUser;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.util.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
-public class PostQuestionFragment extends Fragment {
+public class PostQuestionFragment extends BaseFragment {
 
 	
 	private DekkohApplication dekkohApplication;

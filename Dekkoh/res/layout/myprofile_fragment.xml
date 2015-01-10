@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res/com.dekkoh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:padding="10dp">
-    
-    
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
 
-</RelativeLayout>
+    <com.dekkoh.custom.view.UserProfileChart
+        android:id="@+id/Pie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="100"
+        android:background="@android:color/black"
+        android:padding="10dp"
+        custom:autoCenterPointerInSlice="true"
+        custom:highlightStrength="1.12"
+        custom:pieRotation="0"
+        custom:pointerRadius="4dp" />
+
+</LinearLayout>

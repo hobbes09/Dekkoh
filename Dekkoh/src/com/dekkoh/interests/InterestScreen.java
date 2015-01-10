@@ -9,13 +9,14 @@ import android.widget.TextView;
 
 import com.dekkoh.R;
 import com.dekkoh.application.ApplicationState;
+import com.dekkoh.application.BaseActivity;
 import com.dekkoh.datamodel.Question;
 import com.dekkoh.homefeed.HomeScreen;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.util.FileManager;
 import com.dekkoh.util.Log;
 
-public class InterestScreen extends Activity {
+public class InterestScreen extends BaseActivity {
 
 	private static TextView tv;
 	Question q1, q2;
@@ -58,9 +59,10 @@ public class InterestScreen extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			if (q1 != null && q2 != null)
-				tv.setText(q1.getQuestion() + "\n" + q2.getQuestion());
-		}
+			if (q1 != null && q2 != null) {
 
+			}
+			tv.setText(q1.getQuestion() + "\n" + q2.getQuestion());
+		}
 	}
 }

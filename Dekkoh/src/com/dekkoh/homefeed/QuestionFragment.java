@@ -13,7 +13,6 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,9 +24,10 @@ import android.widget.Toast;
 
 import com.dekkoh.R;
 import com.dekkoh.application.ApplicationState;
+import com.dekkoh.application.BaseFragment;
 import com.dekkoh.custom.view.SquareLinearLayout;
 
-public class QuestionFragment extends Fragment{
+public class QuestionFragment extends BaseFragment{
 	
 	private float xDown, xUp, yDown, yUp;
 	private int SWIPE_ACTION = 0;

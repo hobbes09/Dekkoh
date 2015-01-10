@@ -1,4 +1,4 @@
-package com.dekkoh.following;
+package com.dekkoh.myactivity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,20 +8,18 @@ import android.view.ViewGroup;
 import com.dekkoh.R;
 import com.dekkoh.application.BaseFragment;
 
-public class Following extends BaseFragment {
+
+public class MyQuestionsFragment extends BaseFragment {
 	
-	public Following(){}
+	public MyQuestionsFragment(){}
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
   
-        View rootView = inflater.inflate(R.layout.following_fragment, container, false);
-              
+        View rootView = inflater.inflate(R.layout.myactivity_layout, container, false);
           
         return rootView;
     }
 
 }
-
-
