@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     File created by the Android Action Bar Style Generator
+
+     Copyright (C) 2011 The Android Open Source Project
+     Copyright (C) 2012 readyState Software Ltd
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+
+    <style name="Theme.Dekkoh" parent="@android:style/Theme.Holo">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_dekkoh</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Dekkoh</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Dekkoh</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Dekkoh</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Dekkoh</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Transparent.Dekkoh</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_dekkoh</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_dekkoh</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Dekkoh</item>
+    </style>
+
+    <style name="ActionBar.Solid.Dekkoh" parent="@android:style/Widget.Holo.ActionBar.Solid">
+        <item name="android:background">@drawable/ab_solid_dekkoh</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_dekkoh</item>
+        <item name="android:backgroundSplit">@drawable/ab_bottom_solid_dekkoh</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Dekkoh</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Dekkoh" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_dekkoh</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Dekkoh</item>
+    </style>
+
+    <style name="PopupMenu.Dekkoh" parent="@android:style/Widget.Holo.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_dekkoh</item>
+    </style>
+
+    <style name="DropDownListView.Dekkoh" parent="@android:style/Widget.Holo.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_dekkoh</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Dekkoh" parent="@android:style/Widget.Holo.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_dekkoh</item>
+    </style>
+
+    <style name="DropDownNav.Dekkoh" parent="@android:style/Widget.Holo.Spinner">
+        <item name="android:background">@drawable/spinner_background_ab_dekkoh</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_dekkoh</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_dekkoh</item>
+    </style>
+
+    <style name="ProgressBar.Dekkoh" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_dekkoh</item>
+    </style>
+
+    <style name="ActionButton.CloseMode.Dekkoh" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_dekkoh</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Dekkoh.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Dekkoh</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Dekkoh</item>
+    </style>
+
+    <!-- custom Dialog with no background  just transparent one -->
+    <style name="ThemeDialogCustom">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowBackground">@color/transparent_color</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
+    <!-- dialog animation -->
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up_frombottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+</resources>

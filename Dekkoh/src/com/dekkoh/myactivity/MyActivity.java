@@ -81,8 +81,8 @@ public class MyActivity extends BaseFragmentActivity implements
 		public AppSectionsPagerAdapter(FragmentManager fragmentManager) {
 			super(fragmentManager);
 			fragmentTitle[0] = "My Questions";
-			fragmentTitle[0] = "My Answers";
-			fragmentTitle[0] = "Following";
+			fragmentTitle[1] = "My Answers";
+			fragmentTitle[2] = "Following";
 		}
 
 		@Override
