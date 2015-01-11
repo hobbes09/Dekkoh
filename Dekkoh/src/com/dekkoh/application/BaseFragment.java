@@ -26,7 +26,6 @@ public class BaseFragment extends Fragment {
 		Log.d(TAG, "onCreate");
 		activity = getActivity();
 		actionBar = activity.getActionBar();
-		actionBar.hide();
 		fragmentManager = activity.getFragmentManager();
 		progressDialogHandler = ProgressDialogHandler.getInstance();
 		alertDialogHandler = AlertDialogHandler.getInstance();

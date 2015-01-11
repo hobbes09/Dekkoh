@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/off_white_bg_card"
         android:orientation="vertical"
-        android:padding="15dp" >
+        android:padding="12dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,8 +22,8 @@
 
             <com.dekkoh.custom.view.CircularImageView
                 android:id="@+id/userCircularImageView"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
                 android:layout_marginRight="5dp"
                 android:src="@drawable/user_profile_pic_temporary_image"
                 app:border="true"
@@ -70,29 +70,14 @@
                         android:textColor="#BC1F1E"
                         android:textSize="17sp" />
 
-                    <ImageView
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:src="@drawable/greenlocation" />
-
                     <TextView
                         android:id="@+id/locationTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/greenlocation"
                         android:singleLine="true"
-                        android:text="Kormangala, Bengaluru"
                         android:textColor="#BC1F1E"
                         android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/Date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right|center"
-                        android:singleLine="true"
-                        android:text="5d ago"
-                        android:textColor="#3D3D3D"
-                        android:textSize="10sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

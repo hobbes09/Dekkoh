@@ -33,7 +33,7 @@ public class MyAnswersAdapter extends ArrayAdapter<Question> {
 				IMAGE_CACHE_DIR);
 		// Set memory cache to 25% of app memory
 		cacheParams.setMemCacheSizePercent(0.25f);
-		mImageFetcher = new RemoteImageFetcher(activity, 70);
+		mImageFetcher = new RemoteImageFetcher(activity, 100);
 		mImageFetcher.setLoadingImage(R.drawable.loding_album);
 		mImageFetcher.addImageCache(fragmentManager, cacheParams);
 	}
@@ -42,15 +42,51 @@ public class MyAnswersAdapter extends ArrayAdapter<Question> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Question question = questionsList.get(position);
 		if (convertView == null) {
-			convertView = layoutInflater.inflate(R.layout.my_answers_list_item, null);
+			convertView = layoutInflater.inflate(R.layout.my_answers_list_item,
+					null);
 		}
 		TextView locationTextView = (TextView) convertView
 				.findViewById(R.id.locationTextView);
 		TextView questionTextView = (TextView) convertView
 				.findViewById(R.id.questionTextView);
-
+		TextView followersTextView = (TextView) convertView
+				.findViewById(R.id.followsTextView);
+		TextView answersTextView = (TextView) convertView
+				.findViewById(R.id.answersTextView);
+		TextView userNameTextView = (TextView) convertView
+				.findViewById(R.id.userNameTextView);
+		String userFullName = question.getUserName();
+		int index = userFullName.indexOf(' ');
+		String userFirstName;
+		if (index > 0) {
+			userFirstName = userFullName.substring(0, index);
+		} else {
+			userFirstName = userFullName;
+		}
+		userNameTextView.setText(userFirstName);
+		if (TextUtils.isEmpty(question.getLocation())) {
+			locationTextView.setVisibility(View.GONE);
+		}
 		locationTextView.setText(question.getLocation());
 		questionTextView.setText(question.getQuestion());
+		if (question.getFollowCount() > 0) {
+			if (question.getFollowCount() > 1)
+				followersTextView.setText(question.getFollowCount()
+						+ " followers");
+			else
+				followersTextView.setText(question.getFollowCount()
+						+ " follower");
+		} else {
+			followersTextView.setVisibility(View.GONE);
+		}
+		if (question.getAnswerCount() > 0) {
+			if (question.getAnswerCount() > 1)
+				answersTextView.setText(question.getAnswerCount() + " answers");
+			else
+				answersTextView.setText(question.getAnswerCount() + " answer");
+		} else {
+			answersTextView.setVisibility(View.GONE);
+		}
 		if (!TextUtils.isEmpty(question.getUserImage())) {
 			CircularImageView circularImageView = (CircularImageView) convertView
 					.findViewById(R.id.userCircularImageView);
