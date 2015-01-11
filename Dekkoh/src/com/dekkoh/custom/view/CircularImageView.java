@@ -11,28 +11,11 @@ import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import com.dekkoh.R;
+import com.kavyasoni.gallery.ui.RecyclingImageView;
 
-
-/**
- * 
- * @author kavyasoni
- *Example:
- * <com.dekkoh.custom.view.CircularImageView
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/sample_user_avtar"
-        app:border="true"
-        app:border_color="@color/application_cream_color"
-        app:border_width="1dp"
-        app:shadow="true" />
- */
-public class CircularImageView extends ImageView {
+public class CircularImageView extends RecyclingImageView {
 	private int borderWidth;
 	private int canvasSize;
 	private Bitmap image;

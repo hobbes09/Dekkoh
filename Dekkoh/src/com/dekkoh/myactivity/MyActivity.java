@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 
 import com.dekkoh.R;
 import com.dekkoh.application.BaseFragmentActivity;
+import com.dekkoh.util.Log;
 
 public class MyActivity extends BaseFragmentActivity implements
 		ActionBar.TabListener {
@@ -87,6 +88,7 @@ public class MyActivity extends BaseFragmentActivity implements
 
 		@Override
 		public Fragment getItem(int i) {
+			Log.e(TAG, " getItem : " + i);
 			switch (i) {
 			case 0:
 				return new MyQuestionsFragment();
@@ -94,7 +96,6 @@ public class MyActivity extends BaseFragmentActivity implements
 				return new MyAnswersFragment();
 			case 2:
 				return new MyFollowingFragment();
-
 			default:
 				return new MyQuestionsFragment();
 			}

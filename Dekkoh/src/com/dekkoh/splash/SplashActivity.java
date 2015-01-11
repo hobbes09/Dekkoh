@@ -408,6 +408,7 @@ public class SplashActivity extends BaseActivity {
 					public void onClick(DialogInterface dialog, int which) {
 						Intent intent = new Intent(
 								Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+						intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						mContext.startActivity(intent);
 					}
 				});
@@ -427,7 +428,7 @@ public class SplashActivity extends BaseActivity {
 	public void sendtoHomeScreen() {
 		// TODO Auto-generated method stub
 		cancelProgress();
-		Intent intent = new Intent(SplashActivity.this, HomeScreen.class);
+		Intent intent = new Intent(SplashActivity.this, MyActivity.class);
 		startActivity(intent);
 		finish();
 	}

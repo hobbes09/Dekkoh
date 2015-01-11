@@ -9,18 +9,40 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_card"
+        android:background="@drawable/off_white_bg_card"
         android:orientation="vertical"
-        android:padding="10dp" >
+        android:padding="15dp" >
 
-        <TextView
-            android:id="@+id/locationTextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Thbvhd jhhjsd"
-            android:textColor="#1C4C4A"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:src="@drawable/greenlocation" />
+
+            <TextView
+                android:id="@+id/locationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="Indra Nagar, Bengaluru"
+                android:textColor="#1C4C4A"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/Date"
+                android:gravity="right|center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:text="5d ago"
+                android:textColor="#3D3D3D"
+                android:textSize="10sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/questionTextView"
@@ -29,7 +51,7 @@
             android:layout_marginTop="5dp"
             android:text="nmn,msndms dsmd f,msd f s ,md m,sd fsfsd ,sd fm,sd f jhhjsd"
             android:textColor="#000"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
     </LinearLayout>
 
 </LinearLayout>
