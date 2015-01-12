@@ -1,7 +1,11 @@
 package com.dekkoh.datamodel;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import com.dekkoh.util.Log;
 import com.google.gson.annotations.SerializedName;
 
 public class Answer implements Serializable {
@@ -14,6 +18,7 @@ public class Answer implements Serializable {
 	private int like_count;
 	private boolean liked;
 	private boolean delete_flg;
+	private Date date;
 	private AnswerId _id;
 	private UserId user_id;
 	private QusestionId question_id;
@@ -193,6 +198,46 @@ public class Answer implements Serializable {
 	 */
 	public void setLiked(boolean liked) {
 		this.liked = liked;
+	}
+
+	/**
+	 * 
+	 * @return date
+	 */
+	public Date getDate() {
+		if (date == null) {
+			// long unixSeconds = Long.parseLong(modifiedDate);
+			// this.date = new Date(unixSeconds * 1000L);
+			// *1000 is to convert seconds to milliseconds
+			SimpleDateFormat simpleDateFormatter = new SimpleDateFormat(
+					"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			try {
+				this.date = simpleDateFormatter.parse(created_at);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				Log.e(e);
+			}
+		}
+		return date;
+	}
+
+	/**
+	 * @param date
+	 *            the date to set
+	 */
+	public void setDate(String modifiedDate) {
+		// long unixSeconds = Long.parseLong(modifiedDate);
+		// this.date = new Date(unixSeconds * 1000L);
+		// *1000 is to convert seconds to milliseconds
+		SimpleDateFormat simpleDateFormatter = new SimpleDateFormat(
+				"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		try {
+			this.date = simpleDateFormatter.parse(modifiedDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			Log.e(e);
+		}
+
 	}
 
 	class QusestionId {

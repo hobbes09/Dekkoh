@@ -1,5 +1,6 @@
 package com.dekkoh.custom.adapter;
 
+import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
@@ -56,6 +57,10 @@ public class MyAnswersAdapter extends ArrayAdapter<Question> {
 				.findViewById(R.id.answersTextView);
 		TextView userNameTextView = (TextView) convertView
 				.findViewById(R.id.userNameTextView);
+		TextView createdTextView = (TextView) convertView
+				.findViewById(R.id.createdTextView);
+		createdTextView.setText(CommonUtils.getDateDifference(
+				question.getDate(), new Date()));
 		String userFullName = question.getUserName();
 		int index = userFullName.indexOf(' ');
 		String userFirstName;

@@ -1,9 +1,13 @@
 package com.dekkoh.datamodel;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import com.dekkoh.util.Log;
 import com.google.gson.annotations.SerializedName;
 
 public class Question implements Serializable {
@@ -18,6 +22,7 @@ public class Question implements Serializable {
 	private String user_image;
 	private String user_name;
 	private String[] coordinates;
+	private Date date;
 	private boolean delete_flg;
 	private InterestId interest_id = new InterestId();
 	private UserId user_id = new UserId();
@@ -262,6 +267,36 @@ public class Question implements Serializable {
 	 */
 	public void setDeleted(boolean delete_flg) {
 		this.delete_flg = delete_flg;
+	}
+
+	public Date getDate() {
+		if (date == null) {
+			SimpleDateFormat simpleDateFormatter = new SimpleDateFormat(
+					"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			try {
+				this.date = simpleDateFormatter.parse(created_at);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				Log.e(e);
+			}
+		}
+		return date;
+	}
+
+	/**
+	 * @param date
+	 *            the date to set
+	 */
+	public void setDate(String created_at) {
+		SimpleDateFormat simpleDateFormatter = new SimpleDateFormat(
+				"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		try {
+			this.date = simpleDateFormatter.parse(created_at);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			Log.e(e);
+		}
+
 	}
 
 	class InterestId {

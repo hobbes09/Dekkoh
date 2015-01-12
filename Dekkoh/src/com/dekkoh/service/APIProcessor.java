@@ -2,6 +2,9 @@ package com.dekkoh.service;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -78,21 +81,21 @@ public class APIProcessor {
 			sharedPreferenceManager.save(
 					SharedPreferenceConstants.DEKKOH_USER_NAME,
 					dekkohUser.getName());
-			if(dekkohUser.getInterestIds().size()==0){
+			if (dekkohUser.getInterestIds().size() == 0) {
 				sharedPreferenceManager.save(
 						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
 						false);
-		      sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_PROFILEPIC,
-					dekkohUser.getProfilePic());
-			}else{
+				sharedPreferenceManager.save(
+						SharedPreferenceConstants.DEKKOH_USER_PROFILEPIC,
+						dekkohUser.getProfilePic());
+			} else {
 				sharedPreferenceManager.save(
 						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
 						true);
 			}
 			DekkohApplication dekkohApplication = (DekkohApplication) activity
 					.getApplication();
-			
+
 			dekkohApplication.setDekkohUser(dekkohUser);
 			return dekkohUser;
 		}
@@ -141,17 +144,17 @@ public class APIProcessor {
 			sharedPreferenceManager.save(
 					SharedPreferenceConstants.DEKKOH_USER_EMAIL,
 					dekkohUser.getEmail());
-				sharedPreferenceManager.save(
+			sharedPreferenceManager.save(
 					SharedPreferenceConstants.DEKKOH_USER_NAME,
 					dekkohUser.getName());
-			if(dekkohUser.getInterestIds().size()==0){
+			if (dekkohUser.getInterestIds().size() == 0) {
 				sharedPreferenceManager.save(
 						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
 						false);
-			sharedPreferenceManager.save(
-					SharedPreferenceConstants.DEKKOH_USER_PROFILEPIC,
-					dekkohUser.getProfilePic());
-			}else{
+				sharedPreferenceManager.save(
+						SharedPreferenceConstants.DEKKOH_USER_PROFILEPIC,
+						dekkohUser.getProfilePic());
+			} else {
 				sharedPreferenceManager.save(
 						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
 						true);
@@ -600,7 +603,19 @@ public class APIProcessor {
 		} else {
 			Type listType = new TypeToken<List<Question>>() {
 			}.getType();
-			return convertToObject(responseString, listType);
+			List<Question> questionsList = convertToObject(responseString,
+					listType);
+			Collections.sort(questionsList, new Comparator<Question>() {
+
+				@Override
+				public int compare(Question object1, Question object2) {
+					Date date1 = object1.getDate();
+					Date date2 = object2.getDate();
+					return date1.compareTo(date2);
+				}
+			});
+			Collections.reverse(questionsList);
+			return questionsList;
 		}
 	}
 
@@ -730,7 +745,19 @@ public class APIProcessor {
 		} else {
 			Type listType = new TypeToken<List<Question>>() {
 			}.getType();
-			return convertToObject(responseString, listType);
+			List<Question> questionsList = convertToObject(responseString,
+					listType);
+			Collections.sort(questionsList, new Comparator<Question>() {
+
+				@Override
+				public int compare(Question object1, Question object2) {
+					Date date1 = object1.getDate();
+					Date date2 = object2.getDate();
+					return date1.compareTo(date2);
+				}
+			});
+			Collections.reverse(questionsList);
+			return questionsList;
 		}
 	}
 
@@ -771,7 +798,19 @@ public class APIProcessor {
 		} else {
 			Type listType = new TypeToken<List<Question>>() {
 			}.getType();
-			return convertToObject(responseString, listType);
+			List<Question> questionsList = convertToObject(responseString,
+					listType);
+			Collections.sort(questionsList, new Comparator<Question>() {
+
+				@Override
+				public int compare(Question object1, Question object2) {
+					Date date1 = object1.getDate();
+					Date date2 = object2.getDate();
+					return date1.compareTo(date2);
+				}
+			});
+			Collections.reverse(questionsList);
+			return questionsList;
 		}
 	}
 
@@ -812,7 +851,19 @@ public class APIProcessor {
 		} else {
 			Type listType = new TypeToken<List<Question>>() {
 			}.getType();
-			return convertToObject(responseString, listType);
+			List<Question> questionsList = convertToObject(responseString,
+					listType);
+			Collections.sort(questionsList, new Comparator<Question>() {
+
+				@Override
+				public int compare(Question object1, Question object2) {
+					Date date1 = object1.getDate();
+					Date date2 = object2.getDate();
+					return date1.compareTo(date2);
+				}
+			});
+			Collections.reverse(questionsList);
+			return questionsList;
 		}
 	}
 
@@ -846,7 +897,19 @@ public class APIProcessor {
 		} else {
 			Type listType = new TypeToken<List<Question>>() {
 			}.getType();
-			return convertToObject(responseString, listType);
+			List<Question> questionsList = convertToObject(responseString,
+					listType);
+			Collections.sort(questionsList, new Comparator<Question>() {
+
+				@Override
+				public int compare(Question object1, Question object2) {
+					Date date1 = object1.getDate();
+					Date date2 = object2.getDate();
+					return date1.compareTo(date2);
+				}
+			});
+			Collections.reverse(questionsList);
+			return questionsList;
 		}
 	}
 
