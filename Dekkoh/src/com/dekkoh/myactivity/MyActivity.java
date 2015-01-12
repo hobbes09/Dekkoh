@@ -87,9 +87,9 @@ public class MyActivity extends BaseFragmentActivity implements
 		}
 
 		@Override
-		public Fragment getItem(int i) {
-			Log.e(TAG, " getItem : " + i);
-			switch (i) {
+		public Fragment getItem(int tabChoice) {
+			Log.e(TAG, " getItem : " + tabChoice);
+			switch (tabChoice) {
 			case 0:
 				return new MyQuestionsFragment();
 			case 1:
