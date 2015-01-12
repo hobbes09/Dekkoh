@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.dekkoh.R;
 import com.dekkoh.custom.view.CircularImageView;
 import com.dekkoh.datamodel.Question;
+import com.dekkoh.util.CommonUtils;
 import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
 import com.kavyasoni.gallery.ui.helper.ImageFetcher;
 import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
@@ -87,12 +88,13 @@ public class MyAnswersAdapter extends ArrayAdapter<Question> {
 		} else {
 			answersTextView.setVisibility(View.GONE);
 		}
-		if (!TextUtils.isEmpty(question.getUserImage())) {
-			CircularImageView circularImageView = (CircularImageView) convertView
-					.findViewById(R.id.userCircularImageView);
+		CircularImageView circularImageView = (CircularImageView) convertView
+				.findViewById(R.id.userCircularImageView);
+		if (CommonUtils.isValidURL(question.getUserImage())) {
 			mImageFetcher.loadImage(question.getUserImage(), circularImageView);
+		} else {
+			circularImageView.setImageResource(R.drawable.ic_noprofilepic);
 		}
-
 		return convertView;
 	}
 

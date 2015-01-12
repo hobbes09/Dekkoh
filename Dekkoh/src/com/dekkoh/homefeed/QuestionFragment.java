@@ -78,7 +78,7 @@ public class QuestionFragment extends BaseFragment{
 								} catch (Exception e) {
 									e.printStackTrace();
 								}
-                				FragmentTransaction transactionNext = HomeScreen.supportFragmentManager.beginTransaction();
+                				FragmentTransaction transactionNext = getFragmentManager().beginTransaction();
                 				transactionNext.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
                 				transactionNext.replace(R.id.contentHomeActivity, nextQuestionFragment);
                 			    transactionNext.commit();
@@ -91,7 +91,7 @@ public class QuestionFragment extends BaseFragment{
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
-			        				FragmentTransaction transactionPrevious = HomeScreen.supportFragmentManager.beginTransaction();
+			        				FragmentTransaction transactionPrevious = getFragmentManager().beginTransaction();
 			        				transactionPrevious.setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_down);
 			        				transactionPrevious.replace(R.id.contentHomeActivity, previousQuestionFragment);
 			        			    transactionPrevious.commit();

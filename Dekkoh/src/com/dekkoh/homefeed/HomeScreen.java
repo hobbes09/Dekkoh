@@ -63,7 +63,6 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener,
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
 
-	static FragmentManager supportFragmentManager;
 	public static Context homeScreenContext;
 
 	public static Thread threadQuestionUpdater;
@@ -84,7 +83,6 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener,
 		ibMap.setOnClickListener(this);
 		ibPost.setOnClickListener(this);
 
-		supportFragmentManager = getSupportFragmentManager();
 		homeScreenContext = HomeScreen.this;
 
 		navigationDrawerInitialisation(savedInstanceState);
@@ -250,8 +248,6 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener,
 		}
 
 		if (fragment != null) {
-
-			FragmentManager fragmentManager = getSupportFragmentManager();
 			fragmentManager.beginTransaction()
 					.replace(R.id.contentHomeActivity, fragment).commit();
 
