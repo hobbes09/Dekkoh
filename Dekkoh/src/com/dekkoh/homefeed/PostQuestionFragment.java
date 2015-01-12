@@ -49,7 +49,7 @@ public class PostQuestionFragment extends BaseFragment {
 	
 	
 	
-	//TODO: Interests Ids for the question and how to post Question Image and get it's Url from server.
+	//TODO: Interests Ids for the question and how to post Question Image and get it's Url from server ans place it in postQuestion method in AsyncTask.
 	
 	//Button to be replaced by action bar icon click for post question
 	private Button postQuestion;
