@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -39,8 +40,7 @@ import com.dekkoh.slidingmenu.NavDrawerItem;
 import com.dekkoh.slidingmenu.NavDrawerListAdapter;
 import com.dekkoh.util.FileManager;
 
-public class HomeScreen extends BaseFragmentActivity implements OnClickListener,
-		Runnable {
+public class HomeScreen extends BaseFragmentActivity implements OnClickListener {
 	private ImageButton ibPost;
 	private ImageButton ibMap;
 	private TextView tvTitle;
@@ -62,14 +62,13 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener,
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
 
+	static FragmentManager supportFragmentManager;
 	public static Context homeScreenContext;
-
-	public static Thread threadQuestionUpdater;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		customizeActionBar(); // MUST BE PLACED BEFORE setContentView()
+		customizeActionBar(); // MUST BE PLACED BEFORE setContentView() and super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);	
 		setContentView(R.layout.activity_homefeed);
 		initialize(savedInstanceState);
 	}
@@ -82,12 +81,10 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener,
 		ibMap.setOnClickListener(this);
 		ibPost.setOnClickListener(this);
 
+		supportFragmentManager = getSupportFragmentManager();
 		homeScreenContext = HomeScreen.this;
 
 		navigationDrawerInitialisation(savedInstanceState);
-
-		threadQuestionUpdater = new Thread("Question Updater");
-		threadQuestionUpdater.start();
 	}
 
 	private void customizeActionBar() {
