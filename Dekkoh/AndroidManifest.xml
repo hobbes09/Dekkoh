@@ -25,11 +25,18 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Dekkoh" >
+        
         <activity
             android:name=".homefeed.HomeScreen"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Dekkoh" >
+            android:theme="@style/CustomActionBarTheme" >
         </activity>
+        
+        <activity
+            android:name=".homefeed.PreHomeScreen"
+            android:label="@string/app_name" >
+        </activity>
+        
         <activity
             android:name=".splash.SplashActivity"
             android:label="@string/app_name" >
