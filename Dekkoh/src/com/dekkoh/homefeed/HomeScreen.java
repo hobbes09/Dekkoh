@@ -253,31 +253,14 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 			setTitle(navMenuTitles[position]);
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else {
-			try {
-				threadQuestionUpdater.join();
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-
-			if (QuestionContentManager.updateSuccessful) {
-				fragment = new QuestionFragment();
-				try {
-					fragment.setArguments(QuestionContentManager
-							.getNextQuestionContent());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				FragmentTransaction transaction = getSupportFragmentManager()
-						.beginTransaction();
-				transaction.setCustomAnimations(
-						R.animator.frag_slide_in_from_bottom, 0);
-				transaction.replace(R.id.contentHomeActivity, fragment);
-				transaction.commit();
-			} else {
-				// Display dialog with
-				// "Unable to access server. Check your internet connection"
-				// message
-			}
+			
+			fragment = new QuestionFragment();
+			fragment.setArguments(QuestionContentManager.getNextQuestionBundle(activity));
+			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+			transaction.setCustomAnimations(R.animator.frag_slide_in_from_bottom, 0);
+			transaction.replace(R.id.contentHomeActivity, fragment);
+			transaction.commit();
+			
 		}
 	}
 
