@@ -1,5 +1,7 @@
 package com.dekkoh.homefeed;
 
+import java.util.List;
+
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -17,6 +19,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +29,10 @@ import com.dekkoh.R;
 import com.dekkoh.application.ApplicationState;
 import com.dekkoh.application.BaseFragment;
 import com.dekkoh.custom.view.SquareLinearLayout;
+import com.dekkoh.datamodel.Question;
+import com.kavyasoni.gallery.ui.helper.ImageFetcher;
+import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
+import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
 
 public class QuestionFragment extends BaseFragment{
 	
@@ -35,30 +42,41 @@ public class QuestionFragment extends BaseFragment{
 	private TextView tvUsername;
 	private TextView tvQuestion;
 	private ImageView ivHomeImage;
+	private ImageView ivProfilePic;
+	private SquareLinearLayout sllBack; 
+	private SquareLinearLayout sllShare;
+	private SquareLinearLayout sllLike;
+	private SquareLinearLayout sllFollow;
 	private static SquareLinearLayout sllProfilePic;
-	private static Resources resources;
+	
+	private Question question;
+	private int countLike = 0;
+	private int countFollow = 0;
+	
+	private static final String IMAGE_CACHE_DIR = ".gallery/cache";
+	private ImageFetcher profileImageFetcher;
+	private ImageFetcher questionImageFetcher;
+	
 		
-	QuestionFragment(){				
+	QuestionFragment(){	
+		
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View root = inflater.inflate(R.layout.question_fragment, null);
-
+	
 		initializeTouchListeners(root);
-		
 		initialize(root);
 		setValues();
-		
         return root;		
 	}
 
 	private void initializeTouchListeners(View root) {
-		
+
 		root.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-            	
 
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
                     xDown = event.getX();
@@ -73,28 +91,22 @@ public class QuestionFragment extends BaseFragment{
                 	switch(SWIPE_ACTION){
                 	case FragmentTransitionManager.SWIPE_DOWN:
                 				QuestionFragment nextQuestionFragment = new QuestionFragment();
-								try {
-									nextQuestionFragment.setArguments(QuestionContentManager.getNextQuestionContent());
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-                				FragmentTransaction transactionNext = getFragmentManager().beginTransaction();
+                				nextQuestionFragment.setArguments(QuestionContentManager.getNextQuestionBundle(activity));
+                				FragmentTransaction transactionNext = HomeScreen.supportFragmentManager.beginTransaction();
                 				transactionNext.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
                 				transactionNext.replace(R.id.contentHomeActivity, nextQuestionFragment);
                 			    transactionNext.commit();
+                			    //nextQuestionFragment.setValues();
                 				break;
                 	case FragmentTransitionManager.SWIPE_UP:
                 				if(ApplicationState.getHomefeedQuestion_CurrentIndex()!=0){
 	                				QuestionFragment previousQuestionFragment = new QuestionFragment();
-									try {
-										previousQuestionFragment.setArguments(QuestionContentManager.getPreviousQuestionContent());
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-			        				FragmentTransaction transactionPrevious = getFragmentManager().beginTransaction();
+	                				previousQuestionFragment.setArguments(QuestionContentManager.getNextQuestionBundle(activity));
+			        				FragmentTransaction transactionPrevious = HomeScreen.supportFragmentManager.beginTransaction();
 			        				transactionPrevious.setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_down);
 			        				transactionPrevious.replace(R.id.contentHomeActivity, previousQuestionFragment);
 			        			    transactionPrevious.commit();
+			        			    //previousQuestionFragment.setValues();
                 				}
                 				break;
                 	case FragmentTransitionManager.SWIPE_LEFT:
@@ -108,7 +120,8 @@ public class QuestionFragment extends BaseFragment{
                 				break;               	
                 	}
                 	
-                	xDown = yDown = xUp = yUp = 0;
+                	xDown = yDown = xUp = yUp = 0; 	
+                	
                 }              
                 return true;
             }
@@ -120,63 +133,37 @@ public class QuestionFragment extends BaseFragment{
 		tvLocation.setText(getArguments().getString("LOCATION"));
 		tvUsername.setText(getArguments().getString("USERNAME"));
 		tvQuestion.setText(getArguments().getString("QUESTION"));
-//		ivHomeImage.setImageBitmap(getArguments().get);
-//		RoundedImageView.setCircledLinearLayoutBackground(sllProfilePic, R.drawable.test, getResources());		
-		new RoundedImagePainter().execute(Integer.toString(R.drawable.test));
+		questionImageFetcher.loadImage(getArguments().get("QUESTION_PIC"), ivHomeImage);
+		profileImageFetcher.loadImage(getArguments().get("PROFILE_PIC"), ivProfilePic);
 	}
+	
+//	private void setUIValues(String question, String location, String username){
+//		tvLocation.setText(location);
+//		tvUsername.setText(username);
+//		tvQuestion.setText(question);
+//	}
 
 	private void initialize(View root) {
 		tvLocation = (TextView)root.findViewById(R.id.tvLocation);
 		tvUsername = (TextView)root.findViewById(R.id.tvUsername);
 		tvQuestion = (TextView)root.findViewById(R.id.tvQuestion);
 		ivHomeImage = (ImageView)root.findViewById(R.id.ivHomeImage);
+		ivProfilePic = (ImageView)root.findViewById(R.id.ivProfilePic);
 		sllProfilePic = (SquareLinearLayout)root.findViewById(R.id.sllProfilePic);
-		resources = getResources();
-	}
-
-	
-	public class RoundedImagePainter extends AsyncTask<String, String, BitmapDrawable>{
-
-		@Override
-		protected BitmapDrawable doInBackground(String... params) {
-			int drawableObject = Integer.parseInt(params[0]);
-			Bitmap bMap = BitmapFactory.decodeResource(resources, drawableObject);
-			bMap = circledimage(bMap);
-			BitmapDrawable bitmapDrawable = new BitmapDrawable(resources, bMap);
-			return bitmapDrawable;
-		}
-
-		@Override
-		protected void onPostExecute(BitmapDrawable bitmapDrawable) {
-			//super.onPostExecute(bitmapDrawable);
-			sllProfilePic.setBackgroundDrawable(bitmapDrawable);
-		}
-
-		@Override
-		protected void onPreExecute() {
-			sllProfilePic.setBackgroundColor(Color.BLACK);
-		}
+		sllBack = (SquareLinearLayout)root.findViewById(R.id.sllBack);
+		sllShare = (SquareLinearLayout)root.findViewById(R.id.sllShare);
+		sllLike = (SquareLinearLayout)root.findViewById(R.id.sllLike);
+		sllFollow = (SquareLinearLayout)root.findViewById(R.id.sllFollow);
 		
-		public Bitmap circledimage(final Bitmap source) {
-	        final Paint paint = new Paint();
-	        paint.setAntiAlias(true);
-	        paint.setShader(new BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-	 
-	        Bitmap output = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Config.ARGB_8888);
-	        Canvas canvas = new Canvas(output);
-	        float radius = (source.getHeight()>source.getWidth())? source.getWidth() : source.getHeight();
-	        canvas.drawRoundRect(new RectF(0, 0, source.getWidth(), source.getHeight()), radius, radius, paint);
-	 
-	        if (source != output) {
-	            source.recycle();
-	        }
-	 
-	        return output;
-	    }
-
-	
+		ImageCacheParams cacheParams = new ImageCacheParams(activity, IMAGE_CACHE_DIR);
+		// Set memory cache to 25% of app memory
+		cacheParams.setMemCacheSizePercent(0.25f);
+		profileImageFetcher = new RemoteImageFetcher(activity, 100);
+		profileImageFetcher.setLoadingImage(R.drawable.loding_album);
+		profileImageFetcher.addImageCache(HomeScreen.supportFragmentManager, cacheParams);
+		questionImageFetcher = new RemoteImageFetcher(activity, 500);
+		questionImageFetcher.setLoadingImage(R.drawable.loding_album);
+		questionImageFetcher.addImageCache(HomeScreen.supportFragmentManager, cacheParams);
 	}
- 
-	
 
 }
