@@ -13,7 +13,36 @@ import com.dekkoh.util.Log;
 
 public class QuestionContentManager{
 	
-	public static boolean updateSuccessful = false;
+public static boolean updateSuccessful = false;
+	
+	// Temporary variable
+	private static List<Question> questionList = null; 
+	private static int currentIndex = -1;
+	
+	private static QuestionContentManager questionContentManager = new QuestionContentManager();
+	
+	private QuestionContentManager(){		
+	}
+	
+	public static QuestionContentManager getInstance(){
+		return questionContentManager;
+	}
+
+	public static List<Question> getQuestionList() {
+		return questionList;
+	}
+
+	public static void setQuestionList(List<Question> questionList) {
+		QuestionContentManager.questionList = questionList;
+	}
+
+	public static int getCurrentIndex() {
+		return currentIndex;
+	}
+
+	public static void setCurrentIndex(int currentIndex) {
+		QuestionContentManager.currentIndex = currentIndex;
+	}
 
 	public static void fetchQuestionsFromBackend() throws Exception{
 		updateSuccessful = false;
@@ -64,5 +93,8 @@ public class QuestionContentManager{
 		return questionFragArgs;
 	}
 
+
+	
+	
 }
 	
