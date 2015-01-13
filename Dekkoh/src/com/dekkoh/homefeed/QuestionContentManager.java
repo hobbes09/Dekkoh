@@ -71,12 +71,6 @@ public class QuestionContentManager{
 			return question;
 		}
 		return null;
-//		else{
-//			Thread threadQuestionUpdater = new Thread("Question Updater");
-//			threadQuestionUpdater.start();
-//			threadQuestionUpdater.join();
-//			return getQuestionFromExternalStorage();
-//		}	
 	}
 	
 	public static Bundle getNextQuestionContent(Activity activity) throws Exception{
@@ -96,6 +90,8 @@ public class QuestionContentManager{
 		questionFragArgs.putString("LOCATION", question.getLocation());
 		questionFragArgs.putString("USERNAME", question.getUserName());
 		questionFragArgs.putString("QUESTION", question.getQuestion());
+		questionFragArgs.putString("PROFILE_PIC", question.getUserImage());
+		questionFragArgs.putString("QUESTION_PIC", question.getImage());
 		return questionFragArgs;
 	}
 	
@@ -106,6 +102,8 @@ public class QuestionContentManager{
 		questionFragArgs.putString("LOCATION", question.getLocation());
 		questionFragArgs.putString("USERNAME", question.getUserName());
 		questionFragArgs.putString("QUESTION", question.getQuestion());
+		questionFragArgs.putString("PROFILE_PIC", question.getUserImage());
+		questionFragArgs.putString("QUESTION_PIC", question.getImage());
 		return questionFragArgs;
 	}
 	

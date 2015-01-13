@@ -38,7 +38,7 @@ import com.dekkoh.datamodel.DekkohUser;
 import com.dekkoh.googleplusloginhandler.GooglePlusLoginController;
 import com.dekkoh.gpstracker.GPSTracker;
 import com.dekkoh.homefeed.HomeScreen;
-import com.dekkoh.homefeed.Test;
+import com.dekkoh.homefeed.Intermediate;
 import com.dekkoh.myactivity.MyActivity;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.util.Constants.SharedPreferenceConstants;
@@ -429,7 +429,7 @@ public class SplashActivity extends BaseActivity {
 	public void sendtoHomeScreen() {
 		// TODO Auto-generated method stub
 		cancelProgress();
-		Intent intent = new Intent(SplashActivity.this, Test.class);
+		Intent intent = new Intent(SplashActivity.this, Intermediate.class);
 		startActivity(intent);
 		finish();
 	}
@@ -437,7 +437,7 @@ public class SplashActivity extends BaseActivity {
 	public void sendtoInterestsScreen() {
 		// TODO Auto-generated method stub
 		cancelProgress();
-		Intent intent = new Intent(SplashActivity.this, Test.class);
+		Intent intent = new Intent(SplashActivity.this, Intermediate.class);
 		startActivity(intent);
 		finish();
 	}

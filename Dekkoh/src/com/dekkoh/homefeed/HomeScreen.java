@@ -35,7 +35,6 @@ import com.dekkoh.application.ApplicationState;
 import com.dekkoh.application.BaseFragmentActivity;
 import com.dekkoh.datamodel.Question;
 import com.dekkoh.following.Following;
-import com.dekkoh.homefeed.QuestionFragment.FetchQuestionTask;
 import com.dekkoh.messages.Messages;
 import com.dekkoh.myactivity.MyActivity;
 import com.dekkoh.myprofile.MyProfile;
@@ -76,8 +75,7 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 		customizeActionBar(); // MUST BE PLACED BEFORE setContentView()
 		super.onCreate(savedInstanceState);	
 		setContentView(R.layout.activity_homefeed);
-		initialize(savedInstanceState);
-		//new FetchQuestionTask().execute();	
+		initialize(savedInstanceState);	
 	}
 
 	private void initialize(Bundle savedInstanceState) {

@@ -5,7 +5,6 @@ import java.util.List;
 import com.dekkoh.R;
 import com.dekkoh.application.BaseActivity;
 import com.dekkoh.datamodel.Question;
-import com.dekkoh.homefeed.QuestionFragment.FetchQuestionTask;
 import com.dekkoh.service.APIProcessor;
 
 import android.app.Activity;
@@ -14,7 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
 
-public class Test extends BaseActivity{
+public class Intermediate extends BaseActivity{
 	
 	TextView tv;
 	List<Question> qlist;
@@ -23,9 +22,9 @@ public class Test extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.text);
+		setContentView(R.layout.intermediate);
 		tv = (TextView)findViewById(R.id.tv);
-		tv.setText("starting fetch ...");
+		tv.setText("Patience is a virtue.");
 		
 		new FetchQuestionTask().execute();
 				

@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +30,9 @@ import com.dekkoh.application.ApplicationState;
 import com.dekkoh.application.BaseFragment;
 import com.dekkoh.custom.view.SquareLinearLayout;
 import com.dekkoh.datamodel.Question;
+import com.kavyasoni.gallery.ui.helper.ImageFetcher;
+import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
+import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
 
 public class QuestionFragment extends BaseFragment{
 	
@@ -38,9 +42,20 @@ public class QuestionFragment extends BaseFragment{
 	private TextView tvUsername;
 	private TextView tvQuestion;
 	private ImageView ivHomeImage;
+	private ImageView ivProfilePic;
+	private SquareLinearLayout sllBack; 
+	private SquareLinearLayout sllShare;
+	private SquareLinearLayout sllLike;
+	private SquareLinearLayout sllFollow;
 	private static SquareLinearLayout sllProfilePic;
 	
 	private Question question;
+	private int countLike = 0;
+	private int countFollow = 0;
+	
+	private static final String IMAGE_CACHE_DIR = ".gallery/cache";
+	private ImageFetcher profileImageFetcher;
+	private ImageFetcher questionImageFetcher;
 	
 		
 	QuestionFragment(){	
@@ -51,11 +66,7 @@ public class QuestionFragment extends BaseFragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View root = inflater.inflate(R.layout.question_fragment, null);
-
-//		if(ApplicationState.getHomefeedQuestion_Offset() - ApplicationState.getHomefeedQuestion_CurrentIndex() <= 1){
-//			new FetchQuestionTask().execute();
-//		}
-//		
+	
 		initializeTouchListeners(root);
 		initialize(root);
 		setValues();
@@ -63,10 +74,9 @@ public class QuestionFragment extends BaseFragment{
 	}
 
 	private void initializeTouchListeners(View root) {
-		
+
 		root.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-            	
 
                 if(event.getAction() == MotionEvent.ACTION_DOWN){
                     xDown = event.getX();
@@ -110,7 +120,8 @@ public class QuestionFragment extends BaseFragment{
                 				break;               	
                 	}
                 	
-                	xDown = yDown = xUp = yUp = 0;
+                	xDown = yDown = xUp = yUp = 0; 	
+                	
                 }              
                 return true;
             }
@@ -122,52 +133,37 @@ public class QuestionFragment extends BaseFragment{
 		tvLocation.setText(getArguments().getString("LOCATION"));
 		tvUsername.setText(getArguments().getString("USERNAME"));
 		tvQuestion.setText(getArguments().getString("QUESTION"));
+		questionImageFetcher.loadImage(getArguments().get("QUESTION_PIC"), ivHomeImage);
+		profileImageFetcher.loadImage(getArguments().get("PROFILE_PIC"), ivProfilePic);
 	}
 	
-	private void setUIValues(String question, String location, String username){
-		tvLocation.setText(location);
-		tvUsername.setText(username);
-		tvQuestion.setText(question);
-	}
+//	private void setUIValues(String question, String location, String username){
+//		tvLocation.setText(location);
+//		tvUsername.setText(username);
+//		tvQuestion.setText(question);
+//	}
 
 	private void initialize(View root) {
 		tvLocation = (TextView)root.findViewById(R.id.tvLocation);
 		tvUsername = (TextView)root.findViewById(R.id.tvUsername);
 		tvQuestion = (TextView)root.findViewById(R.id.tvQuestion);
 		ivHomeImage = (ImageView)root.findViewById(R.id.ivHomeImage);
+		ivProfilePic = (ImageView)root.findViewById(R.id.ivProfilePic);
 		sllProfilePic = (SquareLinearLayout)root.findViewById(R.id.sllProfilePic);
-	}
-	
-	
-	public class FetchQuestionTask extends AsyncTask<Void, Void, Boolean>{
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			progressDialogHandler.showCustomProgressDialog(activity);
-		}
+		sllBack = (SquareLinearLayout)root.findViewById(R.id.sllBack);
+		sllShare = (SquareLinearLayout)root.findViewById(R.id.sllShare);
+		sllLike = (SquareLinearLayout)root.findViewById(R.id.sllLike);
+		sllFollow = (SquareLinearLayout)root.findViewById(R.id.sllFollow);
 		
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			try {
-				QuestionContentManager.fetchQuestionsFromBackend(activity);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			if(QuestionContentManager.updateSuccessful)
-				return true;
-			else
-				return false;
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			if(result){
-				progressDialogHandler.dismissCustomProgressDialog(activity);
-			}
-		}
-
+		ImageCacheParams cacheParams = new ImageCacheParams(activity, IMAGE_CACHE_DIR);
+		// Set memory cache to 25% of app memory
+		cacheParams.setMemCacheSizePercent(0.25f);
+		profileImageFetcher = new RemoteImageFetcher(activity, 100);
+		profileImageFetcher.setLoadingImage(R.drawable.texture);
+		profileImageFetcher.addImageCache(HomeScreen.supportFragmentManager, cacheParams);
+		questionImageFetcher = new RemoteImageFetcher(activity, 500);
+		questionImageFetcher.setLoadingImage(R.drawable.texture);
+		questionImageFetcher.addImageCache(HomeScreen.supportFragmentManager, cacheParams);
 	}
-	
 
 }
