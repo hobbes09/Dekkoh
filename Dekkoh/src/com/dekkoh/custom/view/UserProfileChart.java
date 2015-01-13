@@ -5,10 +5,10 @@ import java.util.List;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -19,29 +19,27 @@ import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Scroller;
 
 import com.dekkoh.R;
+import com.dekkoh.util.Log;
 
 /**
  * Custom view that shows a pie chart and, optionally, a label.
  */
 public class UserProfileChart extends ViewGroup {
 	private List<Item> mData = new ArrayList<Item>();
-
+	private int minw, minh;
 	private float mTotal = 0.0f;
 
 	private RectF mPieBounds = new RectF();
 
 	private Paint mPiePaint;
+	private Paint mShadowPaint;
 
 	private float mHighlightStrength = 1.15f;
 
-	private float mPointerRadius = 2.0f;
 	private float mPointerX;
 	private float mPointerY;
 
@@ -50,16 +48,14 @@ public class UserProfileChart extends ViewGroup {
 	private OnCurrentItemChangedListener mCurrentItemChangedListener = null;
 
 	private PieView mPieView;
-	private Scroller mScroller;
-	private ValueAnimator mScrollAnimator;
-	private GestureDetector mDetector;
+	private float diameter;
+
 	// The angle at which we measure the current item. This is
 	// where the pointer points.
 	private int mCurrentItemAngle;
 
 	// the index of the current item.
 	private int mCurrentItem = 0;
-	private boolean mAutoCenterInSlice;
 	private ObjectAnimator mAutoCenterAnimator;
 	private RectF mShadowBounds = new RectF();
 
@@ -94,7 +90,7 @@ public class UserProfileChart extends ViewGroup {
 	/**
 	 * Class constructor taking only a context. Use this constructor to create
 	 * {@link UserProfileChart} objects from your own code.
-	 *
+	 * 
 	 * @param context
 	 */
 	public UserProfileChart(Context context) {
@@ -106,11 +102,11 @@ public class UserProfileChart extends ViewGroup {
 	 * Class constructor taking a context and an attribute set. This constructor
 	 * is used by the layout engine to construct a {@link UserProfileChart} from
 	 * a set of XML attributes.
-	 *
+	 * 
 	 * @param context
 	 * @param attrs
 	 *            An attribute set which can contain attributes from
-	 *            {@link com.UserProfileChart.android.customviews.R.styleable.PieChart}
+	 *            {@link com.UserProfileChart.android.customviews.R.styleable.UserProfileChart}
 	 *            as well as attributes inherited from {@link android.view.View}
 	 *            .
 	 */
@@ -123,7 +119,8 @@ public class UserProfileChart extends ViewGroup {
 		// unresolved references. Call obtainStyledAttributes()
 		// to get the final values for each attribute.
 		//
-		// This call uses R.styleable.PieChart, which is an array of
+		// This call uses R.styleable.UserProfileChart, which is an array
+		// of
 		// the custom attributes that were declared in attrs.xml.
 		TypedArray a = context.getTheme().obtainStyledAttributes(attrs,
 				R.styleable.UserProfileChart, 0, 0);
@@ -132,18 +129,14 @@ public class UserProfileChart extends ViewGroup {
 			// Retrieve the values from the TypedArray and store into
 			// fields of this class.
 			//
-			// The R.styleable.UserProfileChart_* constants represent the index
-			// for
-			// each custom attribute in the R.styleable.PieChart array.
+			// The R.styleable.UserProfileChart_* constants represent the
+			// index for
+			// each custom attribute in the R.styleable.UserProfileChart
+			// array.
 			mHighlightStrength = a.getFloat(
 					R.styleable.UserProfileChart_highlightStrength, 1.0f);
 			mPieRotation = a
 					.getInt(R.styleable.UserProfileChart_pieRotation, 0);
-			mPointerRadius = a.getDimension(
-					R.styleable.UserProfileChart_pointerRadius, 2.0f);
-			mAutoCenterInSlice = a.getBoolean(
-					R.styleable.UserProfileChart_autoCenterPointerInSlice,
-					false);
 		} finally {
 			// release the TypedArray so that it can be reused.
 			a.recycle();
@@ -153,24 +146,8 @@ public class UserProfileChart extends ViewGroup {
 	}
 
 	/**
-	 * Set a value that specifies whether the label text is to the right or the
-	 * left of the pie chart graphic.
-	 *
-	 * @param textPos
-	 *            TEXTPOS_LEFT to draw the text to the left of the graphic, or
-	 *            TEXTPOS_RIGHT to draw the text to the right of the graphic.
-	 */
-	public void setTextPos(int textPos) {
-		if (textPos != TEXTPOS_LEFT && textPos != TEXTPOS_RIGHT) {
-			throw new IllegalArgumentException(
-					"TextPos must be one of TEXTPOS_LEFT or TEXTPOS_RIGHT");
-		}
-		invalidate();
-	}
-
-	/**
 	 * Returns the strength of the highlighting applied to each pie segment.
-	 *
+	 * 
 	 * @return The highlight strength.
 	 */
 	public float getHighlightStrength() {
@@ -184,7 +161,7 @@ public class UserProfileChart extends ViewGroup {
 	 * produces no highlight at all. Values greater than one produce highlights
 	 * that are lighter than the base color, while values less than one produce
 	 * highlights that are darker than the base color.
-	 *
+	 * 
 	 * @param highlightStrength
 	 *            The highlight strength.
 	 */
@@ -198,30 +175,8 @@ public class UserProfileChart extends ViewGroup {
 	}
 
 	/**
-	 * Returns the radius of the filled circle that is drawn at the tip of the
-	 * current-item pointer.
-	 *
-	 * @return The radius of the pointer tip, in pixels.
-	 */
-	public float getPointerRadius() {
-		return mPointerRadius;
-	}
-
-	/**
-	 * Set the radius of the filled circle that is drawn at the tip of the
-	 * current-item pointer.
-	 *
-	 * @param pointerRadius
-	 *            The radius of the pointer tip, in pixels.
-	 */
-	public void setPointerRadius(float pointerRadius) {
-		mPointerRadius = pointerRadius;
-		invalidate();
-	}
-
-	/**
 	 * Returns the current rotation of the pie graphic.
-	 *
+	 * 
 	 * @return The current pie rotation, in degrees.
 	 */
 	public int getPieRotation() {
@@ -229,23 +184,8 @@ public class UserProfileChart extends ViewGroup {
 	}
 
 	/**
-	 * Set the current rotation of the pie graphic. Setting this value may
-	 * change the current item.
-	 *
-	 * @param rotation
-	 *            The current pie rotation, in degrees.
-	 */
-	public void setPieRotation(int rotation) {
-		rotation = (rotation % 360 + 360) % 360;
-		mPieRotation = rotation;
-		mPieView.rotateTo(rotation);
-
-		calcCurrentItem();
-	}
-
-	/**
 	 * Returns the index of the currently selected data item.
-	 *
+	 * 
 	 * @return The zero-based index of the currently selected data item.
 	 */
 	public int getCurrentItem() {
@@ -255,7 +195,7 @@ public class UserProfileChart extends ViewGroup {
 	/**
 	 * Set the currently selected item. Calling this function will set the
 	 * current selection and rotate the pie to bring it into view.
-	 *
+	 * 
 	 * @param currentItem
 	 *            The zero-based index of the item to select.
 	 */
@@ -267,7 +207,7 @@ public class UserProfileChart extends ViewGroup {
 	 * Set the current item by index. Optionally, scroll the current item into
 	 * view. This version is for internal use--the scrollIntoView option is
 	 * always true for external callers.
-	 *
+	 * 
 	 * @param currentItem
 	 *            The index of the current item.
 	 * @param scrollIntoView
@@ -289,7 +229,7 @@ public class UserProfileChart extends ViewGroup {
 	/**
 	 * Register a callback to be invoked when the currently selected item
 	 * changes.
-	 *
+	 * 
 	 * @param listener
 	 *            Can be null. The current item changed listener to attach to
 	 *            this view.
@@ -304,18 +244,15 @@ public class UserProfileChart extends ViewGroup {
 	 * whose size is proportional to the item's value. As new items are added,
 	 * the size of each existing slice is recalculated so that the proportions
 	 * remain correct.
-	 *
-	 * @param label
-	 *            The label text to be shown when this item is selected.
+	 * 
 	 * @param value
 	 *            The value of this item.
 	 * @param color
 	 *            The ARGB color of the pie slice associated with this item.
 	 * @return The index of the newly added item.
 	 */
-	public int addItem(String interestID, float value, int color) {
+	public int addItem(float value, int color) {
 		Item it = new Item();
-		it.mInterestID = interestID;
 		it.mColor = color;
 		it.mValue = value;
 
@@ -340,54 +277,26 @@ public class UserProfileChart extends ViewGroup {
 	}
 
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		// Let the GestureDetector interpret this event
-		boolean result = mDetector.onTouchEvent(event);
-
-		// If the GestureDetector doesn't want this event, do some custom
-		// processing.
-		// This code just tries to detect when the user is done scrolling by
-		// looking
-		// for ACTION_UP events.
-		if (!result) {
-			if (event.getAction() == MotionEvent.ACTION_UP) {
-				// User is done scrolling, it's now safe to do things like
-				// autocenter
-				stopScrolling();
-				result = true;
-			}
-		}
-		return result;
-	}
-
-	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		// Do nothing. Do not call the superclass method--that would start a
 		// layout pass
-		// on this view's children. UserProfileChart lays out its children in
+		// on this view's children. UserProfileChart lays out its children
+		// in
 		// onSizeChanged().
 	}
 
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-
-		// If the API level is less than 11, we can't rely on the view animation
-		// system to
-		// do the scrolling animation. Need to tick it here and call
-		// postInvalidate() until the scrolling is done.
-		if (Build.VERSION.SDK_INT < 11) {
-			tickScrollAnimation();
-			if (!mScroller.isFinished()) {
-				postInvalidate();
-			}
-		}
+		// Draw the shadow
+		canvas.drawOval(mShadowBounds, mShadowPaint);
+		// Draw the label text
 	}
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		// Try for a width based on our minimum
-		int minw = getPaddingLeft() + getPaddingRight()
+		minw = getPaddingLeft() + getPaddingRight()
 				+ getSuggestedMinimumWidth();
 
 		int w = Math.max(minw, MeasureSpec.getSize(widthMeasureSpec));
@@ -395,16 +304,16 @@ public class UserProfileChart extends ViewGroup {
 		// Whatever the width ends up being, ask for a height that would let the
 		// pie
 		// get as big as it can
-		int minh = (w) + getPaddingBottom() + getPaddingTop();
+		minh = w + getPaddingBottom() + getPaddingTop();
 		int h = Math.min(MeasureSpec.getSize(heightMeasureSpec), minh);
-
+		Log.e("onMeasure(" + minw + "," + minh + ")");
 		setMeasuredDimension(w, h);
 	}
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
-
+		Log.e("onSizeChanged(" + w + "," + h + ")");
 		//
 		// Set dimensions for text, pie chart, etc
 		//
@@ -412,14 +321,18 @@ public class UserProfileChart extends ViewGroup {
 		float xpad = (float) (getPaddingLeft() + getPaddingRight());
 		float ypad = (float) (getPaddingTop() + getPaddingBottom());
 
+		// Account for the label
+		xpad += 0;
+
 		float ww = (float) w - xpad;
 		float hh = (float) h - ypad;
 
 		// Figure out how big we can make the pie.
-		float diameter = Math.min(ww, hh);
+		diameter = Math.min(ww, hh);
 		mPieBounds = new RectF(0.0f, 0.0f, diameter, diameter);
-		mPieBounds.offsetTo(getPaddingLeft(), getPaddingTop());
+		mPieBounds.offsetTo((w - diameter) / 2, (h - diameter) / 2);
 
+		mPointerY = 0 - (0 / 2.0f);
 		float pointerOffset = mPieBounds.centerY() - mPointerY;
 
 		if (pointerOffset < 0) {
@@ -478,13 +391,12 @@ public class UserProfileChart extends ViewGroup {
 			// positions array is non-null.
 			//
 			it.mShader = new SweepGradient(mPieBounds.width() / 2.0f,
-					mPieBounds.height() / 2.0f, new int[] { it.mHighlight,
-							it.mHighlight, it.mColor, it.mColor, },
-					new float[] { 0, (float) (360 - it.mEndAngle) / 360.0f,
+					mPieBounds.height() / 2.0f, new int[] { it.mColor,
+							it.mColor, it.mColor, it.mColor, }, new float[] {
+							0, (float) (360 - it.mEndAngle) / 360.0f,
 							(float) (360 - it.mStartAngle) / 360.0f, 1.0f });
 		}
 		calcCurrentItem();
-		onScrollFinished();
 	}
 
 	/**
@@ -500,14 +412,18 @@ public class UserProfileChart extends ViewGroup {
 		mPiePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPiePaint.setStyle(Paint.Style.FILL);
 
+		// Set up the paint for the shadow
+		mShadowPaint = new Paint(0);
+		mShadowPaint.setColor(0xff101010);
+		mShadowPaint.setMaskFilter(new BlurMaskFilter(8,
+				BlurMaskFilter.Blur.NORMAL));
+
 		// Add a child view to draw the pie. Putting this in a child view
 		// makes it possible to draw it on a separate hardware layer that
 		// rotates
 		// independently
 		mPieView = new PieView(getContext());
 		addView(mPieView);
-		mPieView.rotateTo(mPieRotation);
-
 		// Set up an animator to animate the PieRotation property. This is used
 		// to
 		// correct the pie's orientation after the user lets go of it.
@@ -532,68 +448,13 @@ public class UserProfileChart extends ViewGroup {
 				}
 			});
 		}
-
-		// Create a Scroller to handle the fling gesture.
-		if (Build.VERSION.SDK_INT < 11) {
-			mScroller = new Scroller(getContext());
-		} else {
-			mScroller = new Scroller(getContext(), null, true);
-		}
-		// The scroller doesn't have any built-in animation functions--it just
-		// supplies
-		// values when we ask it to. So we have to have a way to call it every
-		// frame
-		// until the fling ends. This code (ab)uses a ValueAnimator object to
-		// generate
-		// a callback on every animation frame. We don't use the animated value
-		// at all.
-		if (Build.VERSION.SDK_INT >= 11) {
-			mScrollAnimator = ValueAnimator.ofFloat(0, 1);
-			mScrollAnimator
-					.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-						public void onAnimationUpdate(
-								ValueAnimator valueAnimator) {
-							tickScrollAnimation();
-						}
-					});
-		}
-
-		// Create a gesture detector to handle onTouch messages
-		mDetector = new GestureDetector(UserProfileChart.this.getContext(),
-				new GestureListener());
-
-		// Turn off long press--this control doesn't use it, and if long press
-		// is enabled,
-		// you can't scroll for a bit, pause, then scroll some more (the pause
-		// is interpreted
-		// as a long press, apparently)
-		mDetector.setIsLongpressEnabled(false);
-
 		// In edit mode it's nice to have some demo data, so add that here.
 		if (this.isInEditMode()) {
 			Resources res = getResources();
-			addItem("556FFCGGH", 2, res.getColor(R.color.travel_and_adventure));
-			addItem("556FFCGGH", 3.5f,
-					res.getColor(R.color.shopping_and_lifestyle));
-			addItem("556FFCGGH", 2.5f,
-					res.getColor(R.color.sports_and_activities));
-			addItem("556FFCGGH", 3, res.getColor(R.color.food_and_resturant));
-			addItem("556FFCGGH", 1, res.getColor(R.color.pub_and_nightlife));
-			addItem("556FFCGGH", 3, res.getColor(R.color.accomodation));
+			addItem(3, res.getColor(R.color.event_and_entertainment));
+			addItem(4, res.getColor(R.color.travel_and_adventure));
 		}
 
-	}
-
-	private void tickScrollAnimation() {
-		if (!mScroller.isFinished()) {
-			mScroller.computeScrollOffset();
-			setPieRotation(mScroller.getCurrY());
-		} else {
-			if (Build.VERSION.SDK_INT >= 11) {
-				mScrollAnimator.cancel();
-			}
-			onScrollFinished();
-		}
 	}
 
 	private void setLayerToSW(View v) {
@@ -605,29 +466,6 @@ public class UserProfileChart extends ViewGroup {
 	private void setLayerToHW(View v) {
 		if (!v.isInEditMode() && Build.VERSION.SDK_INT >= 11) {
 			setLayerType(View.LAYER_TYPE_HARDWARE, null);
-		}
-	}
-
-	/**
-	 * Force a stop to all pie motion. Called when the user taps during a fling.
-	 */
-	private void stopScrolling() {
-		mScroller.forceFinished(true);
-		if (Build.VERSION.SDK_INT >= 11) {
-			mAutoCenterAnimator.cancel();
-		}
-
-		onScrollFinished();
-	}
-
-	/**
-	 * Called when the user finishes a scroll action.
-	 */
-	private void onScrollFinished() {
-		if (mAutoCenterInSlice) {
-			centerOnCurrentItem();
-		} else {
-			mPieView.decelerate();
 		}
 	}
 
@@ -665,7 +503,7 @@ public class UserProfileChart extends ViewGroup {
 
 		/**
 		 * Construct a PieView
-		 *
+		 * 
 		 * @param context
 		 */
 		public PieView(Context context) {
@@ -701,6 +539,18 @@ public class UserProfileChart extends ViewGroup {
 				canvas.drawArc(mBounds, 360 - it.mEndAngle, it.mEndAngle
 						- it.mStartAngle, true, mPiePaint);
 			}
+			Paint inner_circle_paint = new Paint();
+			inner_circle_paint.setStyle(Paint.Style.STROKE);
+			inner_circle_paint.setColor(Color.BLACK);
+			inner_circle_paint.setStrokeWidth(10f);
+			float inner_circle_radius = diameter / 2 - 15;
+			canvas.drawCircle(mBounds.centerX(), mBounds.centerY(),
+					inner_circle_radius, inner_circle_paint);
+			inner_circle_paint.setStrokeWidth(10.5f);
+			inner_circle_radius = diameter / 2 - 5;
+			inner_circle_paint.setColor(Color.parseColor("#E2B72B"));
+			canvas.drawCircle(mBounds.centerX(), mBounds.centerY(),
+					inner_circle_radius, inner_circle_paint);
 		}
 
 		@Override
@@ -709,15 +559,6 @@ public class UserProfileChart extends ViewGroup {
 		}
 
 		RectF mBounds;
-
-		public void rotateTo(float pieRotation) {
-			mRotation = pieRotation;
-			if (Build.VERSION.SDK_INT >= 11) {
-				setRotation(pieRotation);
-			} else {
-				invalidate();
-			}
-		}
 
 		public void setPivot(float x, float y) {
 			mPivot.x = x;
@@ -735,7 +576,6 @@ public class UserProfileChart extends ViewGroup {
 	 * Maintains the state for a data item.
 	 */
 	private class Item {
-		public String mInterestID;
 		public float mValue;
 		public int mColor;
 
@@ -746,95 +586,4 @@ public class UserProfileChart extends ViewGroup {
 		public int mHighlight;
 		public Shader mShader;
 	}
-
-	/**
-	 * Extends {@link GestureDetector.SimpleOnGestureListener} to provide custom
-	 * gesture processing.
-	 */
-	private class GestureListener extends
-			GestureDetector.SimpleOnGestureListener {
-		@Override
-		public boolean onScroll(MotionEvent e1, MotionEvent e2,
-				float distanceX, float distanceY) {
-			// Set the pie rotation directly.
-			float scrollTheta = vectorToScalarScroll(distanceX, distanceY,
-					e2.getX() - mPieBounds.centerX(),
-					e2.getY() - mPieBounds.centerY());
-			setPieRotation(getPieRotation() - (int) scrollTheta
-					/ FLING_VELOCITY_DOWNSCALE);
-			return true;
-		}
-
-		@Override
-		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
-				float velocityY) {
-			// Set up the Scroller for a fling
-			float scrollTheta = vectorToScalarScroll(velocityX, velocityY,
-					e2.getX() - mPieBounds.centerX(),
-					e2.getY() - mPieBounds.centerY());
-			mScroller.fling(0, (int) getPieRotation(), 0, (int) scrollTheta
-					/ FLING_VELOCITY_DOWNSCALE, 0, 0, Integer.MIN_VALUE,
-					Integer.MAX_VALUE);
-
-			// Start the animator and tell it to animate for the expected
-			// duration of the fling.
-			if (Build.VERSION.SDK_INT >= 11) {
-				mScrollAnimator.setDuration(mScroller.getDuration());
-				mScrollAnimator.start();
-			}
-			return true;
-		}
-
-		@Override
-		public boolean onDown(MotionEvent e) {
-			// The user is interacting with the pie, so we want to turn on
-			// acceleration
-			// so that the interaction is smooth.
-			mPieView.accelerate();
-			if (isAnimationRunning()) {
-				stopScrolling();
-			}
-			return true;
-		}
-	}
-
-	private boolean isAnimationRunning() {
-		return !mScroller.isFinished()
-				|| (Build.VERSION.SDK_INT >= 11 && mAutoCenterAnimator
-						.isRunning());
-	}
-
-	/**
-	 * Helper method for translating (x,y) scroll vectors into scalar rotation
-	 * of the pie.
-	 *
-	 * @param dx
-	 *            The x component of the current scroll vector.
-	 * @param dy
-	 *            The y component of the current scroll vector.
-	 * @param x
-	 *            The x position of the current touch, relative to the pie
-	 *            center.
-	 * @param y
-	 *            The y position of the current touch, relative to the pie
-	 *            center.
-	 * @return The scalar representing the change in angular position for this
-	 *         scroll.
-	 */
-	private static float vectorToScalarScroll(float dx, float dy, float x,
-			float y) {
-		// get the length of the vector
-		float l = (float) Math.sqrt(dx * dx + dy * dy);
-
-		// decide if the scalar should be negative or positive by finding
-		// the dot product of the vector perpendicular to (x,y).
-		float crossX = -y;
-		float crossY = x;
-
-		float dot = (crossX * dx + crossY * dy);
-		float sign = Math.signum(dot);
-
-		return l * sign;
-	}
-
 }
