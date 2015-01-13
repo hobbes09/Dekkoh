@@ -1,4 +1,4 @@
-package com.dekkoh.util;
+package com.dekkoh.custom.handler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +11,8 @@ import android.os.Build;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
+import com.dekkoh.util.Log;
 
 public final class AlertDialogHandler {
 	private static final String TAG = "AlertDialogHandler";

@@ -1,5 +1,5 @@
 
-package com.dekkoh.util;
+package com.dekkoh.custom.handler;
 
 import android.app.Activity;
 import android.app.Dialog;

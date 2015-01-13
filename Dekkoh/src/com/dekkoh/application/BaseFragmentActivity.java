@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
-import com.dekkoh.util.AlertDialogHandler;
+import com.dekkoh.custom.handler.AlertDialogHandler;
+import com.dekkoh.custom.handler.ProgressDialogHandler;
 import com.dekkoh.util.Log;
-import com.dekkoh.util.ProgressDialogHandler;
 
 public class BaseFragmentActivity extends FragmentActivity {
 	protected static String TAG = "BaseActivity";

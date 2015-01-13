@@ -2,14 +2,14 @@ package com.dekkoh.application;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
-import com.dekkoh.util.AlertDialogHandler;
+import com.dekkoh.custom.handler.AlertDialogHandler;
+import com.dekkoh.custom.handler.ProgressDialogHandler;
 import com.dekkoh.util.Log;
-import com.dekkoh.util.ProgressDialogHandler;
 
 public class BaseFragment extends Fragment {
 	protected static String TAG = "BaseFragment";
@@ -19,6 +19,7 @@ public class BaseFragment extends Fragment {
 	protected ProgressDialogHandler progressDialogHandler;
 	protected AlertDialogHandler alertDialogHandler;
 	protected View rootView;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class BaseFragment extends Fragment {
 		Log.d(TAG, "onCreate");
 		activity = getActivity();
 		actionBar = activity.getActionBar();
-		fragmentManager = activity.getFragmentManager();
+		fragmentManager = getFragmentManager();
 		progressDialogHandler = ProgressDialogHandler.getInstance();
 		alertDialogHandler = AlertDialogHandler.getInstance();
 	}
