@@ -30,6 +30,7 @@ import com.dekkoh.application.ApplicationState;
 import com.dekkoh.application.BaseFragment;
 import com.dekkoh.custom.view.SquareLinearLayout;
 import com.dekkoh.datamodel.Question;
+import com.dekkoh.util.CommonUtils;
 import com.kavyasoni.gallery.ui.helper.ImageFetcher;
 import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
 import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
@@ -133,8 +134,16 @@ public class QuestionFragment extends BaseFragment{
 		tvLocation.setText(getArguments().getString("LOCATION"));
 		tvUsername.setText(getArguments().getString("USERNAME"));
 		tvQuestion.setText(getArguments().getString("QUESTION"));
+		if (CommonUtils.isValidURL(getArguments().get("QUESTION_PIC")+"")) {
 		questionImageFetcher.loadImage(getArguments().get("QUESTION_PIC"), ivHomeImage);
+		}else{
+			ivHomeImage.setImageResource(R.drawable.no_image_available);
+		}
+		if (CommonUtils.isValidURL(getArguments().get("PROFILE_PIC")+"")) {
 		profileImageFetcher.loadImage(getArguments().get("PROFILE_PIC"), ivProfilePic);
+		}else{
+			ivProfilePic.setImageResource(R.drawable.ic_noprofilepic);
+		}
 	}
 	
 //	private void setUIValues(String question, String location, String username){
