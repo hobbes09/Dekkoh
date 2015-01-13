@@ -93,7 +93,29 @@ public static boolean updateSuccessful = false;
 		return questionFragArgs;
 	}
 
-
+	public static Bundle getNextQuestionBundle(Activity activity){
+		QuestionContentManager.getInstance().setCurrentIndex(QuestionContentManager.getInstance().getCurrentIndex() + 1);
+		Question question = QuestionContentManager.getInstance().getQuestionList().get(QuestionContentManager.getInstance().getCurrentIndex());
+		Bundle questionFragArgs = new Bundle();
+		questionFragArgs.putString("LOCATION", question.getLocation());
+		questionFragArgs.putString("USERNAME", question.getUserName());
+		questionFragArgs.putString("QUESTION", question.getQuestion());
+		questionFragArgs.putString("PROFILE_PIC", question.getUserImage());
+		questionFragArgs.putString("QUESTION_PIC", question.getImage());
+		return questionFragArgs;
+	}
+	
+	public static Bundle getPreviousQuestionBundle(Activity activity){	
+		QuestionContentManager.getInstance().setCurrentIndex(QuestionContentManager.getInstance().getCurrentIndex() - 1);
+		Question question = QuestionContentManager.getInstance().getQuestionList().get(QuestionContentManager.getInstance().getCurrentIndex());
+		Bundle questionFragArgs = new Bundle();
+		questionFragArgs.putString("LOCATION", question.getLocation());
+		questionFragArgs.putString("USERNAME", question.getUserName());
+		questionFragArgs.putString("QUESTION", question.getQuestion());
+		questionFragArgs.putString("PROFILE_PIC", question.getUserImage());
+		questionFragArgs.putString("QUESTION_PIC", question.getImage());
+		return questionFragArgs;
+	}
 	
 	
 }
