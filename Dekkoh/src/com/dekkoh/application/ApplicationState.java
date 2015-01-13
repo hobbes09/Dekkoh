@@ -2,8 +2,8 @@ package com.dekkoh.application;
 
 public class ApplicationState {
 	
-	private static int homefeedQuestion_Offset = 1;
-	private static int homefeedQuestion_Limit = 5;
+	private static int homefeedQuestion_Offset = 0;
+	private static int homefeedQuestion_Limit = 10;
 	private static int homefeedQuestion_CurrentIndex = -1;
 	private final static String questionsFile = "questionsFile";
 	private final static String answersFile = "answersFile";

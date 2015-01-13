@@ -1,6 +1,7 @@
 package com.dekkoh.homefeed;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -10,6 +11,7 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -31,17 +33,19 @@ import android.widget.Toast;
 import com.dekkoh.R;
 import com.dekkoh.application.ApplicationState;
 import com.dekkoh.application.BaseFragmentActivity;
+import com.dekkoh.datamodel.Question;
 import com.dekkoh.following.Following;
+import com.dekkoh.homefeed.QuestionFragment.FetchQuestionTask;
 import com.dekkoh.messages.Messages;
 import com.dekkoh.myactivity.MyActivity;
 import com.dekkoh.myprofile.MyProfile;
+import com.dekkoh.service.APIProcessor;
 import com.dekkoh.settings.Settings;
 import com.dekkoh.slidingmenu.NavDrawerItem;
 import com.dekkoh.slidingmenu.NavDrawerListAdapter;
 import com.dekkoh.util.FileManager;
 
-public class HomeScreen extends BaseFragmentActivity implements OnClickListener,
-		Runnable {
+public class HomeScreen extends BaseFragmentActivity implements OnClickListener {
 	private ImageButton ibPost;
 	private ImageButton ibMap;
 	private TextView tvTitle;
@@ -66,14 +70,14 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener,
 	static FragmentManager supportFragmentManager;
 	public static Context homeScreenContext;
 
-	public static Thread threadQuestionUpdater;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		customizeActionBar(); // MUST BE PLACED BEFORE setContentView()
+		super.onCreate(savedInstanceState);	
 		setContentView(R.layout.activity_homefeed);
 		initialize(savedInstanceState);
+		//new FetchQuestionTask().execute();	
 	}
 
 	private void initialize(Bundle savedInstanceState) {
@@ -89,8 +93,6 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener,
 
 		navigationDrawerInitialisation(savedInstanceState);
 
-		threadQuestionUpdater = new Thread("Question Updater");
-		threadQuestionUpdater.start();
 	}
 
 	private void customizeActionBar() {
@@ -261,33 +263,21 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener,
 			setTitle(navMenuTitles[position]);
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else {
-			try {
-				threadQuestionUpdater.join();
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-
-			if (QuestionContentManager.updateSuccessful) {
-				fragment = new QuestionFragment();
-				try {
-					fragment.setArguments(QuestionContentManager
-							.getNextQuestionContent());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				FragmentTransaction transaction = getSupportFragmentManager()
-						.beginTransaction();
-				transaction.setCustomAnimations(
-						R.animator.frag_slide_in_from_bottom, 0);
-				transaction.replace(R.id.contentHomeActivity, fragment);
-				transaction.commit();
-			} else {
-				// Display dialog with
-				// "Unable to access server. Check your internet connection"
-				// message
-			}
-		}
+			
+			fragment = new QuestionFragment();
+			fragment.setArguments(QuestionContentManager.getNextQuestionBundle(activity));
+//			try {
+//				fragment.setArguments(QuestionContentManager.getNextQuestionContent(activity));
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+			transaction.setCustomAnimations(R.animator.frag_slide_in_from_bottom, 0);
+			transaction.replace(R.id.contentHomeActivity, fragment);
+			transaction.commit();
+		} 
 	}
+	
 
 	@Override
 	public void setTitle(CharSequence title) {
@@ -344,14 +334,34 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener,
 
 		}
 	}
+	
+	
+	public class FetchQuestionTask extends AsyncTask<Void, Void, List<Question>>{
 
-	@Override
-	public void run() {
-		try {
-			QuestionContentManager.fetchQuestionsFromBackend();
-		} catch (Exception e) {
-			e.printStackTrace();
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			progressDialogHandler.showCustomProgressDialog(activity);
+		}
+		
+		@Override
+		protected List<Question> doInBackground(Void... params) {
+			try {
+				return APIProcessor.getQuestions(activity, 0, 20, 0, 0, null, null, 0, null, true, null, null, null);			
+				} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+			
+		}
+
+		@Override
+		protected void onPostExecute(List<Question> qlist) {
+			if(qlist!=null){
+				progressDialogHandler.dismissCustomProgressDialog(activity);
+				QuestionContentManager.getInstance().setQuestionList(qlist);
+				
+			}
 		}
 	}
-
 }

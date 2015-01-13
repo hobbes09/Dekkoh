@@ -16,8 +16,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/errormap">
+            android:layout_weight="0.4"
+            android:background="@drawable/texture">
             <ImageView
                 android:id="@+id/ivHomeImage"
                 android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.6"
             android:background="#ffffff" >
 
             <LinearLayout 
@@ -40,10 +40,10 @@
                 <LinearLayout 
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="2.5"
+                    android:layout_weight="2"
                     android:orientation="horizontal"
                     android:background="#ff0000"
-                    android:gravity="center_vertical"
+                    android:gravity="top"
                     >   
                                      
                     <com.dekkoh.custom.view.SquareLinearLayout 
@@ -60,22 +60,32 @@
                         android:layout_height="wrap_content"
                         android:text="Username"
                         android:padding="10dp"
-                        />
-                
+                    />
+                    
+                    <TextView
+                        android:id="@+id/locationPin"
+                        android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+                        android:drawableLeft="@drawable/greenlocation"
+                        android:singleLine="true"
+                        android:textColor="#BC1F1E"
+                        android:textSize="15sp" />
+	                
                     <TextView 
                         android:id="@+id/tvLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Location"
                         android:padding="10dp"
-                        />
+                        />                      
+
                     
                 </LinearLayout>
                 
 				<LinearLayout 
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="7.5"
+                    android:layout_weight="8"
                     android:orientation="horizontal"
                     android:background="#0000ff"
                     android:gravity="center"
@@ -83,11 +93,12 @@
                     
 				    <TextView 
                         android:id="@+id/tvQuestion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
                         android:text="Question"                 
                         android:padding="10dp"
                         />
+				   
                 </LinearLayout>
                 
 			</LinearLayout>

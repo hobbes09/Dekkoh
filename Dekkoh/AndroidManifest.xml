@@ -28,8 +28,14 @@
         <activity
             android:name=".homefeed.HomeScreen"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Dekkoh" >
+            android:theme="@style/CustomActionBarTheme" >
         </activity>
+        
+        <activity
+            android:name=".homefeed.Test"
+            android:label="@string/app_name" >
+        </activity>
+        
         <activity
             android:name=".splash.SplashActivity"
             android:label="@string/app_name" >

@@ -1,5 +1,7 @@
 package com.dekkoh.homefeed;
 
+import java.util.List;
+
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -26,6 +28,7 @@ import com.dekkoh.R;
 import com.dekkoh.application.ApplicationState;
 import com.dekkoh.application.BaseFragment;
 import com.dekkoh.custom.view.SquareLinearLayout;
+import com.dekkoh.datamodel.Question;
 
 public class QuestionFragment extends BaseFragment{
 	
@@ -36,9 +39,12 @@ public class QuestionFragment extends BaseFragment{
 	private TextView tvQuestion;
 	private ImageView ivHomeImage;
 	private static SquareLinearLayout sllProfilePic;
-	private static Resources resources;
+	
+	private Question question;
+	
 		
-	QuestionFragment(){				
+	QuestionFragment(){	
+		
 	}
 
 	@Override
@@ -46,11 +52,13 @@ public class QuestionFragment extends BaseFragment{
 			Bundle savedInstanceState) {
 		View root = inflater.inflate(R.layout.question_fragment, null);
 
+//		if(ApplicationState.getHomefeedQuestion_Offset() - ApplicationState.getHomefeedQuestion_CurrentIndex() <= 1){
+//			new FetchQuestionTask().execute();
+//		}
+//		
 		initializeTouchListeners(root);
-		
 		initialize(root);
 		setValues();
-		
         return root;		
 	}
 
@@ -73,28 +81,22 @@ public class QuestionFragment extends BaseFragment{
                 	switch(SWIPE_ACTION){
                 	case FragmentTransitionManager.SWIPE_DOWN:
                 				QuestionFragment nextQuestionFragment = new QuestionFragment();
-								try {
-									nextQuestionFragment.setArguments(QuestionContentManager.getNextQuestionContent());
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
+                				nextQuestionFragment.setArguments(QuestionContentManager.getNextQuestionBundle(activity));
                 				FragmentTransaction transactionNext = HomeScreen.supportFragmentManager.beginTransaction();
                 				transactionNext.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
                 				transactionNext.replace(R.id.contentHomeActivity, nextQuestionFragment);
                 			    transactionNext.commit();
+                			    //nextQuestionFragment.setValues();
                 				break;
                 	case FragmentTransitionManager.SWIPE_UP:
                 				if(ApplicationState.getHomefeedQuestion_CurrentIndex()!=0){
 	                				QuestionFragment previousQuestionFragment = new QuestionFragment();
-									try {
-										previousQuestionFragment.setArguments(QuestionContentManager.getPreviousQuestionContent());
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
+	                				previousQuestionFragment.setArguments(QuestionContentManager.getNextQuestionBundle(activity));
 			        				FragmentTransaction transactionPrevious = HomeScreen.supportFragmentManager.beginTransaction();
 			        				transactionPrevious.setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_down);
 			        				transactionPrevious.replace(R.id.contentHomeActivity, previousQuestionFragment);
 			        			    transactionPrevious.commit();
+			        			    //previousQuestionFragment.setValues();
                 				}
                 				break;
                 	case FragmentTransitionManager.SWIPE_LEFT:
@@ -120,9 +122,12 @@ public class QuestionFragment extends BaseFragment{
 		tvLocation.setText(getArguments().getString("LOCATION"));
 		tvUsername.setText(getArguments().getString("USERNAME"));
 		tvQuestion.setText(getArguments().getString("QUESTION"));
-//		ivHomeImage.setImageBitmap(getArguments().get);
-//		RoundedImageView.setCircledLinearLayoutBackground(sllProfilePic, R.drawable.test, getResources());		
-		new RoundedImagePainter().execute(Integer.toString(R.drawable.test));
+	}
+	
+	private void setUIValues(String question, String location, String username){
+		tvLocation.setText(location);
+		tvUsername.setText(username);
+		tvQuestion.setText(question);
 	}
 
 	private void initialize(View root) {
@@ -131,52 +136,38 @@ public class QuestionFragment extends BaseFragment{
 		tvQuestion = (TextView)root.findViewById(R.id.tvQuestion);
 		ivHomeImage = (ImageView)root.findViewById(R.id.ivHomeImage);
 		sllProfilePic = (SquareLinearLayout)root.findViewById(R.id.sllProfilePic);
-		resources = getResources();
 	}
-
 	
-	public class RoundedImagePainter extends AsyncTask<String, String, BitmapDrawable>{
-
-		@Override
-		protected BitmapDrawable doInBackground(String... params) {
-			int drawableObject = Integer.parseInt(params[0]);
-			Bitmap bMap = BitmapFactory.decodeResource(resources, drawableObject);
-			bMap = circledimage(bMap);
-			BitmapDrawable bitmapDrawable = new BitmapDrawable(resources, bMap);
-			return bitmapDrawable;
-		}
-
-		@Override
-		protected void onPostExecute(BitmapDrawable bitmapDrawable) {
-			//super.onPostExecute(bitmapDrawable);
-			sllProfilePic.setBackgroundDrawable(bitmapDrawable);
-		}
+	
+	public class FetchQuestionTask extends AsyncTask<Void, Void, Boolean>{
 
 		@Override
 		protected void onPreExecute() {
-			sllProfilePic.setBackgroundColor(Color.BLACK);
+			super.onPreExecute();
+			progressDialogHandler.showCustomProgressDialog(activity);
 		}
 		
-		public Bitmap circledimage(final Bitmap source) {
-	        final Paint paint = new Paint();
-	        paint.setAntiAlias(true);
-	        paint.setShader(new BitmapShader(source, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-	 
-	        Bitmap output = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Config.ARGB_8888);
-	        Canvas canvas = new Canvas(output);
-	        float radius = (source.getHeight()>source.getWidth())? source.getWidth() : source.getHeight();
-	        canvas.drawRoundRect(new RectF(0, 0, source.getWidth(), source.getHeight()), radius, radius, paint);
-	 
-	        if (source != output) {
-	            source.recycle();
-	        }
-	 
-	        return output;
-	    }
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			try {
+				QuestionContentManager.fetchQuestionsFromBackend(activity);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if(QuestionContentManager.updateSuccessful)
+				return true;
+			else
+				return false;
+		}
 
-	
+		@Override
+		protected void onPostExecute(Boolean result) {
+			if(result){
+				progressDialogHandler.dismissCustomProgressDialog(activity);
+			}
+		}
+
 	}
- 
 	
 
 }

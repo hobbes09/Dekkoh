@@ -4,6 +4,8 @@
     <string name="app_name">Dekkoh</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
 
     
     <!-- Facebook sdk integration -->
