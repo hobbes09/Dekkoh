@@ -1,6 +1,7 @@
 package com.dekkoh.homefeed;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -10,6 +11,7 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -31,10 +33,12 @@ import android.widget.Toast;
 import com.dekkoh.R;
 import com.dekkoh.application.ApplicationState;
 import com.dekkoh.application.BaseFragmentActivity;
+import com.dekkoh.datamodel.Question;
 import com.dekkoh.following.Following;
 import com.dekkoh.messages.Messages;
 import com.dekkoh.myactivity.MyActivity;
 import com.dekkoh.myprofile.MyProfile;
+import com.dekkoh.service.APIProcessor;
 import com.dekkoh.settings.Settings;
 import com.dekkoh.slidingmenu.NavDrawerItem;
 import com.dekkoh.slidingmenu.NavDrawerListAdapter;
@@ -320,12 +324,32 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 		}
 	}
 
-	@Override
-	public void run() {
-		try {
-			QuestionContentManager.fetchQuestionsFromBackend();
-		} catch (Exception e) {
-			e.printStackTrace();
+	public class FetchQuestionTask extends AsyncTask<Void, Void, List<Question>>{
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			progressDialogHandler.showCustomProgressDialog(activity);
+		}
+		
+		@Override
+		protected List<Question> doInBackground(Void... params) {
+			try {
+				return APIProcessor.getQuestions(activity, 0, 20, 0, 0, null, null, 0, null, true, null, null, null);			
+				} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+			
+		}
+
+		@Override
+		protected void onPostExecute(List<Question> qlist) {
+			if(qlist!=null){
+				progressDialogHandler.dismissCustomProgressDialog(activity);
+				QuestionContentManager.getInstance().setQuestionList(qlist);
+				
+			}
 		}
 	}
 
