@@ -11,7 +11,7 @@ import com.dekkoh.service.APIProcessor;
 import com.dekkoh.util.FileManager;
 import com.dekkoh.util.Log;
 
-public class QuestionContentManager implements Runnable{
+public class QuestionContentManager{
 	
 	public static boolean updateSuccessful = false;
 
@@ -40,12 +40,8 @@ public class QuestionContentManager implements Runnable{
 			existingQuestionList = (List<Question>)FileManager.getInstance().readObjectFileFromExternalStorage((Activity)HomeScreen.homeScreenContext, ApplicationState.getQuestionsfile());
 			question = existingQuestionList.get(ApplicationState.getHomefeedQuestion_CurrentIndex());
 			return question;
-		}else{
-			Thread threadQuestionUpdater = new Thread("Question Updater");
-			threadQuestionUpdater.start();
-			threadQuestionUpdater.join();
-			return getQuestionFromExternalStorage();
-		}	
+		}
+		return null;
 	}
 	
 	public static Bundle getNextQuestionContent() throws Exception{
@@ -66,15 +62,6 @@ public class QuestionContentManager implements Runnable{
 		questionFragArgs.putString("USERNAME", question.getUserName());
 		questionFragArgs.putString("QUESTION", question.getQuestion());
 		return questionFragArgs;
-	}
-
-	@Override
-	public void run() {
-		try {
-			fetchQuestionsFromBackend();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}	
 	}
 
 }
