@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp" >
+    android:padding="10dp" xmlns:app="http://schemas.android.com/apk/res/com.dekkoh">
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -16,8 +16,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
-            android:background="@drawable/errormap">
+            android:layout_weight="0.4"
+            android:background="#000000">
             <ImageView
                 android:id="@+id/ivHomeImage"
                 android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"
+            android:layout_weight="0.6"
             android:background="#ffffff" >
 
             <LinearLayout 
@@ -40,54 +40,94 @@
                 <LinearLayout 
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="2.5"
-                    android:orientation="horizontal"
-                    android:background="#ff0000"
-                    android:gravity="center_vertical"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"              
+                    android:gravity="top"
                     >   
                                      
                     <com.dekkoh.custom.view.SquareLinearLayout 
                         android:id="@+id/sllProfilePic"
                         android:layout_height="match_parent"
-                        android:layout_width= "match_parent"
-                        android:background="#00ff00"
-                        >               
-                    </com.dekkoh.custom.view.SquareLinearLayout>
-                    
+                        android:layout_width= "match_parent" 
+                        android:background="@drawable/user_profile_pic_temporary_image">
+           					
+                        <com.dekkoh.custom.view.CircularImageView 
+                            android:id="@+id/ivProfilePic"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:border="true"
+                            app:border_width="1dp"
+                            app:border_color="#F9F9F9"
+                            app:shadow="true"
+                            />
+                        
+					</com.dekkoh.custom.view.SquareLinearLayout>
+					
                     <TextView 
                         android:id="@+id/tvUsername"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Username"
-                        android:padding="10dp"
-                        />
-                
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="15dp"
+                        android:textColor="#1D660A"
+                    />
+                    
+                    <TextView
+                        android:id="@+id/locationPin"
+                        android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginTop="15dp"
+                        android:drawableLeft="@drawable/greenlocation"
+                        android:singleLine="true"
+                        android:textColor="#BC1F1E"
+                        android:textSize="15sp" />
+	                
                     <TextView 
                         android:id="@+id/tvLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Location"
-                        android:padding="10dp"
-                        />
+                        android:layout_marginTop="15dp"
+                        android:textColor="#1D660A"
+                        />                      
                     
                 </LinearLayout>
                 
 				<LinearLayout 
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="7.5"
-                    android:orientation="horizontal"
-                    android:background="#0000ff"
+                    android:layout_weight="8"
+                    android:orientation="vertical"
                     android:gravity="center"
+                    android:weightSum="100"
                     >                    
-                    
-				    <TextView 
-                        android:id="@+id/tvQuestion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Question"                 
-                        android:padding="10dp"
-                        />
+                    <LinearLayout 
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp" 
+                        android:layout_weight="80" 
+                        android:gravity="center" >
+                            	
+                    	<TextView 
+	                        android:id="@+id/tvQuestion"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:text="Question" 
+	                        android:textSize="20dp"
+	                        android:padding="20dp"
+	                        android:textColor="#000000"
+	                        />                                            
+                    </LinearLayout>
+				    
+				   <LinearLayout 
+				       android:layout_width="match_parent"
+				       android:layout_height="0dp"
+				       android:layout_weight="20"
+				       android:orientation="horizontal"
+				       android:padding="10dp"
+				       >
+				      
+				   </LinearLayout>
                 </LinearLayout>
                 
 			</LinearLayout>
