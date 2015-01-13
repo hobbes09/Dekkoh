@@ -25,6 +25,7 @@ public class PreHomeScreen extends BaseActivity{
 		tv = (TextView)findViewById(R.id.tv);
 		tv.setText("Patience is a virtue.");
 		
+		new FetchQuestionTask().execute();
 	}
 	
 	public class FetchQuestionTask extends AsyncTask<Void, Void, List<Question>>{
