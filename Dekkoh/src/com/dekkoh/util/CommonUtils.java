@@ -33,17 +33,6 @@ public class CommonUtils {
 			long diffMinutes = diff / (60 * 1000) % 60;
 			long diffHours = diff / (60 * 60 * 1000) % 24;
 			long diffDays = diff / (24 * 60 * 60 * 1000);
-			if (Log.DEBUG) {
-				SimpleDateFormat simpleDateFormatter = new SimpleDateFormat(
-						"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-				Log.i(TAG, " date01 : " + simpleDateFormatter.format(oldDate));
-				Log.i(TAG, " date02 : " + simpleDateFormatter.format(newDate));
-				Log.d(TAG, " diff : " + diff);
-				Log.d(TAG, " diffSeconds : " + diffSeconds);
-				Log.d(TAG, " diffMinutes : " + diffMinutes);
-				Log.d(TAG, " diffHours : " + diffHours);
-				Log.d(TAG, " diffDays : " + diffDays);
-			}
 			if (diffDays > 365) {
 				return diffDays % 365 + "y ago";
 			} else if (diffDays <= 0) {

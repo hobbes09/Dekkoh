@@ -20,22 +20,22 @@ public class MyFollowingFragment extends BaseFragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.myprofile_fragment,
 				container, false);
-		UserProfileChart assignmentPieChartView = (UserProfileChart) rootView
-				.findViewById(R.id.Pie);
+		UserProfileChart userProfileChart = (UserProfileChart) rootView
+				.findViewById(R.id.userProfileChart);
 		Resources res = getResources();
-		assignmentPieChartView.addItem(2,
+		userProfileChart.addItem(2,
 				res.getColor(R.color.entertainment_and_event));
-		assignmentPieChartView
+		userProfileChart
 				.addItem(3, res.getColor(R.color.art_and_culture));
-		assignmentPieChartView.addItem(1,
+		userProfileChart.addItem(1,
 				res.getColor(R.color.pub_and_nightlife));
-		assignmentPieChartView.addItem(3,
+		userProfileChart.addItem(3,
 				res.getColor(R.color.food_and_resturant));
-		assignmentPieChartView.addItem(2,
+		userProfileChart.addItem(2,
 				res.getColor(R.color.shopping_and_lifestyle));
-		assignmentPieChartView.addItem(5,
+		userProfileChart.addItem(5,
 				res.getColor(R.color.event_and_entertainment));
-		assignmentPieChartView.addItem(4, res.getColor(R.color.miscellaneous));
+		userProfileChart.addItem(4, res.getColor(R.color.miscellaneous));
 		return rootView;
 	}
 

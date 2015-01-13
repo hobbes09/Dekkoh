@@ -29,6 +29,7 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/userConnectionsCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
@@ -55,6 +56,7 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/userKarmaPointsCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
@@ -89,6 +91,7 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/userQuestionsCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
@@ -115,6 +118,7 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/userAnswerssCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
@@ -141,6 +145,7 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/userLikesCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
@@ -167,6 +172,7 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/userThanksCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
@@ -194,7 +200,7 @@
         android:gravity="center" >
 
         <com.dekkoh.custom.view.UserProfileChart
-            android:id="@+id/Pie"
+            android:id="@+id/userProfileChart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#000" />
@@ -219,6 +225,7 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/interestNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="0dp"
@@ -242,6 +249,7 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/interestQuestionsCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
@@ -268,6 +276,7 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/interestAnswersCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
@@ -294,6 +303,7 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/interestLikesCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"
@@ -320,6 +330,7 @@
                 android:orientation="vertical" >
 
                 <TextView
+                    android:id="@+id/interestThanksCountTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="0dp"

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.dekkoh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp" xmlns:app="http://schemas.android.com/apk/res/com.dekkoh">
+    android:padding="10dp" >
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -17,12 +18,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.4"
-            android:background="#000000">
+            android:background="#000000" >
+
             <ImageView
                 android:id="@+id/ivHomeImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:adjustViewBounds="true" />
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -31,139 +34,129 @@
             android:layout_weight="0.6"
             android:background="#ffffff" >
 
-            <LinearLayout 
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:weightSum="10"
-                android:orientation="vertical">
-                
-                <LinearLayout 
+                android:orientation="vertical"
+                android:weightSum="10" >
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
-                    android:orientation="horizontal"              
                     android:gravity="top"
-                    >   
-                                     
-                    <com.dekkoh.custom.view.SquareLinearLayout 
+                    android:orientation="horizontal" >
+
+                    <com.dekkoh.custom.view.SquareLinearLayout
                         android:id="@+id/sllProfilePic"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_width= "match_parent" 
-                        android:background="@drawable/user_profile_pic_temporary_image">
-           					
-                        <com.dekkoh.custom.view.CircularImageView 
+                        android:background="@drawable/user_profile_pic_temporary_image" >
+
+                        <com.dekkoh.custom.view.CircularImageView
                             android:id="@+id/ivProfilePic"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             app:border="true"
-                            app:border_width="1dp"
                             app:border_color="#F9F9F9"
-                            app:shadow="true"
-                            />
-                        
-					</com.dekkoh.custom.view.SquareLinearLayout>
-					
-                    <TextView 
+                            app:border_width="1dp"
+                            app:shadow="true" />
+                    </com.dekkoh.custom.view.SquareLinearLayout>
+
+                    <TextView
                         android:id="@+id/tvUsername"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Username"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="15dp"
-                        android:textColor="#1D660A"
-                    />
-                    
+                        android:text="Username"
+                        android:textColor="#1D660A" />
+
                     <TextView
                         android:id="@+id/locationPin"
                         android:layout_width="wrap_content"
-	                    android:layout_height="wrap_content"
-	                    android:layout_marginTop="15dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
                         android:drawableLeft="@drawable/greenlocation"
                         android:singleLine="true"
                         android:textColor="#BC1F1E"
                         android:textSize="15sp" />
-	                
-                    <TextView 
+
+                    <TextView
                         android:id="@+id/tvLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Location"
                         android:layout_marginTop="15dp"
-                        android:textColor="#1D660A"
-                        />                      
-                    
+                        android:text="Location"
+                        android:textColor="#1D660A" />
                 </LinearLayout>
-                
-				<LinearLayout 
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="8"
-                    android:orientation="vertical"
                     android:gravity="center"
-                    android:weightSum="100"
-                    >                    
-                    <LinearLayout 
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp" 
-                        android:layout_weight="80" 
-                        android:gravity="center" >
-                            	
-                    	<TextView 
-	                        android:id="@+id/tvQuestion"
-	                        android:layout_width="wrap_content"
-	                        android:layout_height="wrap_content"
-	                        android:text="Question" 
-	                        android:textSize="20dp"
-	                        android:padding="20dp"
-	                        android:textColor="#000000"
-	                        />                                            
-                    </LinearLayout>
-				    
-				   <LinearLayout 
-				       android:layout_width="match_parent"
-				       android:layout_height="0dp"
-				       android:layout_weight="20"
-				       android:orientation="horizontal"
-				       android:padding="10dp"
-				       >
-				      <com.dekkoh.custom.view.SquareLinearLayout 
-				           android:id="@+id/sllBack"
-				           android:layout_height="match_parent"
-				           android:layout_width="match_parent"
-				           android:background="@drawable/ic_back"
-				           android:layout_marginRight="10dp"
-				           ></com.dekkoh.custom.view.SquareLinearLayout>
-				       
-				       <com.dekkoh.custom.view.SquareLinearLayout
-				           android:id="@+id/sllLike" 
-				           android:layout_height="match_parent"
-				           android:layout_width="match_parent"
-				           android:background="@drawable/ic_like"
-				           android:layout_marginRight="10dp"
-				           ></com.dekkoh.custom.view.SquareLinearLayout>
-				       
-				       <com.dekkoh.custom.view.SquareLinearLayout 
-				           android:id="@+id/sllShare"
-				           android:layout_height="match_parent"
-				           android:layout_width="match_parent"
-				           android:background="@drawable/ic_share"
-				           android:layout_marginRight="10dp"
-				           ></com.dekkoh.custom.view.SquareLinearLayout>
-				       
-				       <com.dekkoh.custom.view.SquareLinearLayout 
-				           android:id="@+id/sllFollow"
-				           android:layout_height="match_parent"
-				           android:layout_width="match_parent"
-				           android:background="@drawable/ic_follow"
-				           android:layout_marginRight="10dp"
-				           ></com.dekkoh.custom.view.SquareLinearLayout>
-				   </LinearLayout>
-                </LinearLayout>
-                
-			</LinearLayout>
-			
-        </RelativeLayout>
+                    android:orientation="vertical"
+                    android:weightSum="100" >
 
-	</LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="80"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/tvQuestion"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="20dp"
+                            android:text="Question"
+                            android:textColor="#000000"
+                            android:textSize="20dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="20"
+                        android:orientation="horizontal"
+                        android:padding="10dp" >
+
+                        <com.dekkoh.custom.view.SquareLinearLayout
+                            android:id="@+id/sllBack"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/ic_back" >
+                        </com.dekkoh.custom.view.SquareLinearLayout>
+
+                        <com.dekkoh.custom.view.SquareLinearLayout
+                            android:id="@+id/sllLike"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/ic_like" >
+                        </com.dekkoh.custom.view.SquareLinearLayout>
+
+                        <com.dekkoh.custom.view.SquareLinearLayout
+                            android:id="@+id/sllShare"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/ic_share" >
+                        </com.dekkoh.custom.view.SquareLinearLayout>
+
+                        <com.dekkoh.custom.view.SquareLinearLayout
+                            android:id="@+id/sllFollow"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/ic_follow" >
+                        </com.dekkoh.custom.view.SquareLinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

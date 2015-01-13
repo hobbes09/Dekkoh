@@ -58,8 +58,7 @@ public class MyAnswersFragment extends BaseFragment {
 				// return APIProcessor.getUserQuestionList(activity, 0, 20, 0,
 				// 0,
 				// null);
-				return APIProcessor.getQuestions(activity, 0, 50, 0, 0, null,
-						null, 0, null, true, null, null, null);
+				return APIProcessor.getUserAnswersList(activity, 0, 30, null);
 			} catch (Exception e) {
 				Log.e(TAG, e);
 				e.printStackTrace();

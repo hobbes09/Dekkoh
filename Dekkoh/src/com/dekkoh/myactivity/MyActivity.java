@@ -1,6 +1,7 @@
 package com.dekkoh.myactivity;
 
 import android.app.ActionBar;
+import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,11 +13,11 @@ import com.dekkoh.R;
 import com.dekkoh.application.BaseFragmentActivity;
 import com.dekkoh.util.Log;
 
-public class MyActivity extends BaseFragmentActivity implements
-		ActionBar.TabListener {
+public class MyActivity extends BaseFragmentActivity {
 
 	private AppSectionsPagerAdapter mAppSectionsPagerAdapter;
 	private ViewPager mViewPager;
+	private int selectedTab = 0;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,27 +51,38 @@ public class MyActivity extends BaseFragmentActivity implements
 			// listener for when this tab is selected.
 			actionBar.addTab(actionBar.newTab()
 					.setText(mAppSectionsPagerAdapter.getPageTitle(i))
-					.setTabListener(this));
+					.setTabListener(tabListener));
 		}
 	}
 
-	@Override
-	public void onTabUnselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
+	ActionBar.TabListener tabListener = new TabListener() {
+		@Override
+		public void onTabUnselected(ActionBar.Tab tab,
+				FragmentTransaction fragmentTransaction) {
+			Log.e(TAG, " onTabUnselected : " + tab.getPosition());
 
-	@Override
-	public void onTabSelected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-		// When the given tab is selected, switch to the corresponding page in
-		// the ViewPager.
-		mViewPager.setCurrentItem(tab.getPosition());
-	}
+		}
 
-	@Override
-	public void onTabReselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
+		@Override
+		public void onTabSelected(ActionBar.Tab tab,
+				FragmentTransaction fragmentTransaction) {
+			// When the given tab is selected, switch to the corresponding page
+			// in
+			// the ViewPager.
+			Log.e(TAG, " onTabSelected : " + tab.getPosition());
+			if (selectedTab != tab.getPosition()) {
+				mViewPager.setCurrentItem(tab.getPosition());
+			}
+			selectedTab = tab.getPosition();
+		}
+
+		@Override
+		public void onTabReselected(ActionBar.Tab tab,
+				FragmentTransaction fragmentTransaction) {
+			Log.e(TAG, " onTabReselected : " + tab.getPosition());
+
+		}
+	};
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -90,8 +102,6 @@ public class MyActivity extends BaseFragmentActivity implements
 		public Fragment getItem(int tabChoice) {
 			Log.e(TAG, " getItem : " + tabChoice);
 			switch (tabChoice) {
-			case 0:
-				return new MyQuestionsFragment();
 			case 1:
 				return new MyAnswersFragment();
 			case 2:
