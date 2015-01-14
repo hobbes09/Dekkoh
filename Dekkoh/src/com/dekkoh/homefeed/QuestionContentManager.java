@@ -92,7 +92,7 @@ public static boolean updateSuccessful = false;
 		questionFragArgs.putString("QUESTION", question.getQuestion());
 		return questionFragArgs;
 	}
-
+	
 	public static Bundle getNextQuestionBundle(Activity activity){
 		QuestionContentManager.getInstance().setCurrentIndex(QuestionContentManager.getInstance().getCurrentIndex() + 1);
 		Question question = QuestionContentManager.getInstance().getQuestionList().get(QuestionContentManager.getInstance().getCurrentIndex());
