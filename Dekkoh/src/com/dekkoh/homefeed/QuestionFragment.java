@@ -99,20 +99,20 @@ public class QuestionFragment extends BaseFragment{
                 				break;
                 	case FragmentTransitionManager.SWIPE_RIGHT: 
                 				if(ApplicationState.getHomefeedQuestion_CurrentIndex()!=0){
-	                				QuestionFragment previousQuestionFragment = new QuestionFragment();
-	                				previousQuestionFragment.setArguments(QuestionContentManager.getNextQuestionBundle(activity));
+	                				QuestionFragment nextQuestionFragment = new QuestionFragment();
+	                				nextQuestionFragment.setArguments(QuestionContentManager.getNextQuestionBundle(activity));
 			        				FragmentTransaction transactionPrevious = HomeScreen.supportFragmentManager.beginTransaction();
 			        				transactionPrevious.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
-			        				transactionPrevious.replace(R.id.contentHomeActivity, previousQuestionFragment);
+			        				transactionPrevious.replace(R.id.contentHomeActivity, nextQuestionFragment);
 			        			    transactionPrevious.commit();
                 				}
                 				break;
                 	case FragmentTransitionManager.SWIPE_LEFT: 
-                				QuestionFragment nextQuestionFragment = new QuestionFragment();
-                				nextQuestionFragment.setArguments(QuestionContentManager.getNextQuestionBundle(activity));
+                				QuestionFragment previousQuestionFragment = new QuestionFragment();
+                				previousQuestionFragment.setArguments(QuestionContentManager.getPreviousQuestionBundle(activity));
                 				FragmentTransaction transactionNext = HomeScreen.supportFragmentManager.beginTransaction();
                 				transactionNext.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left);
-                				transactionNext.replace(R.id.contentHomeActivity, nextQuestionFragment);
+                				transactionNext.replace(R.id.contentHomeActivity, previousQuestionFragment);
                 			    transactionNext.commit();
                 				break;
                 	case FragmentTransitionManager.SWIPE_NULL:
