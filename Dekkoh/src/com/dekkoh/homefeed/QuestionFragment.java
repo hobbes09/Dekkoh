@@ -45,13 +45,12 @@ public class QuestionFragment extends BaseFragment{
 	private TextView tvQuestion;
 	private TextView tvNumAnswers;
 	private ImageView ivHomeImage;
-	//private ImageView ivProfilePic;
 	private CircularImageView ivProfilePic;
 	private SquareLinearLayout sllBack; 
 	private SquareLinearLayout sllShare;
 	private SquareLinearLayout sllLike;
 	private SquareLinearLayout sllFollow;
-	//private static SquareLinearLayout sllProfilePic;
+	private static SquareLinearLayout sllProfilePic;
 	
 	private Question question;
 	private int countLike = 0;
@@ -94,28 +93,27 @@ public class QuestionFragment extends BaseFragment{
                 	SWIPE_ACTION = FragmentTransitionManager.detectSwipe(xDown, xUp, yDown, yUp);
                 	switch(SWIPE_ACTION){
                 	case FragmentTransitionManager.SWIPE_DOWN:
-                				QuestionFragment nextQuestionFragment = new QuestionFragment();
-                				nextQuestionFragment.setArguments(QuestionContentManager.getNextQuestionBundle(activity));
-                				FragmentTransaction transactionNext = HomeScreen.supportFragmentManager.beginTransaction();
-                				transactionNext.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
-                				transactionNext.replace(R.id.contentHomeActivity, nextQuestionFragment);
-                			    transactionNext.commit();
-                				break;
+                				
                 	case FragmentTransitionManager.SWIPE_UP:
+                				
+                				break;
+                	case FragmentTransitionManager.SWIPE_RIGHT: 
                 				if(ApplicationState.getHomefeedQuestion_CurrentIndex()!=0){
 	                				QuestionFragment previousQuestionFragment = new QuestionFragment();
 	                				previousQuestionFragment.setArguments(QuestionContentManager.getNextQuestionBundle(activity));
 			        				FragmentTransaction transactionPrevious = HomeScreen.supportFragmentManager.beginTransaction();
-			        				transactionPrevious.setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_down);
+			        				transactionPrevious.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right);
 			        				transactionPrevious.replace(R.id.contentHomeActivity, previousQuestionFragment);
 			        			    transactionPrevious.commit();
                 				}
                 				break;
-                	case FragmentTransitionManager.SWIPE_LEFT:
-                				Toast.makeText(getActivity(), "Swipe left Detected", Toast.LENGTH_SHORT).show();
-                				break;
-                	case FragmentTransitionManager.SWIPE_RIGHT:
-                				Toast.makeText(getActivity(), "Swipe right Detected", Toast.LENGTH_SHORT).show();
+                	case FragmentTransitionManager.SWIPE_LEFT: 
+                				QuestionFragment nextQuestionFragment = new QuestionFragment();
+                				nextQuestionFragment.setArguments(QuestionContentManager.getNextQuestionBundle(activity));
+                				FragmentTransaction transactionNext = HomeScreen.supportFragmentManager.beginTransaction();
+                				transactionNext.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_left);
+                				transactionNext.replace(R.id.contentHomeActivity, nextQuestionFragment);
+                			    transactionNext.commit();
                 				break;
                 	case FragmentTransitionManager.SWIPE_NULL:
                 				Toast.makeText(getActivity(), "Swipe null Detected", Toast.LENGTH_SHORT).show();
@@ -141,11 +139,11 @@ public class QuestionFragment extends BaseFragment{
 		}else{
 			ivHomeImage.setImageResource(R.drawable.no_image_available);
 		}
-		if (CommonUtils.isValidURL(getArguments().get("PROFILE_PIC")+"")) {
-		profileImageFetcher.loadImage(getArguments().get("PROFILE_PIC"), ivProfilePic);
-		}else{
-			ivProfilePic.setImageResource(R.drawable.ic_noprofilepic);
-		}
+//		if (CommonUtils.isValidURL(getArguments().get("PROFILE_PIC")+"")) {
+//		profileImageFetcher.loadImage(getArguments().get("PROFILE_PIC"), ivProfilePic);
+//		}else{
+//			ivProfilePic.setImageResource(R.drawable.ic_noprofilepic);
+//		}
 	}
 
 
