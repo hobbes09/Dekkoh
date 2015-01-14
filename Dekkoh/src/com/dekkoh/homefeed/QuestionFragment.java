@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.dekkoh.R;
 import com.dekkoh.application.ApplicationState;
 import com.dekkoh.application.BaseFragment;
+import com.dekkoh.custom.view.CircularImageView;
 import com.dekkoh.custom.view.SquareLinearLayout;
 import com.dekkoh.datamodel.Question;
 import com.dekkoh.util.CommonUtils;
@@ -42,13 +43,15 @@ public class QuestionFragment extends BaseFragment{
 	private TextView tvLocation;
 	private TextView tvUsername;
 	private TextView tvQuestion;
+	private TextView tvNumAnswers;
 	private ImageView ivHomeImage;
-	private ImageView ivProfilePic;
+	//private ImageView ivProfilePic;
+	private CircularImageView ivProfilePic;
 	private SquareLinearLayout sllBack; 
 	private SquareLinearLayout sllShare;
 	private SquareLinearLayout sllLike;
 	private SquareLinearLayout sllFollow;
-	private static SquareLinearLayout sllProfilePic;
+	//private static SquareLinearLayout sllProfilePic;
 	
 	private Question question;
 	private int countLike = 0;
@@ -97,7 +100,6 @@ public class QuestionFragment extends BaseFragment{
                 				transactionNext.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
                 				transactionNext.replace(R.id.contentHomeActivity, nextQuestionFragment);
                 			    transactionNext.commit();
-                			    //nextQuestionFragment.setValues();
                 				break;
                 	case FragmentTransitionManager.SWIPE_UP:
                 				if(ApplicationState.getHomefeedQuestion_CurrentIndex()!=0){
@@ -107,7 +109,6 @@ public class QuestionFragment extends BaseFragment{
 			        				transactionPrevious.setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_down);
 			        				transactionPrevious.replace(R.id.contentHomeActivity, previousQuestionFragment);
 			        			    transactionPrevious.commit();
-			        			    //previousQuestionFragment.setValues();
                 				}
                 				break;
                 	case FragmentTransitionManager.SWIPE_LEFT:
@@ -134,6 +135,7 @@ public class QuestionFragment extends BaseFragment{
 		tvLocation.setText(getArguments().getString("LOCATION"));
 		tvUsername.setText(getArguments().getString("USERNAME"));
 		tvQuestion.setText(getArguments().getString("QUESTION"));
+		tvNumAnswers.setText(getArguments().getString("NUM_ANSWERS"));
 		if (CommonUtils.isValidURL(getArguments().get("QUESTION_PIC")+"")) {
 		questionImageFetcher.loadImage(getArguments().get("QUESTION_PIC"), ivHomeImage);
 		}else{
@@ -145,20 +147,16 @@ public class QuestionFragment extends BaseFragment{
 			ivProfilePic.setImageResource(R.drawable.ic_noprofilepic);
 		}
 	}
-	
-//	private void setUIValues(String question, String location, String username){
-//		tvLocation.setText(location);
-//		tvUsername.setText(username);
-//		tvQuestion.setText(question);
-//	}
+
 
 	private void initialize(View root) {
 		tvLocation = (TextView)root.findViewById(R.id.tvLocation);
 		tvUsername = (TextView)root.findViewById(R.id.tvUsername);
 		tvQuestion = (TextView)root.findViewById(R.id.tvQuestion);
+		tvNumAnswers = (TextView)root.findViewById(R.id.tvNumAnswers);
 		ivHomeImage = (ImageView)root.findViewById(R.id.ivHomeImage);
-		ivProfilePic = (ImageView)root.findViewById(R.id.ivProfilePic);
-		sllProfilePic = (SquareLinearLayout)root.findViewById(R.id.sllProfilePic);
+		ivProfilePic = (CircularImageView)root.findViewById(R.id.ivProfilePic);
+		//sllProfilePic = (SquareLinearLayout)root.findViewById(R.id.sllProfilePic);
 		sllBack = (SquareLinearLayout)root.findViewById(R.id.sllBack);
 		sllShare = (SquareLinearLayout)root.findViewById(R.id.sllShare);
 		sllLike = (SquareLinearLayout)root.findViewById(R.id.sllLike);
