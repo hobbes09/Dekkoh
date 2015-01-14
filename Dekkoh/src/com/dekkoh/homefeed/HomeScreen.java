@@ -37,7 +37,7 @@ import com.dekkoh.datamodel.Question;
 import com.dekkoh.following.Following;
 import com.dekkoh.messages.Messages;
 import com.dekkoh.myactivity.MyActivity;
-import com.dekkoh.myprofile.MyProfile;
+import com.dekkoh.myprofile.MyProfileActivity;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.settings.Settings;
 import com.dekkoh.slidingmenu.NavDrawerItem;
@@ -71,8 +71,9 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		customizeActionBar(); // MUST BE PLACED BEFORE setContentView() and super.onCreate(savedInstanceState);
-		super.onCreate(savedInstanceState);	
+		customizeActionBar(); // MUST BE PLACED BEFORE setContentView() and
+								// super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_homefeed);
 		initialize(savedInstanceState);
 	}
@@ -228,7 +229,8 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 		Fragment fragment = null;
 		switch (position) {
 		case 1:
-			fragment = new MyProfile();
+			Intent myProfileIntent = new Intent(activity, MyProfileActivity.class);
+			startActivity(myProfileIntent);
 			break;
 		case 2:
 			Intent intent = new Intent(this, MyActivity.class);
@@ -257,14 +259,17 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 			setTitle(navMenuTitles[position]);
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else {
-			
+
 			fragment = new QuestionFragment();
-			fragment.setArguments(QuestionContentManager.getNextQuestionBundle(activity));
-			FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-			transaction.setCustomAnimations(R.animator.frag_slide_in_from_bottom, 0);
+			fragment.setArguments(QuestionContentManager
+					.getNextQuestionBundle(activity));
+			FragmentTransaction transaction = getSupportFragmentManager()
+					.beginTransaction();
+			transaction.setCustomAnimations(
+					R.animator.frag_slide_in_from_bottom, 0);
 			transaction.replace(R.id.contentHomeActivity, fragment);
 			transaction.commit();
-			
+
 		}
 	}
 
@@ -324,31 +329,33 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 		}
 	}
 
-	public class FetchQuestionTask extends AsyncTask<Void, Void, List<Question>>{
+	public class FetchQuestionTask extends
+			AsyncTask<Void, Void, List<Question>> {
 
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 			progressDialogHandler.showCustomProgressDialog(activity);
 		}
-		
+
 		@Override
 		protected List<Question> doInBackground(Void... params) {
 			try {
-				return APIProcessor.getQuestions(activity, 0, 20, 0, 0, null, null, 0, null, true, null, null, null);			
-				} catch (Exception e) {
+				return APIProcessor.getQuestions(activity, 0, 20, 0, 0, null,
+						null, 0, null, true, null, null, null);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return null;
-			
+
 		}
 
 		@Override
 		protected void onPostExecute(List<Question> qlist) {
-			if(qlist!=null){
+			if (qlist != null) {
 				progressDialogHandler.dismissCustomProgressDialog(activity);
 				QuestionContentManager.getInstance().setQuestionList(qlist);
-				
+
 			}
 		}
 	}

@@ -9,10 +9,12 @@ import android.widget.TextView;
 
 import com.dekkoh.R;
 import com.dekkoh.application.BaseFragment;
+import com.dekkoh.application.BaseFragmentActivity;
 import com.dekkoh.custom.view.CircularImageView;
 import com.dekkoh.custom.view.UserProfileChart;
 
-public class MyProfile extends BaseFragment {
+public class MyProfileActivity extends BaseFragmentActivity {
+
 	private UserProfileChart userProfileChart;
 	private CircularImageView userCircularImageView;
 	private TextView userConnectionsCountTextView;
@@ -27,49 +29,24 @@ public class MyProfile extends BaseFragment {
 	private TextView interestLikesCountTextView;
 	private TextView interestThanksCountTextView;
 
-	public MyProfile() {
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.myprofile_fragment,
-				container, false);
-		userProfileChart = (UserProfileChart) rootView
-				.findViewById(R.id.userProfileChart);
-		userCircularImageView = (CircularImageView) rootView
-				.findViewById(R.id.userCircularImageView);
-		userConnectionsCountTextView = (TextView) rootView
-				.findViewById(R.id.userConnectionsCountTextView);
-		userKarmaPointsCountTextView = (TextView) rootView
-				.findViewById(R.id.userKarmaPointsCountTextView);
-		userQuestionsCountTextView = (TextView) rootView
-				.findViewById(R.id.userQuestionsCountTextView);
-		userAnswerssCountTextView = (TextView) rootView
-				.findViewById(R.id.userAnswerssCountTextView);
-		userLikesCountTextView = (TextView) rootView
-				.findViewById(R.id.userLikesCountTextView);
-		userThanksCountTextView = (TextView) rootView
-				.findViewById(R.id.userThanksCountTextView);
-		interestNameTextView = (TextView) rootView
-				.findViewById(R.id.interestNameTextView);
-		interestQuestionsCountTextView = (TextView) rootView
-				.findViewById(R.id.interestQuestionsCountTextView);
-		interestAnswersCountTextView = (TextView) rootView
-				.findViewById(R.id.interestAnswersCountTextView);
-		interestLikesCountTextView = (TextView) rootView
-				.findViewById(R.id.interestLikesCountTextView);
-		interestThanksCountTextView = (TextView) rootView
-				.findViewById(R.id.interestThanksCountTextView);
-		return rootView;
-	}
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		showTabs();
+		setContentView(R.layout.myprofile_fragment);
+		userProfileChart = (UserProfileChart) findViewById(R.id.userProfileChart);
+		userCircularImageView = (CircularImageView) findViewById(R.id.userCircularImageView);
+		userConnectionsCountTextView = (TextView) findViewById(R.id.userConnectionsCountTextView);
+		userKarmaPointsCountTextView = (TextView) findViewById(R.id.userKarmaPointsCountTextView);
+		userQuestionsCountTextView = (TextView) findViewById(R.id.userQuestionsCountTextView);
+		userAnswerssCountTextView = (TextView) findViewById(R.id.userAnswerssCountTextView);
+		userLikesCountTextView = (TextView) findViewById(R.id.userLikesCountTextView);
+		userThanksCountTextView = (TextView) findViewById(R.id.userThanksCountTextView);
+		interestNameTextView = (TextView) findViewById(R.id.interestNameTextView);
+		interestQuestionsCountTextView = (TextView) findViewById(R.id.interestQuestionsCountTextView);
+		interestAnswersCountTextView = (TextView) findViewById(R.id.interestAnswersCountTextView);
+		interestLikesCountTextView = (TextView) findViewById(R.id.interestLikesCountTextView);
+		interestThanksCountTextView = (TextView) findViewById(R.id.interestThanksCountTextView);
 		Resources res = getResources();
-
 		userProfileChart.addItem(2,
 				res.getColor(R.color.entertainment_and_event));
 		userProfileChart.addItem(3, res.getColor(R.color.art_and_culture));
@@ -81,4 +58,5 @@ public class MyProfile extends BaseFragment {
 				res.getColor(R.color.event_and_entertainment));
 		userProfileChart.addItem(4, res.getColor(R.color.miscellaneous));
 	}
+
 }
