@@ -38,7 +38,6 @@ import com.dekkoh.datamodel.DekkohUser;
 import com.dekkoh.googleplusloginhandler.GooglePlusLoginController;
 import com.dekkoh.gpstracker.GPSTracker;
 import com.dekkoh.homefeed.PreHomeScreen;
-import com.dekkoh.myactivity.MyActivity;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.util.Constants.SharedPreferenceConstants;
 import com.dekkoh.util.Log;

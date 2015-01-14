@@ -1,6 +1,5 @@
 package com.dekkoh.util;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.text.TextUtils;

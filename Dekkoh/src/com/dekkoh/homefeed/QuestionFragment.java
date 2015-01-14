@@ -1,25 +1,10 @@
 package com.dekkoh.homefeed;
 
-import java.util.List;
-
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,9 +17,9 @@ import com.dekkoh.custom.view.CircularImageView;
 import com.dekkoh.custom.view.SquareLinearLayout;
 import com.dekkoh.datamodel.Question;
 import com.dekkoh.util.CommonUtils;
+import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
 import com.kavyasoni.gallery.ui.helper.ImageFetcher;
 import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
-import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
 
 public class QuestionFragment extends BaseFragment{
 	
@@ -50,7 +35,6 @@ public class QuestionFragment extends BaseFragment{
 	private SquareLinearLayout sllShare;
 	private SquareLinearLayout sllLike;
 	private SquareLinearLayout sllFollow;
-	private static SquareLinearLayout sllProfilePic;
 	
 	private Question question;
 	private int countLike = 0;
@@ -134,16 +118,18 @@ public class QuestionFragment extends BaseFragment{
 		tvUsername.setText(getArguments().getString("USERNAME"));
 		tvQuestion.setText(getArguments().getString("QUESTION"));
 		tvNumAnswers.setText(getArguments().getString("NUM_ANSWERS"));
-		if (CommonUtils.isValidURL(getArguments().get("QUESTION_PIC")+"")) {
-		questionImageFetcher.loadImage(getArguments().get("QUESTION_PIC"), ivHomeImage);
-		}else{
+		if (CommonUtils.isValidURL(getArguments().get("QUESTION_PIC") + "")) {
+			questionImageFetcher.loadImage(getArguments().get("QUESTION_PIC"),
+					ivHomeImage);
+		} else {
 			ivHomeImage.setImageResource(R.drawable.no_image_available);
 		}
-//		if (CommonUtils.isValidURL(getArguments().get("PROFILE_PIC")+"")) {
-//		profileImageFetcher.loadImage(getArguments().get("PROFILE_PIC"), ivProfilePic);
-//		}else{
-//			ivProfilePic.setImageResource(R.drawable.ic_noprofilepic);
-//		}
+		if (CommonUtils.isValidURL(getArguments().get("PROFILE_PIC") + "")) {
+			profileImageFetcher.loadImage(getArguments().get("PROFILE_PIC"),
+					ivProfilePic);
+		} else {
+			ivProfilePic.setImageResource(R.drawable.ic_noprofilepic);
+		}
 	}
 
 
@@ -154,7 +140,6 @@ public class QuestionFragment extends BaseFragment{
 		tvNumAnswers = (TextView)root.findViewById(R.id.tvNumAnswers);
 		ivHomeImage = (ImageView)root.findViewById(R.id.ivHomeImage);
 		ivProfilePic = (CircularImageView)root.findViewById(R.id.ivProfilePic);
-		//sllProfilePic = (SquareLinearLayout)root.findViewById(R.id.sllProfilePic);
 		sllBack = (SquareLinearLayout)root.findViewById(R.id.sllBack);
 		sllShare = (SquareLinearLayout)root.findViewById(R.id.sllShare);
 		sllLike = (SquareLinearLayout)root.findViewById(R.id.sllLike);
