@@ -68,7 +68,8 @@ public class BaseFragmentActivity extends FragmentActivity {
 
 	protected void showActionBar() {
 		actionBar.show();
-
+		actionBar.setDisplayShowHomeEnabled(true); // hides action bar icon
+		actionBar.setDisplayShowTitleEnabled(true);
 	}
 
 	protected void showTabs() {

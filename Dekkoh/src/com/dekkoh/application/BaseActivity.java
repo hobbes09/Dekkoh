@@ -67,7 +67,8 @@ public class BaseActivity extends Activity {
 
 	protected void showActionBar() {
 		actionBar.show();
-
+		actionBar.setDisplayShowHomeEnabled(true); // hides action bar icon
+		actionBar.setDisplayShowTitleEnabled(true);
 	}
 
 	protected void showTabs() {
