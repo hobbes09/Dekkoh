@@ -44,8 +44,9 @@
                     android:paddingRight="3dp"
                     android:singleLine="true"
                     android:text="5d ago"
-                    android:textColor="#6B6B6B"
-                    android:textSize="13sp" />
+                    android:textColor="#848888"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -109,8 +110,9 @@
                 android:gravity="right"
                 android:singleLine="true"
                 android:text="56 followers"
-                android:textColor="#6B6B6B"
-                android:textSize="13sp" />
+                android:textColor="#848888"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/answersTextView"
@@ -119,8 +121,9 @@
                 android:gravity="right"
                 android:singleLine="true"
                 android:text="23 Answers"
-                android:textColor="#6B6B6B"
-                android:textSize="13sp" />
+                android:textColor="#848888"
+                android:textSize="12sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 

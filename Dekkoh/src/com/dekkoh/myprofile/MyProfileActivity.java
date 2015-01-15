@@ -2,13 +2,9 @@ package com.dekkoh.myprofile;
 
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dekkoh.R;
-import com.dekkoh.application.BaseFragment;
 import com.dekkoh.application.BaseFragmentActivity;
 import com.dekkoh.custom.view.CircularImageView;
 import com.dekkoh.custom.view.UserProfileChart;

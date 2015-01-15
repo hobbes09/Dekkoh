@@ -113,6 +113,9 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 				.obtainTypedArray(R.array.nav_drawer_icons);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
+		View headerView = getLayoutInflater().inflate(
+				R.layout.navigation_drawer_header, null);
+		mDrawerList.addHeaderView(headerView);
 		navDrawerItems = new ArrayList<NavDrawerItem>();
 		// adding nav drawer items to array
 		// Empty for app title
@@ -229,7 +232,8 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 		Fragment fragment = null;
 		switch (position) {
 		case 1:
-			Intent myProfileIntent = new Intent(activity, MyProfileActivity.class);
+			Intent myProfileIntent = new Intent(activity,
+					MyProfileActivity.class);
 			startActivity(myProfileIntent);
 			break;
 		case 2:
