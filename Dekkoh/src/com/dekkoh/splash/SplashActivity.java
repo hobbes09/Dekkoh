@@ -1,6 +1,10 @@
 package com.dekkoh.splash;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -43,6 +47,8 @@ import com.dekkoh.util.Constants.SharedPreferenceConstants;
 import com.dekkoh.util.Log;
 import com.dekkoh.util.SharedPreferenceManager;
 import com.facebook.FacebookException;
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -55,16 +61,17 @@ public class SplashActivity extends BaseActivity {
 
 	private TextView connectWith;
 	private ImageView appLogo, googleLoginButton, appName;
-	private LoginButton facebookLoginButton;
+	private ImageView facebookLoginButton;
 	private RelativeLayout loginOptionsHolderLayout;
 	private Context mContext;
-	private UiLifecycleHelper uiHelper;
 	private DekkohApplication dekkohApplication;
 
 	private ProgressDialog progress;
 
 	private boolean activityRunning = true;
 	private boolean userLoggedIn = false;
+	
+	
 
 	// Google login helper
 	GooglePlusLoginController googleLoginController;
@@ -73,6 +80,8 @@ public class SplashActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash_activity_layout);
+		
+		
 
 		mContext = getApplicationContext();
 
@@ -87,15 +96,15 @@ public class SplashActivity extends BaseActivity {
 		// Start GPS
 		startGPSTracker();
 
-		// UIIHelper for facebook
-		uiHelper = new UiLifecycleHelper(this, statusCallback);
-		uiHelper.onCreate(savedInstanceState);
-
+		
+		
+		
+	
 		// Instantiate
 		appName = (ImageView) findViewById(R.id.splash_activity_layout_app_name);
 		connectWith = (TextView) findViewById(R.id.splash_activity_layout_connect_with_text);
 		appLogo = (ImageView) findViewById(R.id.splash_activity_layout_logo_image);
-		facebookLoginButton = (LoginButton) findViewById(R.id.splash_activity_layout_facebook_login_button);
+		facebookLoginButton = (ImageView) findViewById(R.id.splash_activity_layout_facebook_login_button);
 		googleLoginButton = (ImageView) findViewById(R.id.splash_activity_layout_google_login_button);
 		loginOptionsHolderLayout = (RelativeLayout) findViewById(R.id.splash_activity_layout_login_options_holder);
 
@@ -164,42 +173,84 @@ public class SplashActivity extends BaseActivity {
 		}, 2000);
 
 		// Login Buttons Click Handling
-		// Facebook
-		facebookLoginButton
-				.setBackgroundResource(R.drawable.facebook_login_button_image);
-		facebookLoginButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-		facebookLoginButton.setCompoundDrawablePadding(0);
-		facebookLoginButton.setPadding(0, 0, 0, 0);
-		facebookLoginButton.setOnErrorListener(new OnErrorListener() {
-
+		//Facebook Login Button
+		final ArrayList<String> permissions=new ArrayList<String>();
+		facebookLoginButton.setOnClickListener(new View.OnClickListener() {
+			
 			@Override
-			public void onError(FacebookException error) {
-				Log.i("error", "Error " + error.getMessage());
-			}
-		});
-		facebookLoginButton.setReadPermissions(Arrays.asList("public_profile",
-				"email", "user_friends"));
-		facebookLoginButton
-				.setUserInfoChangedCallback(new UserInfoChangedCallback() {
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				 //setting facebook permission
+			    permissions.add("email");
+		      //permissions.add("user_location");
+		        permissions.add("user_friends");
+		        progress.show();
+		        
+		        final JSONObject jb=new JSONObject();
+		        
+		        Session.openActiveSession(SplashActivity.this, true, permissions,new Session.StatusCallback() {
+
+					@SuppressWarnings("deprecation")
 					@Override
-					public void onUserInfoFetched(GraphUser user) {
-						if (user != null && activityRunning == true
-								&& userLoggedIn == false) {
-							final Session session = Session.getActiveSession();
-							showProgress();
-							new LoginTheUser(SplashActivity.this, session, user
-									.getId()).execute();
-							// Toast.makeText(mContext,
-							// "Name:"+user.getName()+"\n"+"Email:"+user.asMap().get("email").toString(),
-							// Toast.LENGTH_LONG).show();
-						} else {
-							// Toast.makeText(getApplicationContext(),
-							// "Unable to Login ... Please Try Again.",
-							// Toast.LENGTH_LONG).show();
+					public void call(final Session session, SessionState state, Exception exception) {
+
+						if(session.isOpened()){		
+
+							Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
+
+								@Override
+								public void onCompleted(GraphUser user, Response response) {
+
+									
+								//	Toast.makeText(getApplicationContext(), "hello dev", Toast.LENGTH_SHORT).show();
+									if(user != null){
+								//		Toast.makeText(getApplicationContext(), "hello "+user.getName(), Toast.LENGTH_SHORT).show();
+										 
+										String emaila = user.asMap().get("email").toString();
+										String userId = user.getId();
+										String name1   = user.getName();
+
+									
+										try {
+
+											jb.put("provider","Facebook");
+											jb.put("user_id",userId.toString());
+											String token=session.getAccessToken().toString();
+											jb.put("token",token);
+										    
+											Log.d("f b login ",jb.toString());
+
+											//clear seesion details and close
+											session.closeAndClearTokenInformation();
+											new LoginTheUser(SplashActivity.this, token, user
+																.getId()).execute();
+										
+										} catch (JSONException e) {
+									//		Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+											e.printStackTrace();
+										}
+									}
+									else{
+										Toast toast =Toast.makeText(getApplicationContext(),"Login Failed",Toast.LENGTH_SHORT);
+										TextView v2 = (TextView) toast.getView().findViewById(android.R.id.message);
+										progress.cancel();
+										toast.show();
+									}
+								}
+							});
+						}else{
+						//	Toast.makeText(getApplicationContext(), "Unable to open Facebook Session", Toast.LENGTH_LONG).show();
 						}
 					}
 				});
-
+		        
+			}
+		});
+		
+		
+		
+		
+		
 		// Google Plus Login
 		googleLoginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -273,9 +324,7 @@ public class SplashActivity extends BaseActivity {
 
 	@Override
 	public void onDestroy() {
-		if (uiHelper != null) {
-			uiHelper.onDestroy();
-		}
+		
 		if (googleLoginController != null) {
 			googleLoginController.disconnect();
 		}
@@ -302,7 +351,8 @@ public class SplashActivity extends BaseActivity {
 							.getREQ_SIGN_IN_REQUIRED()) {
 				googleLoginController.requestForAccessToken();
 			} else {
-				uiHelper.onActivityResult(requestCode, resultCode, data);
+				Session.getActiveSession().onActivityResult(this, requestCode,
+			            resultCode, data);
 			}
 
 		}
@@ -312,14 +362,13 @@ public class SplashActivity extends BaseActivity {
 	@Override
 	public void onSaveInstanceState(Bundle savedState) {
 		super.onSaveInstanceState(savedState);
-		uiHelper.onSaveInstanceState(savedState);
+		
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 
-		uiHelper.onResume();
 		// Logs 'install' and 'app activate' App Events on Facebook - use if
 		// needed along with AppEventsLogger.deactivateApp(this); in onPause()
 		// to track exact time of app usage
@@ -329,8 +378,7 @@ public class SplashActivity extends BaseActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		uiHelper.onPause();
-
+		
 		// Close App Events logging on facebook
 		// AppEventsLogger.deactivateApp(this);
 	}
@@ -472,13 +520,13 @@ public class SplashActivity extends BaseActivity {
 
 class LoginTheUser extends AsyncTask<Void, Void, Void> {
 	SplashActivity activity;
-	Session session;
+	String token;
 	String userId = "";
 
-	public LoginTheUser(SplashActivity activity, Session session, String userId) {
+	public LoginTheUser(SplashActivity activity, String token, String userId) {
 
 		this.activity = activity;
-		this.session = session;
+		this.token = token;
 		this.userId = userId;
 
 	}
@@ -488,7 +536,7 @@ class LoginTheUser extends AsyncTask<Void, Void, Void> {
 
 		try {
 			DekkohUser dekkohUser = APIProcessor.loginUserWithFacebook(
-					activity, userId, session.getAccessToken(), null);
+					activity, userId, token, null);
 			if (dekkohUser != null) {
 
 				if (dekkohUser.getInterestIds().size() == 0) {

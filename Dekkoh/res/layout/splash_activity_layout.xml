@@ -74,17 +74,14 @@
             android:weightSum="2"
             >
             
-            
-            <com.facebook.widget.LoginButton 
-                xmlns:fb="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/splash_activity_layout_facebook_login_button"
+         
+            <ImageView 
+                 android:id="@+id/splash_activity_layout_facebook_login_button"
                 android:layout_weight="1"
                 android:layout_width="@dimen/dimen_for_login_buttons"
                 android:layout_height="@dimen/dimen_for_login_buttons"
                 android:layout_marginRight="@dimen/margin_between_login_buttons"
-			     android:scaleType="centerInside"
-		        fb:login_text=""
-		        fb:logout_text=""
+                android:src="@drawable/facebook_login_button_image"
                 />
             
              <ImageView 
