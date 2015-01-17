@@ -9,6 +9,37 @@
     <!-- Facebook sdk integration -->
     <string  name="facebook_app_id">313134202213240</string>
     
+    <!-- Interests  -->
+    <string-array name="Interests_list">
+        
+        <item >Travel and Adventure</item>
+        <item >Shopping and LifeStyle</item>
+        <item >Sports and Activities</item>
+        <item >Food and Restaurants</item>
+        <item >Pubs and NightLife</item>
+        <item >Accomodation</item>
+        <item >Arts and Culture</item>
+        <item >Utilities</item>
+        <item >Entertainment and Events</item>
+        <item >Miscellaneous</item>
+        
+    </string-array>
+    
+    <!-- Respective Interest Id -->
+    <string-array name="Interest_ids">
+        
+        <item>5436ad8a44656b615a0a0000</item>
+        <item>5436ad8a44656b615a0b0000</item>
+        <item>5436ad8a44656b615a0e0000</item>
+        <item>5436ad8a44656b615a0f0000</item>
+        <item>5436ad8a44656b615a0d0000</item>
+        <item>5436ad8a44656b615a100000</item>
+        <item>5436ad8a44656b615a110000</item>
+        <item>5436ad8a44656b615a0c0000</item>
+        <item>5436ad8a44656b615a120000</item>
+        <item>5436ad8a44656b615a130000</item>
+        
+    </string-array>
     
     <!-- Splash Activity Strings -->
     <string  name="connect_with">Connect with</string>

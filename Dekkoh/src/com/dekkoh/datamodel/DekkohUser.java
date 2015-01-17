@@ -268,7 +268,7 @@ public class DekkohUser implements Serializable{
 
 	}
 
-	class InterestID {
+	public class InterestID {
 		@SerializedName("$oid")
 		private String interestID;
 

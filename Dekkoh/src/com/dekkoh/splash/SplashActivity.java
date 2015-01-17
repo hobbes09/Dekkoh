@@ -2,6 +2,7 @@ package com.dekkoh.splash;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,9 +40,11 @@ import com.dekkoh.R;
 import com.dekkoh.application.BaseActivity;
 import com.dekkoh.application.DekkohApplication;
 import com.dekkoh.datamodel.DekkohUser;
+import com.dekkoh.datamodel.DekkohUser.InterestID;
 import com.dekkoh.googleplusloginhandler.GooglePlusLoginController;
 import com.dekkoh.gpstracker.GPSTracker;
 import com.dekkoh.homefeed.PreHomeScreen;
+import com.dekkoh.interests.InterestScreen;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.util.Constants.SharedPreferenceConstants;
 import com.dekkoh.util.Log;
@@ -483,7 +486,7 @@ public class SplashActivity extends BaseActivity {
 	public void sendtoInterestsScreen() {
 		// TODO Auto-generated method stub
 		cancelProgress();
-		Intent intent = new Intent(SplashActivity.this, PreHomeScreen.class);
+		Intent intent = new Intent(SplashActivity.this, InterestScreen.class);
 		startActivity(intent);
 		finish();
 	}
@@ -500,6 +503,19 @@ public class SplashActivity extends BaseActivity {
 				.getString(SharedPreferenceConstants.DEKKOH_USER_NAME));
 		dekkohUser.setProfilePic(sharedPreferenceManager
 				.getString(SharedPreferenceConstants.DEKKOH_USER_PROFILEPIC));
+		
+		String interestIds = sharedPreferenceManager
+				.getString(SharedPreferenceConstants.DEKKOH_USER_INTERESTS);
+		List<DekkohUser.InterestID> listInterestIds = new ArrayList<DekkohUser.InterestID>();
+		if(interestIds.compareTo("")!=0){
+			String iDs[]=interestIds.split(",");
+			for(int u=0;u<iDs.length;u++){
+				DekkohUser.InterestID interest_ID_new = dekkohUser.new InterestID();
+				interest_ID_new.setInterestID(iDs[u]);
+				listInterestIds.add(interest_ID_new);
+			}
+			dekkohUser.setInterestIds(listInterestIds);
+		}
 		dekkohApplication.setDekkohUser(dekkohUser);
 		return true;
 	}

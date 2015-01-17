@@ -1,19 +1,170 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical">
+    
+    <RelativeLayout 
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="#00000000">
+        
+        <ImageView 
+            android:id="@+id/interests_activity_layout_continue"
+            android:layout_height="60dp"
+            android:layout_width="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_menu"
+            android:padding="10dp"
+            />
+        
+        <TextView 
+            android:id="@+id/interests_activity_layout_pick_text"
+            android:layout_alignTop="@id/interests_activity_layout_continue"
+            android:layout_toLeftOf="@id/interests_activity_layout_continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Pick your Interests"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="left"
+            />
+        
+        <View 
+            android:layout_below="@id/interests_activity_layout_pick_text"
+             android:layout_toLeftOf="@id/interests_activity_layout_continue"
+             android:layout_height="4dp"
+             android:layout_width="match_parent"
+             android:background="#f0cd32"
+             android:layout_marginRight="10dp"
+            />
+        
+    </RelativeLayout>
+    
+    <LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
     android:orientation="vertical"
-    android:background="#00aaff"
-     >
-  <TextView 
-      android:id="@+id/tv"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_centerHorizontal="true"
-      android:layout_centerVertical="true"
-      android:text="Interests Screen"
-      android:textStyle="bold"
-      android:textColor="#000000"
-      />
+    android:weightSum="5">
 
-</RelativeLayout>
+    <!-- Row 1 with 2 columns -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:weightSum="2"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:id="@+id/container1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+    
+    <!-- Row 2 with 2 columns -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:weightSum="2"
+        android:orientation="horizontal"  >
+
+        <FrameLayout
+            android:id="@+id/container2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:id="@+id/container3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+    
+    <!-- Row 3 with 2 columns -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:weightSum="2"
+        android:orientation="horizontal"  >
+
+        <FrameLayout
+            android:id="@+id/container4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:id="@+id/container5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+    
+    <!-- Row 4 with 2 columns -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:weightSum="2"
+        android:orientation="horizontal"  >
+
+        <FrameLayout
+            android:id="@+id/container6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:id="@+id/container7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+    
+    <!-- Row 5 with 2 columns -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:weightSum="2"
+        android:orientation="horizontal"  >
+
+        <FrameLayout
+            android:id="@+id/container8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <FrameLayout
+            android:id="@+id/container9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+    
+    
+    </LinearLayout>
+
+</LinearLayout>

@@ -189,7 +189,7 @@ public final class HTTPRequestHelper {
 		} else {
 			throw new DekkohException(
 					DekkohExceptionErrorCodes.NETWOR_ERROR_CODE,
-					"Return responce code is not 200");
+					responseString+"Return responce code is not 200");
 		}
 	}
 

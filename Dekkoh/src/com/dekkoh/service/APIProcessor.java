@@ -81,14 +81,30 @@ public class APIProcessor {
 			sharedPreferenceManager.save(
 					SharedPreferenceConstants.DEKKOH_USER_NAME,
 					dekkohUser.getName());
+			sharedPreferenceManager.save(
+					SharedPreferenceConstants.DEKKOH_USER_PROFILEPIC,
+					dekkohUser.getProfilePic());
 			if (dekkohUser.getInterestIds().size() == 0) {
 				sharedPreferenceManager.save(
 						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
 						false);
 				sharedPreferenceManager.save(
-						SharedPreferenceConstants.DEKKOH_USER_PROFILEPIC,
-						dekkohUser.getProfilePic());
+						SharedPreferenceConstants.DEKKOH_USER_INTERESTS,
+						"");
+				
 			} else {
+				List<DekkohUser.InterestID> listInterestId = dekkohUser.getInterestIds();
+				String interestIdString = "";
+				for(int i=0;i<listInterestId.size();i++)
+				{
+					interestIdString+=listInterestId.get(i).getInterestID()+",";
+				}
+				if(interestIdString.length()>0){
+					interestIdString=interestIdString.substring(0, interestIdString.length()-1);
+				}
+				sharedPreferenceManager.save(
+						SharedPreferenceConstants.DEKKOH_USER_INTERESTS,
+						interestIdString);
 				sharedPreferenceManager.save(
 						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
 						true);

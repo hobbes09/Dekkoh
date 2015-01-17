@@ -5,6 +5,7 @@ import java.io.IOException;
 import android.content.IntentSender.SendIntentException;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.dekkoh.datamodel.DekkohUser;
 import com.dekkoh.service.APIProcessor;
@@ -159,6 +160,8 @@ public class GooglePlusLoginController implements ConnectionCallbacks, OnConnect
             try {
             	DekkohUser dekkohUser=APIProcessor.loginUserWithGoogle(activity, userId,token, email,null);
 						if(dekkohUser!=null){
+							//Toast.makeText(activity.getApplicationContext(), dekkohUser.getInterestIds().toString(),Toast.LENGTH_LONG).show();
+							
 							if(dekkohUser.getInterestIds().size()==0){
 								activity.sendtoInterestsScreen();
 							}else{
