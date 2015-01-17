@@ -55,9 +55,6 @@ public class MyAnswersFragment extends BaseFragment {
 		@Override
 		protected List<Question> doInBackground(Void... params) {
 			try {
-				// return APIProcessor.getUserQuestionList(activity, 0, 20, 0,
-				// 0,
-				// null);
 				return APIProcessor.getUserAnswersList(activity, 0, 30, null);
 			} catch (Exception e) {
 				Log.e(TAG, e);

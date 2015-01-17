@@ -231,22 +231,22 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 		// update the main content by replacing fragments
 		Fragment fragment = null;
 		switch (position) {
-		case 1:
+		case 2:
 			Intent myProfileIntent = new Intent(activity,
 					MyProfileActivity.class);
 			startActivity(myProfileIntent);
 			break;
-		case 2:
+		case 3:
 			Intent intent = new Intent(this, MyActivity.class);
 			startActivity(intent);
 			break;
-		case 3:
+		case 4:
 			fragment = new Following();
 			break;
-		case 4:
+		case 5:
 			fragment = new Messages();
 			break;
-		case 5:
+		case 6:
 			fragment = new Settings();
 			break;
 		default:
