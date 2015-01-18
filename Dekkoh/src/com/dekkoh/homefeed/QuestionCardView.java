@@ -6,6 +6,7 @@ import com.dekkoh.custom.view.CircularImageView;
 import com.dekkoh.custom.view.SquareLinearLayout;
 import com.dekkoh.datamodel.Question;
 import com.dekkoh.util.CommonUtils;
+import com.dekkoh.util.Log;
 import com.kavyasoni.gallery.ui.helper.ImageFetcher;
 import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
 import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
@@ -25,11 +26,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class QuestionCardView {
-
+    
+    public static String TAG = "QuestionCardView";
     private int windowWidth, windowHeight;
-    private int screenCenterX, screenCenterY;
-    private int x_current, y_current, x_initial, y_initial;
-    private int initPosX = 0, initPosY = 0;
+    private float screenCenterX, screenCenterY;
+    private float x_current, y_current, x_initial, y_initial;
+    private float initPosX = 0, initPosY = 0;
+    private float dragLength = 0;
     private RelativeLayout parentView;
     private Context context;
 
@@ -187,17 +190,18 @@ public class QuestionCardView {
         questionFragmentLayout.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                getInstance().x_current = (int) event.getRawX();
-                getInstance().y_current = (int) event.getRawY();
+                getInstance().x_current = event.getRawX();
+                getInstance().y_current = event.getRawY();
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        getInstance().x_initial = (int) event.getX();
-                        getInstance().y_initial = (int) event.getY();
+                        getInstance().x_initial = event.getX();
+                        getInstance().y_initial = event.getY();
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        getInstance().x_current = (int) event.getRawX();
-                        getInstance().y_current = (int) event.getRawY();
+                        getInstance().x_current = event.getRawX();
+                        getInstance().y_current = event.getRawY();
+                        getInstance().dragLength =  getInstance().x_current - getInstance().x_initial;
                         if (getInstance().x_current - getInstance().x_initial > 0) {
                             view.setX(getInstance().x_current
                                     - getInstance().x_initial);
@@ -206,10 +210,19 @@ public class QuestionCardView {
                         }
                         break;
                     case MotionEvent.ACTION_UP:
-                        getInstance().x_current = (int) event.getRawX();
-                        getInstance().y_current = (int) event.getRawY();
-                        if ((getInstance().x_current - getInstance().x_initial) > getInstance().screenCenterX / 2) {
-                            parentView.removeView(view);
+                        
+                        if (getInstance().dragLength > getInstance().screenCenterX) {
+                            float temp = getInstance().dragLength;
+                            for (; getInstance().dragLength < 2*getInstance().screenCenterX; getInstance().dragLength++, temp+=0.1){
+                                view.setX(temp);
+                                view.setRotation((temp) * 0.001f * 60f);
+                            }
+                            parentView.removeView(view);                            
+                        }else{
+                            for (; getInstance().dragLength >= 0; getInstance().dragLength-=0.1){
+                                view.setX(getInstance().dragLength);
+                                view.setRotation((getInstance().dragLength) * 0.001f * 60f);
+                            }
                         }
                         break;
                     default:
@@ -223,7 +236,7 @@ public class QuestionCardView {
 
         getInstance().parentView.addView(view, index);
         Animation expansion = createExpansion(view);
-        expansion.setDuration(500);
+        expansion.setDuration(1500);
         expansion.setInterpolator(new BounceInterpolator());
         view.startAnimation(expansion);
 
