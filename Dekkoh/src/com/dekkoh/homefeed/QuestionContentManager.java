@@ -119,6 +119,17 @@ public static boolean updateSuccessful = false;
 		return questionFragArgs;
 	}
 	
+	public static Question getNextQuestion(){
+		QuestionContentManager.getInstance().setCurrentIndex(QuestionContentManager.getInstance().getCurrentIndex() + 1);
+		Question question = QuestionContentManager.getInstance().getQuestionList().get(QuestionContentManager.getInstance().getCurrentIndex());
+		return question;
+	}
+	
+	public static Question getPreviousQuestion(){
+		QuestionContentManager.getInstance().setCurrentIndex(QuestionContentManager.getInstance().getCurrentIndex() - 1);
+		Question question = QuestionContentManager.getInstance().getQuestionList().get(QuestionContentManager.getInstance().getCurrentIndex());
+		return question;
+	}
 	
 }
 	
