@@ -3,15 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background" >
-"
 
-    <!-- Framelayout to display Fragments -->
-
-    <FrameLayout
+    <RelativeLayout 
         android:id="@+id/contentHomeActivity"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </FrameLayout>
+  		android:layout_height="match_parent"
+        ></RelativeLayout>
 
     <!-- Listview to display slider menu -->
 
