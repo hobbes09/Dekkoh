@@ -13,6 +13,7 @@ import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -144,6 +145,10 @@ public class QuestionCardView {
                 .findViewById(R.id.sllFollow);
         getInstance().questionFragmentLayout = (LinearLayout) root
                 .findViewById(R.id.questionFragmentLayout);
+        
+        Typeface typeFace=Typeface
+                .createFromAsset(HomeScreen.homeScreenContext.getAssets(),"fonts/SortsMillGoudy-Regular.ttf");
+        tvQuestion.setTypeface(typeFace);
 
         ImageCacheParams cacheParams = new ImageCacheParams(
                 getInstance().context, IMAGE_CACHE_DIR);
