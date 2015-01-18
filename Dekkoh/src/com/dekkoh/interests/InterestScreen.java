@@ -32,59 +32,56 @@ import com.dekkoh.util.SharedPreferenceManager;
 import com.dekkoh.util.Constants.SharedPreferenceConstants;
 
 public class InterestScreen extends BaseActivity {
-	
-	
+
 	private Handler mHandler = new Handler();
 	private ArrayList<Integer> flipIds = new ArrayList<Integer>();
 	private static ArrayList<String> selectedInterests;
-	private static int fragmentPosition=0;
-	
-	
+	private static int fragmentPosition = 0;
+
 	public ArrayList<String> completeInterests = new ArrayList<String>();
 	public String[] comp_interests;
 	public String[] interest_id;
-	
+
 	ProgressDialog progress;
-	
+
 	ImageView confirmInterestSelection;
-	
+
 	Context mContext;
-	
+
 	DekkohUser dekkohUser;
-	
+
 	DekkohApplication dekkohApplication;
-	
+
 	List<DekkohUser.InterestID> interestIdList = new ArrayList<DekkohUser.InterestID>();
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
-	super.onCreate(savedInstanceState);
-		
-		setContentView(R.layout.interests_activity_layout);
-		
-		mContext = getApplicationContext();
-		
-		// Progress Dialog
-				progress = new ProgressDialog(this);
-				progress.setMessage("Saving Your Selection...");
-				progress.setIndeterminate(true);
-				//
-		
-		 dekkohApplication = (DekkohApplication) activity
-				.getApplication();
 
-		 dekkohUser =	dekkohApplication.getDekkohUser();
-		
+		super.onCreate(savedInstanceState);
+
+		setContentView(R.layout.interests_activity_layout);
+
+		mContext = getApplicationContext();
+
+		// Progress Dialog
+		progress = new ProgressDialog(this);
+		progress.setMessage("Saving Your Selection...");
+		progress.setIndeterminate(true);
+		//
+
+		dekkohApplication = (DekkohApplication) activity.getApplication();
+
+		dekkohUser = dekkohApplication.getDekkohUser();
+
 		comp_interests = getResources().getStringArray(R.array.Interests_list);
 		interest_id = getResources().getStringArray(R.array.Interest_ids);
 		completeInterests.clear();
-		for(int i=0;i<comp_interests.length;i++){
+		for (int i = 0; i < comp_interests.length; i++) {
 			completeInterests.add(comp_interests[i]);
 		}
-		
-		confirmInterestSelection = (ImageView)findViewById(R.id.interests_activity_layout_continue);
-		
+
+		confirmInterestSelection = (ImageView) findViewById(R.id.interests_activity_layout_continue);
+
 		if (savedInstanceState == null) {
 			// If there is no saved instance state, add a fragment representing
 			// the
@@ -93,46 +90,45 @@ public class InterestScreen extends BaseActivity {
 			// this fragment will have already been added to the activity.
 
 			getFragmentManager().beginTransaction()
-			.add(R.id.container, new CardFrontFragment()).commit();
+					.add(R.id.container, new CardFrontFragment()).commit();
 			getFragmentManager().beginTransaction()
-			.add(R.id.container1, new CardFrontFragment()).commit();
+					.add(R.id.container1, new CardFrontFragment()).commit();
 			getFragmentManager().beginTransaction()
-			.add(R.id.container2, new CardFrontFragment()).commit();
+					.add(R.id.container2, new CardFrontFragment()).commit();
 			getFragmentManager().beginTransaction()
-			.add(R.id.container3, new CardFrontFragment()).commit();
+					.add(R.id.container3, new CardFrontFragment()).commit();
 			getFragmentManager().beginTransaction()
-			.add(R.id.container4, new CardFrontFragment()).commit();
+					.add(R.id.container4, new CardFrontFragment()).commit();
 			getFragmentManager().beginTransaction()
-			.add(R.id.container5, new CardFrontFragment()).commit();
+					.add(R.id.container5, new CardFrontFragment()).commit();
 			getFragmentManager().beginTransaction()
-			.add(R.id.container6, new CardFrontFragment()).commit();
+					.add(R.id.container6, new CardFrontFragment()).commit();
 			getFragmentManager().beginTransaction()
-			.add(R.id.container7, new CardFrontFragment()).commit();
+					.add(R.id.container7, new CardFrontFragment()).commit();
 			getFragmentManager().beginTransaction()
-			.add(R.id.container8, new CardFrontFragment()).commit();
+					.add(R.id.container8, new CardFrontFragment()).commit();
 			getFragmentManager().beginTransaction()
-			.add(R.id.container9, new CardFrontFragment()).commit();
+					.add(R.id.container9, new CardFrontFragment()).commit();
 		} else {
-			//mShowingBack = (getFragmentManager().getBackStackEntryCount() > 0);
+			// mShowingBack = (getFragmentManager().getBackStackEntryCount() >
+			// 0);
 		}
-		selectedInterests =  new ArrayList<String>();
-		
+		selectedInterests = new ArrayList<String>();
 
-
-		FrameLayout container = (FrameLayout)findViewById(R.id.container);
-		FrameLayout container1 = (FrameLayout)findViewById(R.id.container1);
-		FrameLayout container2 = (FrameLayout)findViewById(R.id.container2);
-		FrameLayout container3 = (FrameLayout)findViewById(R.id.container3);
-		FrameLayout container4 = (FrameLayout)findViewById(R.id.container4);
-		FrameLayout container5 = (FrameLayout)findViewById(R.id.container5);
-		FrameLayout container6 = (FrameLayout)findViewById(R.id.container6);
-		FrameLayout container7 = (FrameLayout)findViewById(R.id.container7);
-		FrameLayout container8 = (FrameLayout)findViewById(R.id.container8);
-		FrameLayout container9 = (FrameLayout)findViewById(R.id.container9);
+		FrameLayout container = (FrameLayout) findViewById(R.id.container);
+		FrameLayout container1 = (FrameLayout) findViewById(R.id.container1);
+		FrameLayout container2 = (FrameLayout) findViewById(R.id.container2);
+		FrameLayout container3 = (FrameLayout) findViewById(R.id.container3);
+		FrameLayout container4 = (FrameLayout) findViewById(R.id.container4);
+		FrameLayout container5 = (FrameLayout) findViewById(R.id.container5);
+		FrameLayout container6 = (FrameLayout) findViewById(R.id.container6);
+		FrameLayout container7 = (FrameLayout) findViewById(R.id.container7);
+		FrameLayout container8 = (FrameLayout) findViewById(R.id.container8);
+		FrameLayout container9 = (FrameLayout) findViewById(R.id.container9);
 		container.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				fragmentPosition=0;
+				fragmentPosition = 0;
 				flipCard(R.id.container);
 			}
 
@@ -140,7 +136,7 @@ public class InterestScreen extends BaseActivity {
 		container1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				fragmentPosition=1;
+				fragmentPosition = 1;
 				flipCard(R.id.container1);
 			}
 
@@ -148,7 +144,7 @@ public class InterestScreen extends BaseActivity {
 		container2.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				fragmentPosition=2;
+				fragmentPosition = 2;
 				flipCard(R.id.container2);
 			}
 
@@ -156,7 +152,7 @@ public class InterestScreen extends BaseActivity {
 		container3.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				fragmentPosition=3;
+				fragmentPosition = 3;
 				flipCard(R.id.container3);
 			}
 
@@ -164,7 +160,7 @@ public class InterestScreen extends BaseActivity {
 		container4.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				fragmentPosition=4;
+				fragmentPosition = 4;
 				flipCard(R.id.container4);
 			}
 
@@ -172,7 +168,7 @@ public class InterestScreen extends BaseActivity {
 		container5.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				fragmentPosition=5;
+				fragmentPosition = 5;
 				flipCard(R.id.container5);
 			}
 
@@ -180,7 +176,7 @@ public class InterestScreen extends BaseActivity {
 		container6.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				fragmentPosition=6;
+				fragmentPosition = 6;
 				flipCard(R.id.container6);
 			}
 
@@ -188,7 +184,7 @@ public class InterestScreen extends BaseActivity {
 		container7.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				fragmentPosition=7;
+				fragmentPosition = 7;
 				flipCard(R.id.container7);
 			}
 
@@ -196,7 +192,7 @@ public class InterestScreen extends BaseActivity {
 		container8.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				fragmentPosition=8;
+				fragmentPosition = 8;
 				flipCard(R.id.container8);
 			}
 
@@ -204,85 +200,87 @@ public class InterestScreen extends BaseActivity {
 		container9.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				fragmentPosition=9;
+				fragmentPosition = 9;
 				flipCard(R.id.container9);
 			}
 
 		});
-		
-		
+
 		confirmInterestSelection.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				//System.out.println("Clicked on options selected location image clicked");
-				
-				
-				
-				String allInterests="";
-				
-				for(int i=0;i<selectedInterests.size();i++)
-				{
+				// System.out.println("Clicked on options selected location image clicked");
+
+				String allInterests = "";
+
+				for (int i = 0; i < selectedInterests.size(); i++) {
 					String interest = selectedInterests.get(i);
-					if(completeInterests.contains(interest)){
+					if (completeInterests.contains(interest)) {
 						DekkohUser.InterestID interest_ID_new = dekkohUser.new InterestID();
-						interest_ID_new.setInterestID(interest_id[completeInterests.indexOf(interest)]);
+						interest_ID_new
+								.setInterestID(interest_id[completeInterests
+										.indexOf(interest)]);
 						interestIdList.add(interest_ID_new);
-						allInterests+=interest_ID_new+",";
+						allInterests += interest_ID_new + ",";
 					}
-					
+
 				}
-				
-			if(allInterests.length()>1)
-				{
-				allInterests = allInterests.substring(0, allInterests.length()-1);
-				Toast.makeText(mContext,allInterests , Toast.LENGTH_SHORT).show();
-				SharedPreferenceManager sharedPreferenceManager = SharedPreferenceManager
-						.getInstance(InterestScreen.this);
-				sharedPreferenceManager.save(
-						SharedPreferenceConstants.DEKKOH_USER_INTERESTS,
-						allInterests);
-				sharedPreferenceManager.save(
-						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
-						true);
-				dekkohUser.setInterestIds(interestIdList);
-				
-				if(dekkohApplication!=null){
-					dekkohApplication.setDekkohUser(dekkohUser);
-				}
-				
-				progress.show();
-				new saveInterestsTask().execute();
-				
-				}
-				else{
-					Toast.makeText(mContext, "Please select interests to proceed", Toast.LENGTH_SHORT).show();
+
+				if (allInterests.length() > 1) {
+					allInterests = allInterests.substring(0,
+							allInterests.length() - 1);
+					Toast.makeText(mContext, allInterests, Toast.LENGTH_SHORT)
+							.show();
+					SharedPreferenceManager sharedPreferenceManager = SharedPreferenceManager
+							.getInstance(InterestScreen.this);
+					sharedPreferenceManager.save(
+							SharedPreferenceConstants.DEKKOH_USER_INTERESTS,
+							allInterests);
+					sharedPreferenceManager
+							.save(SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
+									true);
+					dekkohUser.setInterestIds(interestIdList);
+
+					if (dekkohApplication != null) {
+						dekkohApplication.setDekkohUser(dekkohUser);
+					}
+
+					progress.show();
+					new saveInterestsTask().execute();
+
+				} else {
+					Toast.makeText(mContext,
+							"Please select interests to proceed",
+							Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
-		
+
 	}
 
 	private void flipCard(int containerId) {
 
-		if(!flipIds.contains(containerId)){
+		if (!flipIds.contains(containerId)) {
 			flipIds.add(containerId);
-			getFragmentManager().beginTransaction()
+			getFragmentManager()
+					.beginTransaction()
 
-			.setCustomAnimations(R.animator.card_flip_right_in,
-					R.animator.card_flip_right_out,
-					R.animator.card_flip_left_in,
-					R.animator.card_flip_left_out).replace(containerId, new CardBackFragment()).commit();
-		}
-		else{
-			flipIds.remove((Integer)containerId);
-			getFragmentManager().beginTransaction().setCustomAnimations(R.animator.card_flip_right_in,
-					R.animator.card_flip_right_out,
-					R.animator.card_flip_left_in,
-					R.animator.card_flip_left_out)
-					.replace(containerId, new CardFrontFragment())
-					.commit();
+					.setCustomAnimations(R.animator.card_flip_right_in,
+							R.animator.card_flip_right_out,
+							R.animator.card_flip_left_in,
+							R.animator.card_flip_left_out)
+					.replace(containerId, new CardBackFragment()).commit();
+		} else {
+			flipIds.remove((Integer) containerId);
+			getFragmentManager()
+					.beginTransaction()
+					.setCustomAnimations(R.animator.card_flip_right_in,
+							R.animator.card_flip_right_out,
+							R.animator.card_flip_left_in,
+							R.animator.card_flip_left_out)
+					.replace(containerId, new CardFrontFragment()).commit();
 		}
 
 		mHandler.post(new Runnable() {
@@ -295,15 +293,17 @@ public class InterestScreen extends BaseActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	//	MenuInflater inflater = getMenuInflater();
-	//	inflater.inflate(R.menu.interests, menu);
+		// MenuInflater inflater = getMenuInflater();
+		// inflater.inflate(R.menu.interests, menu);
 
-		/*// Associate searchable configuration with the SearchView
-		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		SearchView searchView = (SearchView) menu.findItem(R.id.action_location_found)
-				.getActionView();
-		searchView.setSearchableInfo(searchManager
-				.getSearchableInfo(getComponentName()));*/
+		/*
+		 * // Associate searchable configuration with the SearchView
+		 * SearchManager searchManager = (SearchManager)
+		 * getSystemService(Context.SEARCH_SERVICE); SearchView searchView =
+		 * (SearchView) menu.findItem(R.id.action_location_found)
+		 * .getActionView(); searchView.setSearchableInfo(searchManager
+		 * .getSearchableInfo(getComponentName()));
+		 */
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -330,86 +330,88 @@ public class InterestScreen extends BaseActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View frontView =inflater.inflate(R.layout.interest_card_front, container,false);
-			if(fragmentPosition==0)
-			{
+			View frontView = inflater.inflate(R.layout.interest_card_front,
+					container, false);
+			if (fragmentPosition == 0) {
 				frontView.setBackgroundResource(R.drawable.travel_black);
-				TextView tv=(TextView)frontView.findViewById(R.id.tvInterestName_black);
+				TextView tv = (TextView) frontView
+						.findViewById(R.id.tvInterestName_black);
 				tv.setText("Travel and Adventure");
-				if(selectedInterests.contains("Travel and Adventure"))
-					selectedInterests.remove(selectedInterests.indexOf("Travel and Adventure"));
-			}
-			else if(fragmentPosition==1)
-			{
+				if (selectedInterests.contains("Travel and Adventure"))
+					selectedInterests.remove(selectedInterests
+							.indexOf("Travel and Adventure"));
+			} else if (fragmentPosition == 1) {
 				frontView.setBackgroundResource(R.drawable.shopping_black);
-				TextView tv=(TextView)frontView.findViewById(R.id.tvInterestName_black);
+				TextView tv = (TextView) frontView
+						.findViewById(R.id.tvInterestName_black);
 				tv.setText("Shopping and Lifestyle");
-				if(selectedInterests.contains("Shopping and LifeStyle"))
-					selectedInterests.remove(selectedInterests.indexOf("Shopping and LifeStyle"));
-			}
-			else if(fragmentPosition==2)
-			{
+				if (selectedInterests.contains("Shopping and LifeStyle"))
+					selectedInterests.remove(selectedInterests
+							.indexOf("Shopping and LifeStyle"));
+			} else if (fragmentPosition == 2) {
 				frontView.setBackgroundResource(R.drawable.sport_black);
-				TextView tv=(TextView)frontView.findViewById(R.id.tvInterestName_black);
-				tv.setText("Sports and Activities");	
-				if(selectedInterests.contains("Sports and Activities"))
-					selectedInterests.remove(selectedInterests.indexOf("Sports and Activities"));
-			}
-			else if(fragmentPosition==3)
-			{
+				TextView tv = (TextView) frontView
+						.findViewById(R.id.tvInterestName_black);
+				tv.setText("Sports and Activities");
+				if (selectedInterests.contains("Sports and Activities"))
+					selectedInterests.remove(selectedInterests
+							.indexOf("Sports and Activities"));
+			} else if (fragmentPosition == 3) {
 				frontView.setBackgroundResource(R.drawable.food_black);
-				TextView tv=(TextView)frontView.findViewById(R.id.tvInterestName_black);
-				tv.setText("Food and Restaurants");				
-				if(selectedInterests.contains("Food and Restaurants"))
-					selectedInterests.remove(selectedInterests.indexOf("Food and Restaurants"));
-			}
-			else if(fragmentPosition==4)
-			{
+				TextView tv = (TextView) frontView
+						.findViewById(R.id.tvInterestName_black);
+				tv.setText("Food and Restaurants");
+				if (selectedInterests.contains("Food and Restaurants"))
+					selectedInterests.remove(selectedInterests
+							.indexOf("Food and Restaurants"));
+			} else if (fragmentPosition == 4) {
 				frontView.setBackgroundResource(R.drawable.pubs_black);
-				TextView tv=(TextView)frontView.findViewById(R.id.tvInterestName_black);
-				tv.setText("Pubs and NightLife");				
-				if(selectedInterests.contains("Pubs and NightLife"))
-					selectedInterests.remove(selectedInterests.indexOf("Pubs and NightLife"));
-			}
-			else if(fragmentPosition==5)
-			{
+				TextView tv = (TextView) frontView
+						.findViewById(R.id.tvInterestName_black);
+				tv.setText("Pubs and NightLife");
+				if (selectedInterests.contains("Pubs and NightLife"))
+					selectedInterests.remove(selectedInterests
+							.indexOf("Pubs and NightLife"));
+			} else if (fragmentPosition == 5) {
 				frontView.setBackgroundResource(R.drawable.accomodation_black);
-				TextView tv=(TextView)frontView.findViewById(R.id.tvInterestName_black);
-				tv.setText("Accomodation");				
-				if(selectedInterests.contains("Accomodation"))
-					selectedInterests.remove(selectedInterests.indexOf("Accomodation"));
-			}
-			else if(fragmentPosition==6)
-			{
+				TextView tv = (TextView) frontView
+						.findViewById(R.id.tvInterestName_black);
+				tv.setText("Accomodation");
+				if (selectedInterests.contains("Accomodation"))
+					selectedInterests.remove(selectedInterests
+							.indexOf("Accomodation"));
+			} else if (fragmentPosition == 6) {
 				frontView.setBackgroundResource(R.drawable.arts_black);
-				TextView tv=(TextView)frontView.findViewById(R.id.tvInterestName_black);
-				tv.setText("Arts and Culture");				
-				if(selectedInterests.contains("Arts and Culture"))
-					selectedInterests.remove(selectedInterests.indexOf("Arts and Culture"));
-			}
-			else if(fragmentPosition==7)
-			{
+				TextView tv = (TextView) frontView
+						.findViewById(R.id.tvInterestName_black);
+				tv.setText("Arts and Culture");
+				if (selectedInterests.contains("Arts and Culture"))
+					selectedInterests.remove(selectedInterests
+							.indexOf("Arts and Culture"));
+			} else if (fragmentPosition == 7) {
 				frontView.setBackgroundResource(R.drawable.utilities_black);
-				TextView tv=(TextView)frontView.findViewById(R.id.tvInterestName_black);
-				tv.setText("Utilities");				
-				if(selectedInterests.contains("Utilities"))
-					selectedInterests.remove(selectedInterests.indexOf("Utilities"));
-			}
-			else if(fragmentPosition==8)
-			{
+				TextView tv = (TextView) frontView
+						.findViewById(R.id.tvInterestName_black);
+				tv.setText("Utilities");
+				if (selectedInterests.contains("Utilities"))
+					selectedInterests.remove(selectedInterests
+							.indexOf("Utilities"));
+			} else if (fragmentPosition == 8) {
 				frontView.setBackgroundResource(R.drawable.entertainment_black);
-				TextView tv=(TextView)frontView.findViewById(R.id.tvInterestName_black);
-				tv.setText("Entertainment and Events");				
-				if(selectedInterests.contains("Entertainment and Events"))
-					selectedInterests.remove(selectedInterests.indexOf("Entertainment and Events"));
-			}
-			else if(fragmentPosition==9)
-			{
+				TextView tv = (TextView) frontView
+						.findViewById(R.id.tvInterestName_black);
+				tv.setText("Entertainment and Events");
+				if (selectedInterests.contains("Entertainment and Events"))
+					selectedInterests.remove(selectedInterests
+							.indexOf("Entertainment and Events"));
+			} else if (fragmentPosition == 9) {
 				frontView.setBackgroundResource(R.drawable.miscellaneous_black);
-				TextView tv=(TextView)frontView.findViewById(R.id.tvInterestName_black);
-				tv.setText("Miscellaneous");				
-				if(selectedInterests.contains("Miscellaneous"))
-					selectedInterests.remove(selectedInterests.indexOf("Miscellaneous"));
+				TextView tv = (TextView) frontView
+						.findViewById(R.id.tvInterestName_black);
+				tv.setText("Miscellaneous");
+				if (selectedInterests.contains("Miscellaneous"))
+					selectedInterests.remove(selectedInterests
+							.indexOf("Miscellaneous"));
 			}
 			fragmentPosition++; // only used while initial imagesview display
 			return frontView;
@@ -427,85 +429,77 @@ public class InterestScreen extends BaseActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View backView =inflater.inflate(R.layout.interest_card_back, container,false);
-			if(fragmentPosition==0)
-			{
+			View backView = inflater.inflate(R.layout.interest_card_back,
+					container, false);
+			if (fragmentPosition == 0) {
 				backView.setBackgroundResource(R.drawable.travel_color);
-				TextView tv=(TextView)backView.findViewById(R.id.tvInterestName);
+				TextView tv = (TextView) backView
+						.findViewById(R.id.tvInterestName);
 				tv.setText("Travel and Adventure");
-				if(!selectedInterests.contains("Travel and Adventure"))
+				if (!selectedInterests.contains("Travel and Adventure"))
 					selectedInterests.add("Travel and Adventure");
-			}
-			else if(fragmentPosition==1)
-			{
+			} else if (fragmentPosition == 1) {
 				backView.setBackgroundResource(R.drawable.shopping_color);
-				TextView tv=(TextView)backView.findViewById(R.id.tvInterestName);
+				TextView tv = (TextView) backView
+						.findViewById(R.id.tvInterestName);
 				tv.setText("Shopping and Lifestyle");
-				if(!selectedInterests.contains("Shopping and LifeStyle"))
+				if (!selectedInterests.contains("Shopping and LifeStyle"))
 					selectedInterests.add("Shopping and LifeStyle");
-			}
-			else if(fragmentPosition==2)
-			{
+			} else if (fragmentPosition == 2) {
 				backView.setBackgroundResource(R.drawable.sport_color);
-				TextView tv=(TextView)backView.findViewById(R.id.tvInterestName);
-				tv.setText("Sports and Activities");	
-				if(!selectedInterests.contains("Sports and Activities"))
+				TextView tv = (TextView) backView
+						.findViewById(R.id.tvInterestName);
+				tv.setText("Sports and Activities");
+				if (!selectedInterests.contains("Sports and Activities"))
 					selectedInterests.add("Sports and Activities");
-			}
-			else if(fragmentPosition==3)
-			{
+			} else if (fragmentPosition == 3) {
 				backView.setBackgroundResource(R.drawable.food_color);
-				TextView tv=(TextView)backView.findViewById(R.id.tvInterestName);
-				tv.setText("Food and Restaurants");				
-				if(!selectedInterests.contains("Food and Restaurants"))
+				TextView tv = (TextView) backView
+						.findViewById(R.id.tvInterestName);
+				tv.setText("Food and Restaurants");
+				if (!selectedInterests.contains("Food and Restaurants"))
 					selectedInterests.add("Food and Restaurants");
-			}
-			else if(fragmentPosition==4)
-			{
+			} else if (fragmentPosition == 4) {
 				backView.setBackgroundResource(R.drawable.pubs_color);
-				TextView tv=(TextView)backView.findViewById(R.id.tvInterestName);
-				tv.setText("Pubs and NightLife");				
-				if(!selectedInterests.contains("Pubs and NightLife"))
+				TextView tv = (TextView) backView
+						.findViewById(R.id.tvInterestName);
+				tv.setText("Pubs and NightLife");
+				if (!selectedInterests.contains("Pubs and NightLife"))
 					selectedInterests.add("Pubs and NightLife");
-			}
-			else if(fragmentPosition==5)
-			{
+			} else if (fragmentPosition == 5) {
 				backView.setBackgroundResource(R.drawable.accomodation_color);
-				TextView tv=(TextView)backView.findViewById(R.id.tvInterestName);
-				tv.setText("Accomodation");				
-				if(!selectedInterests.contains("Accomodation"))
+				TextView tv = (TextView) backView
+						.findViewById(R.id.tvInterestName);
+				tv.setText("Accomodation");
+				if (!selectedInterests.contains("Accomodation"))
 					selectedInterests.add("Accomodation");
-			}
-			else if(fragmentPosition==6)
-			{
+			} else if (fragmentPosition == 6) {
 				backView.setBackgroundResource(R.drawable.arts_color);
-				TextView tv=(TextView)backView.findViewById(R.id.tvInterestName);
-				tv.setText("Arts and Culture");				
-				if(!selectedInterests.contains("Arts and Culture"))
+				TextView tv = (TextView) backView
+						.findViewById(R.id.tvInterestName);
+				tv.setText("Arts and Culture");
+				if (!selectedInterests.contains("Arts and Culture"))
 					selectedInterests.add("Arts and Culture");
-			}
-			else if(fragmentPosition==7)
-			{
+			} else if (fragmentPosition == 7) {
 				backView.setBackgroundResource(R.drawable.utilities_color);
-				TextView tv=(TextView)backView.findViewById(R.id.tvInterestName);
-				tv.setText("Utilities");				
-				if(!selectedInterests.contains("Utilities"))
+				TextView tv = (TextView) backView
+						.findViewById(R.id.tvInterestName);
+				tv.setText("Utilities");
+				if (!selectedInterests.contains("Utilities"))
 					selectedInterests.add("Utilities");
-			}
-			else if(fragmentPosition==8)
-			{
+			} else if (fragmentPosition == 8) {
 				backView.setBackgroundResource(R.drawable.entertainment_color);
-				TextView tv=(TextView)backView.findViewById(R.id.tvInterestName);
-				tv.setText("Entertainment and Events");				
-				if(!selectedInterests.contains("Entertainment and Events"))
+				TextView tv = (TextView) backView
+						.findViewById(R.id.tvInterestName);
+				tv.setText("Entertainment and Events");
+				if (!selectedInterests.contains("Entertainment and Events"))
 					selectedInterests.add("Entertainment and Events");
-			}
-			else if(fragmentPosition==9)
-			{
+			} else if (fragmentPosition == 9) {
 				backView.setBackgroundResource(R.drawable.miscellaneous_color);
-				TextView tv=(TextView)backView.findViewById(R.id.tvInterestName);
-				tv.setText("Miscellaneous");				
-				if(!selectedInterests.contains("Miscellaneous"))
+				TextView tv = (TextView) backView
+						.findViewById(R.id.tvInterestName);
+				tv.setText("Miscellaneous");
+				if (!selectedInterests.contains("Miscellaneous"))
 					selectedInterests.add("Miscellaneous");
 			}
 			return backView;
@@ -513,24 +507,26 @@ public class InterestScreen extends BaseActivity {
 		}
 	}
 
-
 	class saveInterestsTask extends AsyncTask<Void, Void, String> {
 
-		String result=null;
+		String result = null;
+
 		@Override
 		protected String doInBackground(Void... params) {
 			try {
-				
+
 				String[] listOfInterestIds = new String[interestIdList.size()];
-				for(int i=0;i<interestIdList.size();i++){
-					listOfInterestIds[i]=interestIdList.get(i).getInterestID();
+				for (int i = 0; i < interestIdList.size(); i++) {
+					listOfInterestIds[i] = interestIdList.get(i)
+							.getInterestID();
 				}
-				
-				dekkohUser = APIProcessor.updateUserInterest(InterestScreen.this, listOfInterestIds);
-				
+
+				dekkohUser = APIProcessor.updateUserInterest(
+						InterestScreen.this, listOfInterestIds);
+
 			} catch (Exception e) {
 				Log.e(e);
-				result=e.getMessage();
+				result = e.getMessage();
 				e.printStackTrace();
 			}
 			return result;
@@ -539,18 +535,17 @@ public class InterestScreen extends BaseActivity {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			
-			if(result==null && dekkohUser!=null){
-				Toast.makeText(getApplicationContext(), dekkohUser.getInterestIds().get(0).toString(),Toast.LENGTH_LONG).show();
+
+			if (result == null && dekkohUser != null) {
 				progress.cancel();
 				dekkohApplication.setDekkohUser(dekkohUser);
-				Intent intent = new Intent(InterestScreen.this,PreHomeScreen.class);						
+				Intent intent = new Intent(InterestScreen.this,
+						PreHomeScreen.class);
 				startActivity(intent);
-			}else{
+			} else {
 				progress.cancel();
-				Toast.makeText(getApplicationContext(), result+"Unable to save your selection...\nPlease Try again.",Toast.LENGTH_LONG).show();
 			}
-			
+
 		}
 	}
 }
