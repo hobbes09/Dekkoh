@@ -335,6 +335,7 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 
 	@Override
 	protected void onDestroy() {
+		super.onDestroy();
 		try {
 			if (FileManager.getInstance().isObjectFileExistsInExternalStorage(
 					(Activity) HomeScreen.homeScreenContext,
