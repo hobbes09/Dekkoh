@@ -1,3 +1,4 @@
+
 package com.dekkoh.homefeed;
 
 import android.view.View;
@@ -5,26 +6,28 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.Transformation;
 
-public class CustomScaleAnimation extends ScaleAnimation{
-	
-	private float fromWidth;
-	private float toWidth;
+public class CustomScaleAnimation extends ScaleAnimation {
+
+    private float fromWidth;
+    private float toWidth;
     private float fromHeight;
     private float toHeight;
     private View viewToScale;
 
     public CustomScaleAnimation(View viewToScale, float fromX, float toX, float fromY, float toY) {
-        super( fromX,  toX,  fromY,  toY);
+        super(fromX, toX, fromY, toY);
         init(viewToScale, fromX, toX, fromY, toY);
     }
 
-    public CustomScaleAnimation(View viewToScale, float fromX, float toX, float fromY, float toY, float pivotX, float pivotY) {
-        super( fromX,  toX, fromY,  toY,  pivotX,  pivotY);
+    public CustomScaleAnimation(View viewToScale, float fromX, float toX, float fromY, float toY,
+            float pivotX, float pivotY) {
+        super(fromX, toX, fromY, toY, pivotX, pivotY);
         init(viewToScale, fromX, toX, fromY, toY);
     }
 
-    public CustomScaleAnimation(View viewToScale, float fromX, float toX, float fromY, float toY, int pivotXType, float pivotXValue, int pivotYType, float pivotYValue) {
-        super( fromX,  toX,  fromY,  toY,  pivotXType,  pivotXValue,  pivotYType,  pivotYValue);
+    public CustomScaleAnimation(View viewToScale, float fromX, float toX, float fromY, float toY,
+            int pivotXType, float pivotXValue, int pivotYType, float pivotYValue) {
+        super(fromX, toX, fromY, toY, pivotXType, pivotXValue, pivotYType, pivotYValue);
         init(viewToScale, fromX, toX, fromY, toY);
     }
 
@@ -42,7 +45,8 @@ public class CustomScaleAnimation extends ScaleAnimation{
     protected void applyTransformation(float interpolatedTime, Transformation t) {
         super.applyTransformation(interpolatedTime, t);
 
-        final int newHeight = (int) (fromHeight * (1 - interpolatedTime) + toHeight * interpolatedTime);
+        final int newHeight = (int) (fromHeight * (1 - interpolatedTime) + toHeight
+                * interpolatedTime);
         final int newWidth = (int) (fromWidth * (1 - interpolatedTime) + toWidth * interpolatedTime);
 
         viewToScale.getLayoutParams().height = newHeight;

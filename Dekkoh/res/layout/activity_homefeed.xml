@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     android:background="@drawable/background" >
 
-    <RelativeLayout 
+    <RelativeLayout
         android:id="@+id/contentHomeActivity"
         android:layout_width="match_parent"
-  		android:layout_height="match_parent"
-        ></RelativeLayout>
+        android:layout_height="match_parent" >
+    </RelativeLayout>
 
     <!-- Listview to display slider menu -->
 

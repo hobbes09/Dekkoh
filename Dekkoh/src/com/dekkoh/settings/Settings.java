@@ -1,3 +1,4 @@
+
 package com.dekkoh.settings;
 
 import android.os.Bundle;
@@ -8,17 +9,18 @@ import android.view.ViewGroup;
 import com.dekkoh.R;
 import com.dekkoh.application.BaseFragment;
 
-public class Settings extends BaseFragment{
+public class Settings extends BaseFragment {
 
-	public Settings(){}
-    
+    public Settings() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-  
+
         View rootView = inflater.inflate(R.layout.settings_fragment, container, false);
-          
+
         return rootView;
     }
-	
+
 }

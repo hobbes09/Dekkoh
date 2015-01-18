@@ -5,29 +5,25 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    
     <!-- Facebook sdk integration -->
-    <string  name="facebook_app_id">313134202213240</string>
-    
-    <!-- Interests  -->
+    <string name="facebook_app_id">313134202213240</string>
+
+    <!-- Interests -->
     <string-array name="Interests_list">
-        
-        <item >Travel and Adventure</item>
-        <item >Shopping and LifeStyle</item>
-        <item >Sports and Activities</item>
-        <item >Food and Restaurants</item>
-        <item >Pubs and NightLife</item>
-        <item >Accomodation</item>
-        <item >Arts and Culture</item>
-        <item >Utilities</item>
-        <item >Entertainment and Events</item>
-        <item >Miscellaneous</item>
-        
+        <item>Travel and Adventure</item>
+        <item>Shopping and LifeStyle</item>
+        <item>Sports and Activities</item>
+        <item>Food and Restaurants</item>
+        <item>Pubs and NightLife</item>
+        <item>Accomodation</item>
+        <item>Arts and Culture</item>
+        <item>Utilities</item>
+        <item>Entertainment and Events</item>
+        <item>Miscellaneous</item>
     </string-array>
-    
+
     <!-- Respective Interest Id -->
     <string-array name="Interest_ids">
-        
         <item>5436ad8a44656b615a0a0000</item>
         <item>5436ad8a44656b615a0b0000</item>
         <item>5436ad8a44656b615a0e0000</item>
@@ -38,25 +34,24 @@
         <item>5436ad8a44656b615a0c0000</item>
         <item>5436ad8a44656b615a120000</item>
         <item>5436ad8a44656b615a130000</item>
-        
     </string-array>
-    
+
     <!-- Splash Activity Strings -->
-    <string  name="connect_with">Connect with</string>
-    
+    <string name="connect_with">Connect with</string>
+
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
-    
-        <!-- Nav Drawer Menu Items -->
+
+    <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
-        <item ></item>
-        <item >My Profile</item>
-        <item >My Activity</item>
-        <item >Following</item>
-        <item >Messages</item>
-        <item >Settings</item>
+        <item></item>
+        <item>My Profile</item>
+        <item>My Activity</item>
+        <item>Following</item>
+        <item>Messages</item>
+        <item>Settings</item>
     </string-array>
-     
+
     <!-- Nav Drawer List Item Icons -->
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
@@ -67,6 +62,5 @@
         <item>@drawable/ic_launcher</item>
         <item>@drawable/ic_launcher</item>
     </array>
-    
-    
+
 </resources>

@@ -1,3 +1,4 @@
+
 package com.dekkoh.custom.view;
 
 import android.content.Context;
@@ -6,7 +7,7 @@ import android.widget.LinearLayout;
 
 public class SquareLinearLayout extends LinearLayout {
 
-	public SquareLinearLayout(Context context) {
+    public SquareLinearLayout(Context context) {
         super(context);
     }
 
@@ -18,10 +19,9 @@ public class SquareLinearLayout extends LinearLayout {
         super(context, attrs);
     }
 
-
-    @Override 
+    @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    	super.onMeasure(widthMeasureSpec, widthMeasureSpec);
+        super.onMeasure(widthMeasureSpec, widthMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
         int size = width > height ? height : width;

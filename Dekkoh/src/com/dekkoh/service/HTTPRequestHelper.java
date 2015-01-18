@@ -1,3 +1,4 @@
+
 package com.dekkoh.service;
 
 import java.io.IOException;
@@ -39,499 +40,494 @@ import com.dekkoh.util.IOUtils;
 import com.dekkoh.util.Log;
 
 /**
- * Wrapper to help make HTTP requests easier - after all, we want to make it
- * nice for the people.
+ * Wrapper to help make HTTP requests easier - after all, we want to make it nice for the people.
  */
 public final class HTTPRequestHelper {
-	private static final String TAG = "HTTPRequestHelper";
-	private static final String HTTP_PROTOCOL = "http";
-	private static final String HTTPS_PROTOCOL = "https";
-	private static int responseCode = 000;
-	public static final String POST = "POST";
-	public static final String GET = "GET";
-	public static final String DELETE = "DELETE";
-	public static final String PUT = "PUT";
+    private static final String TAG = "HTTPRequestHelper";
+    private static final String HTTP_PROTOCOL = "http";
+    private static final String HTTPS_PROTOCOL = "https";
+    private static int responseCode = 000;
+    public static final String POST = "POST";
+    public static final String GET = "GET";
+    public static final String DELETE = "DELETE";
+    public static final String PUT = "PUT";
 
-	public static String processGetRequest(String serviceURL) throws Exception {
-		return processGetRequest(serviceURL,
-				APIProcessor.getJSONRequestHeader());
-	}
+    public static String processGetRequest(String serviceURL) throws Exception {
+        return processGetRequest(serviceURL,
+                APIProcessor.getJSONRequestHeader());
+    }
 
-	public static String processGetRequest(String serviceURL,
-			String authorizationToken) throws Exception {
-		return processGetRequest(serviceURL,
-				APIProcessor.getJSONRequestHeader(authorizationToken));
-	}
+    public static String processGetRequest(String serviceURL,
+            String authorizationToken) throws Exception {
+        return processGetRequest(serviceURL,
+                APIProcessor.getJSONRequestHeader(authorizationToken));
+    }
 
-	public static String processGetRequest(String serviceURL,
-			String authorizationToken, String requestData) throws Exception {
-		return processRequest(serviceURL, GET,
-				APIProcessor.getJSONRequestHeader(authorizationToken),
-				requestData);
-	}
+    public static String processGetRequest(String serviceURL,
+            String authorizationToken, String requestData) throws Exception {
+        return processRequest(serviceURL, GET,
+                APIProcessor.getJSONRequestHeader(authorizationToken),
+                requestData);
+    }
 
-	public static String processGetRequest(String serviceURL,
-			Map<String, String> requestHeaders) throws Exception {
-		if (Log.DEBUG) {
-			Log.e(TAG, "********** processGetRequest **********");
-			Log.i(TAG, "ServiceURL : " + serviceURL);
-			if (requestHeaders != null)
-				for (Entry<String, String> entry : requestHeaders.entrySet()) {
-					Log.i(TAG, "RequestHeaders : " + "Key : " + entry.getKey()
-							+ " ,Value : " + entry.getValue());
-				}
-		}
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpConnectionParams.setConnectionTimeout(httpClient.getParams(),
-				APIConstants.TIME_OUT);
-		HttpGet httpGet = new HttpGet(serviceURL);
-		if (requestHeaders != null && requestHeaders.size() > 0) {
-			for (final Map.Entry<String, String> entry : requestHeaders
-					.entrySet()) {
-				httpGet.addHeader(entry.getKey(), entry.getValue());
-			}
-		}
-		HttpResponse httpResponse = httpClient.execute(httpGet);
-		responseCode = httpResponse.getStatusLine().getStatusCode();
-		Log.i(TAG, "Response Code : " + responseCode);
-		String responseString = IOUtils.toString(httpResponse.getEntity()
-				.getContent());
-		Log.i(TAG, "Response string : " + responseString);
-		if (responseCode == 200 || responseCode == 201) {
-			return responseString;
+    public static String processGetRequest(String serviceURL,
+            Map<String, String> requestHeaders) throws Exception {
+        if (Log.DEBUG) {
+            Log.e(TAG, "********** processGetRequest **********");
+            Log.i(TAG, "ServiceURL : " + serviceURL);
+            if (requestHeaders != null)
+                for (Entry<String, String> entry : requestHeaders.entrySet()) {
+                    Log.i(TAG, "RequestHeaders : " + "Key : " + entry.getKey()
+                            + " ,Value : " + entry.getValue());
+                }
+        }
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(),
+                APIConstants.TIME_OUT);
+        HttpGet httpGet = new HttpGet(serviceURL);
+        if (requestHeaders != null && requestHeaders.size() > 0) {
+            for (final Map.Entry<String, String> entry : requestHeaders
+                    .entrySet()) {
+                httpGet.addHeader(entry.getKey(), entry.getValue());
+            }
+        }
+        HttpResponse httpResponse = httpClient.execute(httpGet);
+        responseCode = httpResponse.getStatusLine().getStatusCode();
+        Log.i(TAG, "Response Code : " + responseCode);
+        String responseString = IOUtils.toString(httpResponse.getEntity()
+                .getContent());
+        Log.i(TAG, "Response string : " + responseString);
+        if (responseCode == 200 || responseCode == 201) {
+            return responseString;
 
-		} else {
-			throw new DekkohException(
-					DekkohExceptionErrorCodes.NETWOR_ERROR_CODE,
-					"Return responce code is not 200");
-		}
-	}
+        } else {
+            throw new DekkohException(
+                    DekkohExceptionErrorCodes.NETWOR_ERROR_CODE,
+                    "Return responce code is not 200");
+        }
+    }
 
-	public static String processPostRequest(String serviceURL,
-			String requestData) throws Exception {
-		return processPostRequest(serviceURL,
-				APIProcessor.getJSONRequestHeader(), requestData, null);
-	}
+    public static String processPostRequest(String serviceURL,
+            String requestData) throws Exception {
+        return processPostRequest(serviceURL,
+                APIProcessor.getJSONRequestHeader(), requestData, null);
+    }
 
-	public static String processPostRequest(String serviceURL,
-			String requestData, Map<String, String> responseHeaderMap)
-			throws Exception {
-		return processPostRequest(serviceURL,
-				APIProcessor.getJSONRequestHeader(), requestData,
-				responseHeaderMap);
-	}
+    public static String processPostRequest(String serviceURL,
+            String requestData, Map<String, String> responseHeaderMap)
+            throws Exception {
+        return processPostRequest(serviceURL,
+                APIProcessor.getJSONRequestHeader(), requestData,
+                responseHeaderMap);
+    }
 
-	public static String processPostRequest(String serviceURL,
-			String requestData, Map<String, String> requestHeaderMap,
-			Map<String, String> responseHeaderMap) throws Exception {
-		return processPostRequest(serviceURL, requestHeaderMap, requestData,
-				responseHeaderMap);
-	}
+    public static String processPostRequest(String serviceURL,
+            String requestData, Map<String, String> requestHeaderMap,
+            Map<String, String> responseHeaderMap) throws Exception {
+        return processPostRequest(serviceURL, requestHeaderMap, requestData,
+                responseHeaderMap);
+    }
 
-	public static String processPostRequest(String serviceURL,
-			String requestData, String authorizationToken) throws Exception {
-		return processPostRequest(serviceURL,
-				APIProcessor.getJSONRequestHeader(authorizationToken),
-				requestData, null);
-	}
+    public static String processPostRequest(String serviceURL,
+            String requestData, String authorizationToken) throws Exception {
+        return processPostRequest(serviceURL,
+                APIProcessor.getJSONRequestHeader(authorizationToken),
+                requestData, null);
+    }
 
-	public static String processPostRequest(String serviceURL,
-			String requestData, String authorizationToken,
-			Map<String, String> responseHeaderMap) throws Exception {
-		return processPostRequest(serviceURL,
-				APIProcessor.getJSONRequestHeader(authorizationToken),
-				requestData, responseHeaderMap);
-	}
+    public static String processPostRequest(String serviceURL,
+            String requestData, String authorizationToken,
+            Map<String, String> responseHeaderMap) throws Exception {
+        return processPostRequest(serviceURL,
+                APIProcessor.getJSONRequestHeader(authorizationToken),
+                requestData, responseHeaderMap);
+    }
 
-	public static String processPostRequest(String serviceURL,
-			Map<String, String> requestHeaders, String requestData)
-			throws Exception {
-		return processPostRequest(serviceURL, requestHeaders, requestData, null);
-	}
+    public static String processPostRequest(String serviceURL,
+            Map<String, String> requestHeaders, String requestData)
+            throws Exception {
+        return processPostRequest(serviceURL, requestHeaders, requestData, null);
+    }
 
-	public static String processPostRequest(String serviceURL,
-			Map<String, String> requestHeaders, String requestData,
-			Map<String, String> responseHeaderMap) throws Exception {
-		if (Log.DEBUG) {
-			Log.e(TAG, "********** processPostRequest **********");
-			Log.i(TAG, "ServiceURL : " + serviceURL);
-			Log.i(TAG, "RequestData : " + requestData);
-			if (requestHeaders != null)
-				for (Entry<String, String> entry : requestHeaders.entrySet()) {
-					Log.i(TAG, "RequestHeaders : " + "Key : " + entry.getKey()
-							+ " ,Value : " + entry.getValue());
-				}
-		}
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpConnectionParams.setConnectionTimeout(httpClient.getParams(),
-				APIConstants.TIME_OUT);
-		HttpPost httpPost = new HttpPost(serviceURL);
-		if (requestHeaders != null && requestHeaders.size() > 0) {
-			for (final Map.Entry<String, String> entry : requestHeaders
-					.entrySet()) {
-				httpPost.addHeader(entry.getKey(), entry.getValue());
-			}
-		}
-		final HttpEntity httpEntity = new StringEntity(requestData);
-		httpPost.setEntity(httpEntity);
-		HttpResponse httpResponse = httpClient.execute(httpPost);
-		if (responseHeaderMap != null) {
-			Header[] headers = httpResponse.getAllHeaders();
-			for (Header header : headers) {
-				responseHeaderMap.put(header.getName(), header.getValue());
-				if (Log.DEBUG) {
-					Log.i(TAG, "Key : " + header.getName() + " ,Value : "
-							+ header.getValue());
-				}
-			}
-		}
-		responseCode = httpResponse.getStatusLine().getStatusCode();
-		Log.i(TAG, "Response Code : " + responseCode);
-		String responseString = IOUtils.toString(httpResponse.getEntity()
-				.getContent());
-		Log.i(TAG, "Response string : " + responseString);
-		if (responseCode == 200 || responseCode == 201) {
-			return responseString;
+    public static String processPostRequest(String serviceURL,
+            Map<String, String> requestHeaders, String requestData,
+            Map<String, String> responseHeaderMap) throws Exception {
+        if (Log.DEBUG) {
+            Log.e(TAG, "********** processPostRequest **********");
+            Log.i(TAG, "ServiceURL : " + serviceURL);
+            Log.i(TAG, "RequestData : " + requestData);
+            if (requestHeaders != null)
+                for (Entry<String, String> entry : requestHeaders.entrySet()) {
+                    Log.i(TAG, "RequestHeaders : " + "Key : " + entry.getKey()
+                            + " ,Value : " + entry.getValue());
+                }
+        }
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(),
+                APIConstants.TIME_OUT);
+        HttpPost httpPost = new HttpPost(serviceURL);
+        if (requestHeaders != null && requestHeaders.size() > 0) {
+            for (final Map.Entry<String, String> entry : requestHeaders
+                    .entrySet()) {
+                httpPost.addHeader(entry.getKey(), entry.getValue());
+            }
+        }
+        final HttpEntity httpEntity = new StringEntity(requestData);
+        httpPost.setEntity(httpEntity);
+        HttpResponse httpResponse = httpClient.execute(httpPost);
+        if (responseHeaderMap != null) {
+            Header[] headers = httpResponse.getAllHeaders();
+            for (Header header : headers) {
+                responseHeaderMap.put(header.getName(), header.getValue());
+                if (Log.DEBUG) {
+                    Log.i(TAG, "Key : " + header.getName() + " ,Value : "
+                            + header.getValue());
+                }
+            }
+        }
+        responseCode = httpResponse.getStatusLine().getStatusCode();
+        Log.i(TAG, "Response Code : " + responseCode);
+        String responseString = IOUtils.toString(httpResponse.getEntity()
+                .getContent());
+        Log.i(TAG, "Response string : " + responseString);
+        if (responseCode == 200 || responseCode == 201) {
+            return responseString;
 
-		} else {
-			throw new DekkohException(
-					DekkohExceptionErrorCodes.NETWOR_ERROR_CODE, responseString
-							+ "Return responce code is not 200");
-		}
-	}
+        } else {
+            throw new DekkohException(
+                    DekkohExceptionErrorCodes.NETWOR_ERROR_CODE, responseString
+                            + "Return responce code is not 200");
+        }
+    }
 
-	public static String processDeleteRequest(String serviceURL)
-			throws Exception {
-		return processDeleteRequest(serviceURL,
-				APIProcessor.getJSONRequestHeader());
-	}
+    public static String processDeleteRequest(String serviceURL)
+            throws Exception {
+        return processDeleteRequest(serviceURL,
+                APIProcessor.getJSONRequestHeader());
+    }
 
-	public static String processDeleteRequest(String serviceURL,
-			String authorizationToken) throws Exception {
-		return processDeleteRequest(serviceURL,
-				APIProcessor.getJSONRequestHeader(authorizationToken));
-	}
+    public static String processDeleteRequest(String serviceURL,
+            String authorizationToken) throws Exception {
+        return processDeleteRequest(serviceURL,
+                APIProcessor.getJSONRequestHeader(authorizationToken));
+    }
 
-	public static String processDeleteRequest(String serviceURL,
-			Map<String, String> requestHeaders) throws Exception {
-		if (Log.DEBUG) {
-			Log.e(TAG, "********** processDeleteRequest **********");
-			Log.i(TAG, "ServiceURL : " + serviceURL);
-			if (requestHeaders != null)
-				for (Entry<String, String> entry : requestHeaders.entrySet()) {
-					Log.i(TAG, "RequestHeaders : " + "Key : " + entry.getKey()
-							+ " ,Value : " + entry.getValue());
-				}
-		}
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpConnectionParams.setConnectionTimeout(httpClient.getParams(),
-				APIConstants.TIME_OUT);
-		HttpDelete httpDelete = new HttpDelete(serviceURL);
-		if (requestHeaders != null && requestHeaders.size() > 0) {
-			for (final Map.Entry<String, String> entry : requestHeaders
-					.entrySet()) {
-				httpDelete.addHeader(entry.getKey(), entry.getValue());
-			}
-		}
-		HttpResponse httpResponse = httpClient.execute(httpDelete);
-		responseCode = httpResponse.getStatusLine().getStatusCode();
-		Log.i(TAG, "Response Code : " + responseCode);
-		String responseString = IOUtils.toString(httpResponse.getEntity()
-				.getContent());
-		Log.i(TAG, "Response string : " + responseString);
-		if (responseCode == 200 || responseCode == 201) {
-			return responseString;
+    public static String processDeleteRequest(String serviceURL,
+            Map<String, String> requestHeaders) throws Exception {
+        if (Log.DEBUG) {
+            Log.e(TAG, "********** processDeleteRequest **********");
+            Log.i(TAG, "ServiceURL : " + serviceURL);
+            if (requestHeaders != null)
+                for (Entry<String, String> entry : requestHeaders.entrySet()) {
+                    Log.i(TAG, "RequestHeaders : " + "Key : " + entry.getKey()
+                            + " ,Value : " + entry.getValue());
+                }
+        }
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(),
+                APIConstants.TIME_OUT);
+        HttpDelete httpDelete = new HttpDelete(serviceURL);
+        if (requestHeaders != null && requestHeaders.size() > 0) {
+            for (final Map.Entry<String, String> entry : requestHeaders
+                    .entrySet()) {
+                httpDelete.addHeader(entry.getKey(), entry.getValue());
+            }
+        }
+        HttpResponse httpResponse = httpClient.execute(httpDelete);
+        responseCode = httpResponse.getStatusLine().getStatusCode();
+        Log.i(TAG, "Response Code : " + responseCode);
+        String responseString = IOUtils.toString(httpResponse.getEntity()
+                .getContent());
+        Log.i(TAG, "Response string : " + responseString);
+        if (responseCode == 200 || responseCode == 201) {
+            return responseString;
 
-		} else {
-			throw new DekkohException(
-					DekkohExceptionErrorCodes.NETWOR_ERROR_CODE,
-					"Return responce code is not 200");
-		}
-	}
+        } else {
+            throw new DekkohException(
+                    DekkohExceptionErrorCodes.NETWOR_ERROR_CODE,
+                    "Return responce code is not 200");
+        }
+    }
 
-	public static String processPutRequest(String serviceURL, String requestData)
-			throws Exception {
-		return processPutRequest(serviceURL,
-				APIProcessor.getJSONRequestHeader(), requestData);
-	}
+    public static String processPutRequest(String serviceURL, String requestData)
+            throws Exception {
+        return processPutRequest(serviceURL,
+                APIProcessor.getJSONRequestHeader(), requestData);
+    }
 
-	public static String processPutRequest(String serviceURL,
-			String requestData, String authorizationToken) throws Exception {
-		return processPutRequest(serviceURL,
-				APIProcessor.getJSONRequestHeader(authorizationToken),
-				requestData);
-	}
+    public static String processPutRequest(String serviceURL,
+            String requestData, String authorizationToken) throws Exception {
+        return processPutRequest(serviceURL,
+                APIProcessor.getJSONRequestHeader(authorizationToken),
+                requestData);
+    }
 
-	public static String processPutRequest(String serviceURL,
-			Map<String, String> requestHeaders, String requestData)
-			throws Exception {
-		if (Log.DEBUG) {
-			Log.e(TAG, "********** processPutRequest **********");
-			Log.i(TAG, "ServiceURL : " + serviceURL);
-			Log.i(TAG, "RequestData : " + requestData);
-			if (requestHeaders != null)
-				for (Entry<String, String> entry : requestHeaders.entrySet()) {
-					Log.i(TAG, "RequestHeaders : " + "Key : " + entry.getKey()
-							+ " ,Value : " + entry.getValue());
-				}
-		}
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpConnectionParams.setConnectionTimeout(httpClient.getParams(),
-				APIConstants.TIME_OUT);
-		HttpPut httpPut = new HttpPut(serviceURL);
-		if (requestHeaders != null && requestHeaders.size() > 0) {
-			for (final Map.Entry<String, String> entry : requestHeaders
-					.entrySet()) {
-				httpPut.addHeader(entry.getKey(), entry.getValue());
-			}
-		}
-		final HttpEntity httpEntity = new StringEntity(requestData);
-		httpPut.setEntity(httpEntity);
-		HttpResponse httpResponse = httpClient.execute(httpPut);
-		responseCode = httpResponse.getStatusLine().getStatusCode();
-		Log.i(TAG, "Response Code : " + responseCode);
-		String responseString = IOUtils.toString(httpResponse.getEntity()
-				.getContent());
-		Log.i(TAG, "Response string : " + responseString);
-		if (responseCode == 200 || responseCode == 201) {
-			return responseString;
+    public static String processPutRequest(String serviceURL,
+            Map<String, String> requestHeaders, String requestData)
+            throws Exception {
+        if (Log.DEBUG) {
+            Log.e(TAG, "********** processPutRequest **********");
+            Log.i(TAG, "ServiceURL : " + serviceURL);
+            Log.i(TAG, "RequestData : " + requestData);
+            if (requestHeaders != null)
+                for (Entry<String, String> entry : requestHeaders.entrySet()) {
+                    Log.i(TAG, "RequestHeaders : " + "Key : " + entry.getKey()
+                            + " ,Value : " + entry.getValue());
+                }
+        }
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpConnectionParams.setConnectionTimeout(httpClient.getParams(),
+                APIConstants.TIME_OUT);
+        HttpPut httpPut = new HttpPut(serviceURL);
+        if (requestHeaders != null && requestHeaders.size() > 0) {
+            for (final Map.Entry<String, String> entry : requestHeaders
+                    .entrySet()) {
+                httpPut.addHeader(entry.getKey(), entry.getValue());
+            }
+        }
+        final HttpEntity httpEntity = new StringEntity(requestData);
+        httpPut.setEntity(httpEntity);
+        HttpResponse httpResponse = httpClient.execute(httpPut);
+        responseCode = httpResponse.getStatusLine().getStatusCode();
+        Log.i(TAG, "Response Code : " + responseCode);
+        String responseString = IOUtils.toString(httpResponse.getEntity()
+                .getContent());
+        Log.i(TAG, "Response string : " + responseString);
+        if (responseCode == 200 || responseCode == 201) {
+            return responseString;
 
-		} else {
-			throw new DekkohException(
-					DekkohExceptionErrorCodes.NETWOR_ERROR_CODE,
-					"Return responce code is not 200");
-		}
-	}
+        } else {
+            throw new DekkohException(
+                    DekkohExceptionErrorCodes.NETWOR_ERROR_CODE,
+                    "Return responce code is not 200");
+        }
+    }
 
-	/**
-	 * Method which processes http reqest
-	 * 
-	 * @param url
-	 *            ServiceURL to hit
-	 * @param httpMethod
-	 * @param requestHeaders
-	 *            requestHeaders map for call
-	 * @param requestData
-	 *            , body for the request
-	 * @return response in string form
-	 */
-	public static String processRequest(String url, String httpMethod,
-			Map<String, String> requestHeaders, String requestData) {
-		return processRequest(url, httpMethod, requestHeaders, requestData, -1,
-				-1, null);
-	}
+    /**
+     * Method which processes http reqest
+     * 
+     * @param url ServiceURL to hit
+     * @param httpMethod
+     * @param requestHeaders requestHeaders map for call
+     * @param requestData , body for the request
+     * @return response in string form
+     */
+    public static String processRequest(String url, String httpMethod,
+            Map<String, String> requestHeaders, String requestData) {
+        return processRequest(url, httpMethod, requestHeaders, requestData, -1,
+                -1, null);
+    }
 
-	/**
-	 * @param url
-	 * @param httpMethod
-	 * @param requestHeaders
-	 * @param requestData
-	 * @param connectionTimeOut
-	 * @param readTimeout
-	 * @param responseHeaderMap
-	 * @return
-	 */
-	public static String processRequest(String url, String httpMethod,
-			Map<String, String> requestHeaders, String requestData,
-			int connectionTimeOut, int readTimeout,
-			Map<String, List<String>> responseHeaderMap) {
-		return processRequest(url, httpMethod, requestHeaders, requestData,
-				connectionTimeOut, readTimeout, responseHeaderMap, null);
-	}
+    /**
+     * @param url
+     * @param httpMethod
+     * @param requestHeaders
+     * @param requestData
+     * @param connectionTimeOut
+     * @param readTimeout
+     * @param responseHeaderMap
+     * @return
+     */
+    public static String processRequest(String url, String httpMethod,
+            Map<String, String> requestHeaders, String requestData,
+            int connectionTimeOut, int readTimeout,
+            Map<String, List<String>> responseHeaderMap) {
+        return processRequest(url, httpMethod, requestHeaders, requestData,
+                connectionTimeOut, readTimeout, responseHeaderMap, null);
+    }
 
-	/**
-	 * Method which processes http reqest
-	 * 
-	 * @param url
-	 *            ServiceURL to hit
-	 * @param httpMethod
-	 * @param requestHeaders
-	 *            requestHeaders map for call
-	 * @param requestData
-	 *            , body for the request
-	 * @param connectionTimeOut
-	 * @param readTimeout
-	 * @return response in string form
-	 */
-	public static String processRequest(String url, String httpMethod,
-			Map<String, String> requestHeaders, String requestData,
-			int connectionTimeOut, int readTimeout,
-			Map<String, List<String>> responseHeaderMap, List<Cookie> cookieList) {
-		if (Log.DEBUG) {
-			Log.e(TAG, "********** processRequest **********");
-			Log.i(TAG, "ServiceURL : " + url);
-			Log.i(TAG, "HttpMethod : " + httpMethod);
-			Log.i(TAG, "RequestData : " + requestData);
-			if (requestHeaders != null)
-				for (Entry<String, String> entry : requestHeaders.entrySet()) {
-					Log.i(TAG, "RequestHeaders : " + "Key : " + entry.getKey()
-							+ " ,Value : " + entry.getValue());
-				}
-			if (cookieList != null)
-				for (Cookie cookie : cookieList) {
-					Log.i(TAG, "Cookie : " + "Key : " + cookie.getName()
-							+ ", Value : " + cookie.getValue());
-				}
-		}
-		HttpURLConnection httpURLConnection = null;
-		URL urlObj = null;
-		OutputStream outputStream = null;
-		InputStream inputStream = null;
-		try {
-			urlObj = new URL(url);
-			if (HTTP_PROTOCOL.equals(urlObj.getProtocol().toLowerCase())) {
-				httpURLConnection = (HttpURLConnection) urlObj.openConnection();
-			} else {
-				trustAllHosts();
-				httpURLConnection = (HttpsURLConnection) urlObj
-						.openConnection();
-				HttpsURLConnection.setDefaultHostnameVerifier(DO_NOT_VERIFY);
-			}
-			httpURLConnection.setRequestMethod(httpMethod);
-			if (requestHeaders != null && requestHeaders.size() > 0) {
-				for (final Map.Entry<String, String> entry : requestHeaders
-						.entrySet()) {
-					httpURLConnection.setRequestProperty(entry.getKey(),
-							entry.getValue());
-				}
-			}
-			if (-1 < connectionTimeOut)
-				httpURLConnection.setConnectTimeout(connectionTimeOut);
-			if (-1 < readTimeout)
-				httpURLConnection.setReadTimeout(readTimeout);
+    /**
+     * Method which processes http reqest
+     * 
+     * @param url ServiceURL to hit
+     * @param httpMethod
+     * @param requestHeaders requestHeaders map for call
+     * @param requestData , body for the request
+     * @param connectionTimeOut
+     * @param readTimeout
+     * @return response in string form
+     */
+    public static String processRequest(String url, String httpMethod,
+            Map<String, String> requestHeaders, String requestData,
+            int connectionTimeOut, int readTimeout,
+            Map<String, List<String>> responseHeaderMap, List<Cookie> cookieList) {
+        if (Log.DEBUG) {
+            Log.e(TAG, "********** processRequest **********");
+            Log.i(TAG, "ServiceURL : " + url);
+            Log.i(TAG, "HttpMethod : " + httpMethod);
+            Log.i(TAG, "RequestData : " + requestData);
+            if (requestHeaders != null)
+                for (Entry<String, String> entry : requestHeaders.entrySet()) {
+                    Log.i(TAG, "RequestHeaders : " + "Key : " + entry.getKey()
+                            + " ,Value : " + entry.getValue());
+                }
+            if (cookieList != null)
+                for (Cookie cookie : cookieList) {
+                    Log.i(TAG, "Cookie : " + "Key : " + cookie.getName()
+                            + ", Value : " + cookie.getValue());
+                }
+        }
+        HttpURLConnection httpURLConnection = null;
+        URL urlObj = null;
+        OutputStream outputStream = null;
+        InputStream inputStream = null;
+        try {
+            urlObj = new URL(url);
+            if (HTTP_PROTOCOL.equals(urlObj.getProtocol().toLowerCase())) {
+                httpURLConnection = (HttpURLConnection) urlObj.openConnection();
+            } else {
+                trustAllHosts();
+                httpURLConnection = (HttpsURLConnection) urlObj
+                        .openConnection();
+                HttpsURLConnection.setDefaultHostnameVerifier(DO_NOT_VERIFY);
+            }
+            httpURLConnection.setRequestMethod(httpMethod);
+            if (requestHeaders != null && requestHeaders.size() > 0) {
+                for (final Map.Entry<String, String> entry : requestHeaders
+                        .entrySet()) {
+                    httpURLConnection.setRequestProperty(entry.getKey(),
+                            entry.getValue());
+                }
+            }
+            if (-1 < connectionTimeOut)
+                httpURLConnection.setConnectTimeout(connectionTimeOut);
+            if (-1 < readTimeout)
+                httpURLConnection.setReadTimeout(readTimeout);
 
-			httpURLConnection.setDoInput(true);
-			httpURLConnection.setUseCaches(true);
-			if (requestData != null) {
-				httpURLConnection.setDoOutput(true);
-				httpURLConnection.setRequestProperty("Content-length",
-						requestData.length() + "");
-			}
-			if (cookieList != null && cookieList.size() > 0) {
-				for (final Cookie cookie : cookieList) {
-					httpURLConnection.setRequestProperty("Cookie",
-							cookie.getName() + "=" + cookie.getValue());
-					httpURLConnection.setRequestProperty(cookie.getName(),
-							cookie.getValue());
-				}
-			}
-			if (Log.DEBUG) {
-				Map<String, List<String>> requestProperties = httpURLConnection
-						.getRequestProperties();
-				for (Entry<String, List<String>> entry : requestProperties
-						.entrySet()) {
-					String values = ", Value : ";
-					for (String value : entry.getValue()) {
-						values = values + "," + value;
-					}
-					Log.i(TAG,
-							"RequestProperties : " + "Key : " + entry.getKey()
-									+ values);
-				}
-			}
-			httpURLConnection.connect();
-			if (requestData != null) {
-				outputStream = httpURLConnection.getOutputStream();
-				if (outputStream != null) {
-					outputStream.write(requestData.trim().getBytes());
-					outputStream.flush();
-				}
-			}
-			int responseCode = -1;
-			responseCode = httpURLConnection.getResponseCode();
-			if (responseHeaderMap != null) {
-				responseHeaderMap.putAll(httpURLConnection.getHeaderFields());
-			}
-			Log.e(TAG, " Response code is:" + responseCode);
-			inputStream = httpURLConnection.getInputStream();
-			String responseString = IOUtils.toString(inputStream);
-			Log.i(TAG, "ResponseString : " + responseString);
-			// If it works fine
-			if (responseCode == 200 || responseCode == 201
-					|| responseCode == 204) {
-				return responseString;
-			} else {
-				throw new DekkohException(
-						DekkohExceptionErrorCodes.NETWOR_ERROR_CODE,
-						"Return responce code is not 200");
-			}
-		} catch (final SocketTimeoutException e) {
-			throwTimeoutException(url, e);
-		} catch (final ConnectException e) {
-			throwTimeoutException(url, e);
-		} catch (final IOException e) {
-			throwNetworkException(url, e);
-		} finally {
-			IOUtils.closeStream(inputStream);
-			if (outputStream != null) {
-				outputStream = null;
-			}
-			if (httpURLConnection != null) {
-				httpURLConnection.disconnect();
-				httpURLConnection = null;
-			}
-		}
-		return null;
-	}
+            httpURLConnection.setDoInput(true);
+            httpURLConnection.setUseCaches(true);
+            if (requestData != null) {
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setRequestProperty("Content-length",
+                        requestData.length() + "");
+            }
+            if (cookieList != null && cookieList.size() > 0) {
+                for (final Cookie cookie : cookieList) {
+                    httpURLConnection.setRequestProperty("Cookie",
+                            cookie.getName() + "=" + cookie.getValue());
+                    httpURLConnection.setRequestProperty(cookie.getName(),
+                            cookie.getValue());
+                }
+            }
+            if (Log.DEBUG) {
+                Map<String, List<String>> requestProperties = httpURLConnection
+                        .getRequestProperties();
+                for (Entry<String, List<String>> entry : requestProperties
+                        .entrySet()) {
+                    String values = ", Value : ";
+                    for (String value : entry.getValue()) {
+                        values = values + "," + value;
+                    }
+                    Log.i(TAG,
+                            "RequestProperties : " + "Key : " + entry.getKey()
+                                    + values);
+                }
+            }
+            httpURLConnection.connect();
+            if (requestData != null) {
+                outputStream = httpURLConnection.getOutputStream();
+                if (outputStream != null) {
+                    outputStream.write(requestData.trim().getBytes());
+                    outputStream.flush();
+                }
+            }
+            int responseCode = -1;
+            responseCode = httpURLConnection.getResponseCode();
+            if (responseHeaderMap != null) {
+                responseHeaderMap.putAll(httpURLConnection.getHeaderFields());
+            }
+            Log.e(TAG, " Response code is:" + responseCode);
+            inputStream = httpURLConnection.getInputStream();
+            String responseString = IOUtils.toString(inputStream);
+            Log.i(TAG, "ResponseString : " + responseString);
+            // If it works fine
+            if (responseCode == 200 || responseCode == 201
+                    || responseCode == 204) {
+                return responseString;
+            } else {
+                throw new DekkohException(
+                        DekkohExceptionErrorCodes.NETWOR_ERROR_CODE,
+                        "Return responce code is not 200");
+            }
+        } catch (final SocketTimeoutException e) {
+            throwTimeoutException(url, e);
+        } catch (final ConnectException e) {
+            throwTimeoutException(url, e);
+        } catch (final IOException e) {
+            throwNetworkException(url, e);
+        } finally {
+            IOUtils.closeStream(inputStream);
+            if (outputStream != null) {
+                outputStream = null;
+            }
+            if (httpURLConnection != null) {
+                httpURLConnection.disconnect();
+                httpURLConnection = null;
+            }
+        }
+        return null;
+    }
 
-	// always verify the host - dont check for certificate
-	final public static HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
-		@Override
-		public boolean verify(String hostname, SSLSession session) {
-			return true;
-		}
-	};
+    // always verify the host - dont check for certificate
+    final public static HostnameVerifier DO_NOT_VERIFY = new HostnameVerifier() {
+        @Override
+        public boolean verify(String hostname, SSLSession session) {
+            return true;
+        }
+    };
 
-	/**
-	 * Trust every server - dont check for any certificate
-	 */
-	public static void trustAllHosts() {
-		// Create a trust manager that does not validate certificate chains
-		final TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
-			@Override
-			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-				return new java.security.cert.X509Certificate[] {};
-			}
+    /**
+     * Trust every server - dont check for any certificate
+     */
+    public static void trustAllHosts() {
+        // Create a trust manager that does not validate certificate chains
+        final TrustManager[] trustAllCerts = new TrustManager[] {
+            new X509TrustManager() {
+                @Override
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return new java.security.cert.X509Certificate[] {};
+                }
 
-			@Override
-			public void checkClientTrusted(X509Certificate[] chain,
-					String authType) throws CertificateException {
-			}
+                @Override
+                public void checkClientTrusted(X509Certificate[] chain,
+                        String authType) throws CertificateException {
+                }
 
-			@Override
-			public void checkServerTrusted(X509Certificate[] chain,
-					String authType) throws CertificateException {
-			}
-		} };
+                @Override
+                public void checkServerTrusted(X509Certificate[] chain,
+                        String authType) throws CertificateException {
+                }
+            }
+        };
 
-		// Install the all-trusting trust manager
-		try {
-			final SSLContext sc = SSLContext.getInstance("TLS");
-			sc.init(null, trustAllCerts, new java.security.SecureRandom());
-			HttpsURLConnection
-					.setDefaultSSLSocketFactory(sc.getSocketFactory());
-		} catch (final Exception ex) {
-			Log.e(TAG, ex.getMessage(), ex);
-		}
-	}
+        // Install the all-trusting trust manager
+        try {
+            final SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection
+                    .setDefaultSSLSocketFactory(sc.getSocketFactory());
+        } catch (final Exception ex) {
+            Log.e(TAG, ex.getMessage(), ex);
+        }
+    }
 
-	private static void throwNetworkException(String url, Exception exception) {
-		Log.e(TAG, "Error while making call to server for url ->" + url);
-		Log.e(TAG, exception.getMessage(), exception);
-		throw new DekkohException(DekkohExceptionErrorCodes.NETWOR_ERROR_CODE,
-				exception.getMessage());
-	}
+    private static void throwNetworkException(String url, Exception exception) {
+        Log.e(TAG, "Error while making call to server for url ->" + url);
+        Log.e(TAG, exception.getMessage(), exception);
+        throw new DekkohException(DekkohExceptionErrorCodes.NETWOR_ERROR_CODE,
+                exception.getMessage());
+    }
 
-	public static void throwTimeoutException(String url, Exception exception) {
-		Log.e(TAG, "Request timeout while making call to server for url ->"
-				+ url);
-		Log.e(TAG, exception.getMessage(), exception);
-		throw new DekkohException(
-				DekkohExceptionErrorCodes.NETWOR_TIMEOUT_CODE,
-				exception.getMessage());
-	}
+    public static void throwTimeoutException(String url, Exception exception) {
+        Log.e(TAG, "Request timeout while making call to server for url ->"
+                + url);
+        Log.e(TAG, exception.getMessage(), exception);
+        throw new DekkohException(
+                DekkohExceptionErrorCodes.NETWOR_TIMEOUT_CODE,
+                exception.getMessage());
+    }
 
-	public static int getResponseCode() {
-		return responseCode;
-	}
+    public static int getResponseCode() {
+        return responseCode;
+    }
 }

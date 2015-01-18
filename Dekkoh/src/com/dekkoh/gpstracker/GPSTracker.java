@@ -1,3 +1,4 @@
+
 package com.dekkoh.gpstracker;
 
 import android.app.Service;
@@ -11,7 +12,6 @@ import android.os.IBinder;
 
 import com.dekkoh.application.DekkohApplication;
 import com.dekkoh.util.Log;
-
 
 public class GPSTracker extends Service implements LocationListener {
 
@@ -38,18 +38,18 @@ public class GPSTracker extends Service implements LocationListener {
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
-    
-   
-    //Dekkoh Application for Storing lati n longi
+
+    // Dekkoh Application for Storing lati n longi
     DekkohApplication dekkohApplication;
 
-    public GPSTracker(Context context,DekkohApplication dekkohApplication,long minDistanceInMetersForGPSUpdates, long minTimeInMilliSecondsForGPSUpdate) {
+    public GPSTracker(Context context, DekkohApplication dekkohApplication,
+            long minDistanceInMetersForGPSUpdates, long minTimeInMilliSecondsForGPSUpdate) {
         this.mContext = context;
-        MIN_DISTANCE_CHANGE_FOR_UPDATES=minDistanceInMetersForGPSUpdates;
-        MIN_TIME_BW_UPDATES=minTimeInMilliSecondsForGPSUpdate;
+        MIN_DISTANCE_CHANGE_FOR_UPDATES = minDistanceInMetersForGPSUpdates;
+        MIN_TIME_BW_UPDATES = minTimeInMilliSecondsForGPSUpdate;
         this.dekkohApplication = dekkohApplication;
         getLocation();
-        
+
     }
 
     public Location getLocation() {
@@ -110,85 +110,81 @@ public class GPSTracker extends Service implements LocationListener {
 
         return location;
     }
-   
+
     /**
-     * Stop using GPS listener
-     * Calling this function will stop using GPS in your app
-     * */
-    public void stopUsingGPS(){
-        if(locationManager != null){
+     * Stop using GPS listener Calling this function will stop using GPS in your app
+     */
+    public void stopUsingGPS() {
+        if (locationManager != null) {
             locationManager.removeUpdates(GPSTracker.this);
-        }       
+        }
     }
-   
+
     /**
      * Function to get latitude
-     * */
-    public double getLatitude(){
-        if(location != null){
+     */
+    public double getLatitude() {
+        if (location != null) {
             latitude = location.getLatitude();
         }
-       
+
         // return latitude
         return latitude;
     }
-   
+
     /**
      * Function to get longitude
-     * */
-    public double getLongitude(){
-        if(location != null){
+     */
+    public double getLongitude() {
+        if (location != null) {
             longitude = location.getLongitude();
         }
-       
+
         // return longitude
         return longitude;
     }
-   
+
     /**
      * Function to check GPS/wifi enabled
+     * 
      * @return boolean
-     * */
+     */
     public boolean canGetLocation() {
         return this.canGetLocation;
     }
-   
+
     /**
-     * Function to show settings alert dialog
-     * On pressing Settings button will lauch Settings Options
-     * */
-  
-  @Override
- public void onLocationChanged(Location location) {
-  
-  if(location!=null){
-	  dekkohApplication.updateLocationOfUser(location);
-  }
- }
+     * Function to show settings alert dialog On pressing Settings button will lauch Settings
+     * Options
+     */
 
-  @Override
- public void onProviderDisabled(String provider) {
-  
-  
- }
+    @Override
+    public void onLocationChanged(Location location) {
 
-  @Override
- public void onProviderEnabled(String provider) {
-  
-  
- }
+        if (location != null) {
+            dekkohApplication.updateLocationOfUser(location);
+        }
+    }
 
-  @Override
- public void onStatusChanged(String provider, int status, Bundle extras) {
-  
-  
- }
+    @Override
+    public void onProviderDisabled(String provider) {
 
-  @Override
- public IBinder onBind(Intent intent) {
-  
-  return null;
- }
-  
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+
+        return null;
+    }
+
 }
-
