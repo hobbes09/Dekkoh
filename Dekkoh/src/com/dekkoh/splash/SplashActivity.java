@@ -22,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -493,8 +494,6 @@ public class SplashActivity extends BaseActivity {
 
 	public boolean updateDekkohUserObject() {
 		DekkohUser dekkohUser = new DekkohUser();
-		SharedPreferenceManager sharedPreferenceManager = SharedPreferenceManager
-				.getInstance(this);
 		dekkohUser.setEmail(sharedPreferenceManager
 				.getString(SharedPreferenceConstants.DEKKOH_USER_EMAIL));
 		dekkohUser.setDekkohUserID(String.valueOf(sharedPreferenceManager
@@ -503,11 +502,10 @@ public class SplashActivity extends BaseActivity {
 				.getString(SharedPreferenceConstants.DEKKOH_USER_NAME));
 		dekkohUser.setProfilePic(sharedPreferenceManager
 				.getString(SharedPreferenceConstants.DEKKOH_USER_PROFILEPIC));
-		
 		String interestIds = sharedPreferenceManager
 				.getString(SharedPreferenceConstants.DEKKOH_USER_INTERESTS);
 		List<DekkohUser.InterestID> listInterestIds = new ArrayList<DekkohUser.InterestID>();
-		if(interestIds.compareTo("")!=0){
+		if(!TextUtils.isEmpty(interestIds) && interestIds.compareTo("")!=0){
 			String iDs[]=interestIds.split(",");
 			for(int u=0;u<iDs.length;u++){
 				DekkohUser.InterestID interest_ID_new = dekkohUser.new InterestID();

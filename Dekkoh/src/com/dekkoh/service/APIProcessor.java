@@ -89,18 +89,19 @@ public class APIProcessor {
 						SharedPreferenceConstants.DEKKOH_USER_HAVE_INTERESTS,
 						false);
 				sharedPreferenceManager.save(
-						SharedPreferenceConstants.DEKKOH_USER_INTERESTS,
-						"");
-				
+						SharedPreferenceConstants.DEKKOH_USER_INTERESTS, "");
+
 			} else {
-				List<DekkohUser.InterestID> listInterestId = dekkohUser.getInterestIds();
+				List<DekkohUser.InterestID> listInterestId = dekkohUser
+						.getInterestIds();
 				String interestIdString = "";
-				for(int i=0;i<listInterestId.size();i++)
-				{
-					interestIdString+=listInterestId.get(i).getInterestID()+",";
+				for (int i = 0; i < listInterestId.size(); i++) {
+					interestIdString += listInterestId.get(i).getInterestID()
+							+ ",";
 				}
-				if(interestIdString.length()>0){
-					interestIdString=interestIdString.substring(0, interestIdString.length()-1);
+				if (interestIdString.length() > 0) {
+					interestIdString = interestIdString.substring(0,
+							interestIdString.length() - 1);
 				}
 				sharedPreferenceManager.save(
 						SharedPreferenceConstants.DEKKOH_USER_INTERESTS,
@@ -383,8 +384,9 @@ public class APIProcessor {
 			String[] interestIdArray) throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
 		requestJsonObject.put("user_id", getUserId(activity));
-		requestJsonObject.put("interest_id", Arrays.toString(interestIdArray));
-		Map<String, String> responseHeaderMap = new HashMap<String, String>();
+		requestJsonObject.put("interest_id", Arrays.toString(interestIdArray)
+				.replaceAll("\"", ""));
+		Map<String, String> responseHeaderMap = getJSONRequestHeader(getAuthorizationToken(activity));
 		String serviceURL = getBaseURL() + APIURL.USER_INTEREST_UPDATE_SUFFIX
 				+ getUserId(activity);
 		String responseString = HTTPRequestHelper.processPostRequest(

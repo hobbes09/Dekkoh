@@ -10,6 +10,7 @@ import android.view.View;
 import com.dekkoh.custom.handler.AlertDialogHandler;
 import com.dekkoh.custom.handler.ProgressDialogHandler;
 import com.dekkoh.util.Log;
+import com.dekkoh.util.SharedPreferenceManager;
 
 public class BaseFragment extends Fragment {
 	protected static String TAG = "BaseFragment";
@@ -19,6 +20,7 @@ public class BaseFragment extends Fragment {
 	protected ProgressDialogHandler progressDialogHandler;
 	protected AlertDialogHandler alertDialogHandler;
 	protected View rootView;
+	protected SharedPreferenceManager sharedPreferenceManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class BaseFragment extends Fragment {
 		fragmentManager = getFragmentManager();
 		progressDialogHandler = ProgressDialogHandler.getInstance();
 		alertDialogHandler = AlertDialogHandler.getInstance();
+		sharedPreferenceManager = SharedPreferenceManager.getInstance(activity);
 	}
 
 	@Override
