@@ -384,13 +384,15 @@ public class APIProcessor {
 			String[] interestIdArray) throws Exception {
 		JSONObject requestJsonObject = new JSONObject();
 		requestJsonObject.put("user_id", getUserId(activity));
-		requestJsonObject.put("interest_id", Arrays.toString(interestIdArray)
-				.replaceAll("\"", ""));
-		Map<String, String> responseHeaderMap = getJSONRequestHeader(getAuthorizationToken(activity));
+		requestJsonObject.put("interest_id",
+				getJsonArayFromObjectArray(interestIdArray));
+		Map<String, String> responseHeaderMap = new HashMap<String, String>();
 		String serviceURL = getBaseURL() + APIURL.USER_INTEREST_UPDATE_SUFFIX
 				+ getUserId(activity);
 		String responseString = HTTPRequestHelper.processPostRequest(
-				serviceURL, requestJsonObject.toString(), responseHeaderMap);
+				serviceURL, requestJsonObject.toString(),
+				getJSONRequestHeader(getAuthorizationToken(activity)),
+				responseHeaderMap);
 		if (HTTPRequestHelper.getResponseCode() == 200
 				|| HTTPRequestHelper.getResponseCode() == 201) {
 			DekkohUser dekkohUser = convertToObject(responseString,
@@ -1615,5 +1617,16 @@ public class APIProcessor {
 				.getInstance(activity);
 		return sharedPreferenceManager
 				.getString(SharedPreferenceConstants.DEKKOH_USER_ID);
+	}
+
+	public static JSONArray getJsonArayFromObjectArray(Object[] interestIdArray) {
+		if (interestIdArray != null && interestIdArray.length > 0) {
+			JSONArray jsonArray = new JSONArray();
+			for (Object object : interestIdArray) {
+				jsonArray.put(object);
+			}
+			return jsonArray;
+		}
+		return null;
 	}
 }

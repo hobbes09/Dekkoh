@@ -122,6 +122,13 @@ public final class HTTPRequestHelper {
 	}
 
 	public static String processPostRequest(String serviceURL,
+			String requestData, Map<String, String> requestHeaderMap,
+			Map<String, String> responseHeaderMap) throws Exception {
+		return processPostRequest(serviceURL, requestHeaderMap, requestData,
+				responseHeaderMap);
+	}
+
+	public static String processPostRequest(String serviceURL,
 			String requestData, String authorizationToken) throws Exception {
 		return processPostRequest(serviceURL,
 				APIProcessor.getJSONRequestHeader(authorizationToken),
@@ -188,8 +195,8 @@ public final class HTTPRequestHelper {
 
 		} else {
 			throw new DekkohException(
-					DekkohExceptionErrorCodes.NETWOR_ERROR_CODE,
-					responseString+"Return responce code is not 200");
+					DekkohExceptionErrorCodes.NETWOR_ERROR_CODE, responseString
+							+ "Return responce code is not 200");
 		}
 	}
 
