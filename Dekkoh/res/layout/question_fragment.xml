@@ -67,7 +67,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="15dp"
                         android:text="Username"
-                        android:textColor="#1D660A" />
+                        android:textColor="#D05656" />
 
                     <TextView
                         android:id="@+id/locationPin"
@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:text="Location"
-                        android:textColor="#1D660A" />
+                        android:textColor="#D05656" />
                 </LinearLayout>
 
                 <LinearLayout
