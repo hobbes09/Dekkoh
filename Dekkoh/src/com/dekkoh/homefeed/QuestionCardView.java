@@ -151,7 +151,7 @@ public class QuestionCardView {
         tvQuestion.setTypeface(typeFaceQuestion);
         
         Typeface typeFaceUser=Typeface
-                .createFromAsset(HomeScreen.homeScreenContext.getAssets(),"fonts/RobotaSlab-Bold.ttf");
+                .createFromAsset(HomeScreen.homeScreenContext.getAssets(),"fonts/SourceSansPro_Bold.ttf");
         tvUsername.setTypeface(typeFaceUser);
         tvLocation.setTypeface(typeFaceUser);
 
