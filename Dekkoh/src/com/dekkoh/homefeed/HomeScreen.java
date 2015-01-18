@@ -27,6 +27,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,6 +69,10 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 
 	static FragmentManager supportFragmentManager;
 	public static Context homeScreenContext;
+	
+	int windowwidth, windowheight;
+	int screenCenterX, screenCenterY;
+	RelativeLayout parentView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +87,29 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 		ibMap = (ImageButton) findViewById(R.id.ibMap);
 		ibPost = (ImageButton) findViewById(R.id.ibPost);
 		tvTitle = (TextView) findViewById(R.id.tvTitle);
+		QuestionCardView.getInstance().setParentView((RelativeLayout)findViewById(R.id.contentHomeActivity));
 
 		ibMap.setOnClickListener(this);
 		ibPost.setOnClickListener(this);
 
 		supportFragmentManager = getSupportFragmentManager();
 		homeScreenContext = HomeScreen.this;
+		
+		windowwidth = getWindowManager().getDefaultDisplay().getWidth();
+		screenCenterX = windowwidth / 2;
+		windowheight = getWindowManager().getDefaultDisplay().getHeight();
+		screenCenterY = windowheight / 2;
+		
+		QuestionCardView.getInstance().setWindowWidth(windowwidth);
+		QuestionCardView.getInstance().setWindowHeight(windowheight);
+		QuestionCardView.getInstance().setScreenCenterX(screenCenterX);
+		QuestionCardView.getInstance().setScreenCenterY(screenCenterY);
+		QuestionCardView.getInstance().setInitPosX(0);
+		QuestionCardView.getInstance().setInitPosY(0);
+		QuestionCardView.getInstance().setX_initial(0);
+		QuestionCardView.getInstance().setY_initial(0);
+		QuestionCardView.getInstance().setContext(homeScreenContext);
+		
 
 		navigationDrawerInitialisation(savedInstanceState);
 	}
@@ -264,18 +286,11 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 			mDrawerLayout.closeDrawer(mDrawerList);
 		} else {
 
-			fragment = new QuestionFragment();
-			fragment.setArguments(QuestionContentManager
-					.getNextQuestionBundle(activity));
-			FragmentTransaction transaction = getSupportFragmentManager()
-					.beginTransaction();
-			transaction.setCustomAnimations(
-					R.animator.frag_slide_in_from_bottom, 0);
-			transaction.replace(R.id.contentHomeActivity, fragment);
-			transaction.commit();
-
+			QuestionCardView.getInstance().createQuestionCard(0);
+			
 		}
 	}
+
 
 	@Override
 	public void setTitle(CharSequence title) {
@@ -363,5 +378,14 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 			}
 		}
 	}
+	
+	
+	
+	private void createQuestionCardView() {
+		LayoutInflater inflate = (LayoutInflater) homeScreenContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		final View view = inflate.inflate(R.layout.question_fragment, null);
+		
+	}
+	
 
 }
