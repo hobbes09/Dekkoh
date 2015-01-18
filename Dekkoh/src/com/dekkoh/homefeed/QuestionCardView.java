@@ -217,7 +217,7 @@ public class QuestionCardView {
                             view.setX(getInstance().x_current
                                     - getInstance().x_initial);
                             // m_view.setY(y_curr - y);
-                            view.setRotation((getInstance().x_initial - getInstance().x_current) * 0.001f * 60f);
+                            view.setRotation((getInstance().x_current - getInstance().x_initial) * 0.001f * 60f);
                         }
                         break;
                     case MotionEvent.ACTION_UP:
