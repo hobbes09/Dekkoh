@@ -146,9 +146,15 @@ public class QuestionCardView {
         getInstance().questionFragmentLayout = (LinearLayout) root
                 .findViewById(R.id.questionFragmentLayout);
         
-        Typeface typeFace=Typeface
+        Typeface typeFaceQuestion=Typeface
                 .createFromAsset(HomeScreen.homeScreenContext.getAssets(),"fonts/SortsMillGoudy-Regular.ttf");
-        tvQuestion.setTypeface(typeFace);
+        tvQuestion.setTypeface(typeFaceQuestion);
+        
+        Typeface typeFaceUser=Typeface
+                .createFromAsset(HomeScreen.homeScreenContext.getAssets(),"fonts/RobotaSlab-Bold.ttf");
+        tvUsername.setTypeface(typeFaceUser);
+        tvLocation.setTypeface(typeFaceUser);
+
 
         ImageCacheParams cacheParams = new ImageCacheParams(
                 getInstance().context, IMAGE_CACHE_DIR);
