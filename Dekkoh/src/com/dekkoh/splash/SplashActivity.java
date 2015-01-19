@@ -358,8 +358,12 @@ public class SplashActivity extends BaseActivity {
                             .getREQ_SIGN_IN_REQUIRED()) {
                 googleLoginController.requestForAccessToken();
             } else {
-                Session.getActiveSession().onActivityResult(this, requestCode,
-                        resultCode, data);
+                try {
+                    Session.getActiveSession().onActivityResult(this, requestCode,
+                            resultCode, data);
+                } catch (NullPointerException nullPointerException) {
+                    Log.e(nullPointerException);
+                }
             }
 
         }
