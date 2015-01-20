@@ -38,6 +38,7 @@ import com.dekkoh.application.ApplicationState;
 import com.dekkoh.application.BaseFragmentActivity;
 import com.dekkoh.datamodel.Question;
 import com.dekkoh.following.Following;
+import com.dekkoh.map.DekkohMapFragment;
 import com.dekkoh.messages.Messages;
 import com.dekkoh.myactivity.MyActivity;
 import com.dekkoh.myprofile.MyProfileActivity;
@@ -83,6 +84,7 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homefeed);
         initialize(savedInstanceState);
+        showActionBar();
     }
 
     private void initialize(Bundle savedInstanceState) {
@@ -172,8 +174,6 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
         mDrawerList.setAdapter(adapter);
 
         // enabling action bar app icon and behaving it as toggle button
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
 
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.drawable.ic_drawer, // nav menu toggle icon
@@ -253,7 +253,7 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
      */
     private void displayView(int position) {
         // update the main content by replacing fragments
-        Fragment fragment = null;
+        Fragment fragment=null;
         switch (position) {
             case 2:
                 Intent myProfileIntent = new Intent(activity,
@@ -271,7 +271,7 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
                 fragment = new Messages();
                 break;
             case 6:
-                fragment = new Settings();
+                fragment  =  new DekkohMapFragment();
                 break;
             default:
                 break;
@@ -284,7 +284,7 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);
-            setTitle(navMenuTitles[position]);
+//            setTitle(navMenuTitles[position]);
             mDrawerLayout.closeDrawer(mDrawerList);
         } else {
 

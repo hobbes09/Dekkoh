@@ -22,7 +22,7 @@ public class Question implements Serializable {
     private String updated_at;
     private String user_image;
     private String user_name;
-    private String[] coordinates;
+    private double[] coordinates;
     private Date date;
     private boolean delete_flg;
     private InterestId interest_id = new InterestId();
@@ -201,14 +201,14 @@ public class Question implements Serializable {
     /**
      * @return the coordinates
      */
-    public String[] getCoordinates() {
+    public double[] getCoordinates() {
         return coordinates;
     }
 
     /**
      * @param coordinates the coordinates to set
      */
-    public void setCoordinates(String coordinates[]) {
+    public void setCoordinates(double coordinates[]) {
         this.coordinates = coordinates;
     }
 

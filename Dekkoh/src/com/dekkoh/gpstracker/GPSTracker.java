@@ -1,8 +1,8 @@
 
 package com.dekkoh.gpstracker;
 
+import android.app.Activity;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -15,7 +15,7 @@ import com.dekkoh.util.Log;
 
 public class GPSTracker extends Service implements LocationListener {
 
-    private final Context mContext;
+    private final Activity activity;
 
     // flag for GPS status
     public boolean isGPSEnabled = false;
@@ -42,9 +42,15 @@ public class GPSTracker extends Service implements LocationListener {
     // Dekkoh Application for Storing lati n longi
     DekkohApplication dekkohApplication;
 
-    public GPSTracker(Context context, DekkohApplication dekkohApplication,
+    public GPSTracker(Activity activity) {
+        this.activity = activity;
+        this.dekkohApplication = (DekkohApplication) activity.getApplication();
+        getLocation();
+    }
+
+    public GPSTracker(Activity activity, DekkohApplication dekkohApplication,
             long minDistanceInMetersForGPSUpdates, long minTimeInMilliSecondsForGPSUpdate) {
-        this.mContext = context;
+        this.activity = activity;
         MIN_DISTANCE_CHANGE_FOR_UPDATES = minDistanceInMetersForGPSUpdates;
         MIN_TIME_BW_UPDATES = minTimeInMilliSecondsForGPSUpdate;
         this.dekkohApplication = dekkohApplication;
@@ -54,7 +60,7 @@ public class GPSTracker extends Service implements LocationListener {
 
     public Location getLocation() {
         try {
-            locationManager = (LocationManager) mContext
+            locationManager = (LocationManager) activity
                     .getSystemService(LOCATION_SERVICE);
 
             // getting GPS status

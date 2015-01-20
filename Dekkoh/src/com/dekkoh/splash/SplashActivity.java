@@ -410,7 +410,7 @@ public class SplashActivity extends BaseActivity {
 
     // Intializing GPS Tracker
     private void startGPSTracker() {
-        GPSTracker gpsTracker = new GPSTracker(getApplicationContext(),
+        GPSTracker gpsTracker = new GPSTracker(activity,
                 dekkohApplication, 5, 1 * 60 * 1000);// Meters : 5 ; Time :
                                                      // 1*60*1000 - 1min
         if (gpsTracker.canGetLocation()) {
