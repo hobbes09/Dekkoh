@@ -176,7 +176,6 @@ public class DekkohMapFragment extends BaseFragment {
                                                     .getCoordinates()[0]))
                                     .title(question.getQuestion())
                                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.redlocation))
-                                    .alpha(0.7f)
                             );
                     mMarkersHashMap.put(marker, question);
                     // dekkohGoogleMap.showInfoWindow();

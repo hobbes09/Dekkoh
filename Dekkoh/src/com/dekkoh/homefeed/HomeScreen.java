@@ -261,7 +261,7 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
             case 3:
                 Intent intent = new Intent(this, MyActivity.class);
                 startActivity(intent);
-                break;
+                return;
             case 4:
                 fragment = new Following();
                 break;
