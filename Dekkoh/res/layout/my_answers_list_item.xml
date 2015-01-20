@@ -73,11 +73,15 @@
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/redlocation" />
+
                     <TextView
                         android:id="@+id/locationTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/greenlocation"
                         android:singleLine="true"
                         android:textColor="#BC1F1E"
                         android:textSize="15sp"

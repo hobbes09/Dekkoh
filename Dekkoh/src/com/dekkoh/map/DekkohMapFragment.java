@@ -175,8 +175,7 @@ public class DekkohMapFragment extends BaseFragment {
                                             new LatLng(question.getCoordinates()[1], question
                                                     .getCoordinates()[0]))
                                     .title(question.getQuestion())
-                                    .icon(BitmapDescriptorFactory
-                                            .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
+                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.redlocation))
                                     .alpha(0.7f)
                             );
                     mMarkersHashMap.put(marker, question);
