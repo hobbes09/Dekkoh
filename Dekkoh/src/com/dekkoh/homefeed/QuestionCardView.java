@@ -177,7 +177,7 @@ public class QuestionCardView {
     }
 
     private void setValues() {
-        tvLocation.setText(getInstance().question.getLocation());
+        tvLocation.setText(getInstance().question.getLocation().substring(1));
         tvUsername.setText(getInstance().question.getUserName().split(" ", 2)[0]);
         tvQuestion.setText(getInstance().question.getQuestion());
         tvNumAnswers.setText(Integer.toString(getInstance().question
