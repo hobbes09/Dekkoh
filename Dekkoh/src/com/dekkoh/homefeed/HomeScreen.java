@@ -8,6 +8,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -287,7 +288,11 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
             mDrawerLayout.closeDrawer(mDrawerList);
         } else {
 
-            QuestionCardView.getInstance().createQuestionCard(0);
+            ApplicationState.setHomefeedQuestion_CurrentIndex(0);
+            for(; ApplicationState.getHomefeedQuestion_CurrentIndex() < 10; ApplicationState.setHomefeedQuestion_CurrentIndex(ApplicationState.getHomefeedQuestion_CurrentIndex()+1)){
+                QuestionCardView.getInstance().createQuestionCard(ApplicationState.getHomefeedQuestion_CurrentIndex());
+            }
+            
 
         }
     }
@@ -314,6 +319,7 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
