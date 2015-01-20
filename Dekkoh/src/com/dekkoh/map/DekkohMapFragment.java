@@ -9,16 +9,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.dekkoh.R;
 import com.dekkoh.application.BaseFragment;
+import com.dekkoh.custom.view.CircularImageView;
 import com.dekkoh.datamodel.Question;
 import com.dekkoh.gpstracker.GPSTracker;
 import com.dekkoh.service.APIProcessor;
+import com.dekkoh.util.CommonUtils;
 import com.dekkoh.util.Log;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
@@ -26,12 +30,18 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
+import com.kavyasoni.gallery.ui.helper.ImageFetcher;
+import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
 
 public class DekkohMapFragment extends BaseFragment {
     private MapView dekkohMapView;
     private GoogleMap dekkohGoogleMap;
     private HashMap<String, Integer> idsMAp = new HashMap<String, Integer>();
     private GPSTracker dekkohGpsTracker;
+    private HashMap<Marker, Question> mMarkersHashMap;
+    private ImageFetcher imageFetcher;
+    private static final String IMAGE_CACHE_DIR = ".gallery/cache";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,14 +64,25 @@ public class DekkohMapFragment extends BaseFragment {
         idsMAp.put("5436adee44656b615a120000", R.drawable.ninedrawable);
         idsMAp.put("5436adf644656b615a130000", R.drawable.tendrawable);
         dekkohGoogleMap.setOnInfoWindowClickListener(onInfoWindowClickListener);
+        dekkohGoogleMap.setInfoWindowAdapter(new DekkohInfoWindowAdapter());
+        dekkohGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        dekkohGoogleMap.getUiSettings().setCompassEnabled(false);
+        dekkohGoogleMap.getUiSettings().setZoomControlsEnabled(false);
+        ImageCacheParams cacheParams = new ImageCacheParams(activity,
+                IMAGE_CACHE_DIR);
+        // Set memory cache to 25% of app memory
+        cacheParams.setMemCacheSizePercent(0.25f);
+        imageFetcher = new RemoteImageFetcher(activity, 100);
+        imageFetcher.setLoadingImage(R.drawable.loding_album);
+        imageFetcher.addImageCache(fragmentManager, cacheParams);
+        new GetQuestionTask().execute();
         return rootView;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        actionBar.hide();
-        new GetQuestionTask().execute();
+        // actionBar.hide();
     }
 
     @Override
@@ -95,11 +116,40 @@ public class DekkohMapFragment extends BaseFragment {
         }
     };
 
+    private class DekkohInfoWindowAdapter implements InfoWindowAdapter {
+        @Override
+        public View getInfoWindow(Marker marker)
+        {
+            return null;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker)
+        {
+            View view = activity.getLayoutInflater().inflate(R.layout.dekkoh_map_marker_view, null);
+            Question question = mMarkersHashMap.get(marker);
+            CircularImageView userCircularImageView = (CircularImageView) view
+                    .findViewById(R.id.userCircularImageView);
+            if (CommonUtils.isValidURL(question.getUserImage())) {
+                imageFetcher.loadImage(question.getUserImage(), userCircularImageView);
+            } else {
+                userCircularImageView.setImageResource(R.drawable.ic_noprofilepic);
+            }
+            TextView userNameTextView = (TextView) view.findViewById(R.id.userNameTextView);
+            TextView questionTextView = (TextView) view.findViewById(R.id.questionTextView);
+            userNameTextView.setText(CommonUtils.getFirstNameFromFullName(question
+                    .getUserName()));
+            questionTextView.setText(question.getQuestion());
+            return view;
+        }
+    }
+
     class GetQuestionTask extends AsyncTask<Void, Void, List<Question>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialogHandler.showCustomProgressDialog(activity);
+            mMarkersHashMap = new HashMap<Marker, Question>();
         }
 
         @Override
@@ -119,7 +169,7 @@ public class DekkohMapFragment extends BaseFragment {
             progressDialogHandler.dismissCustomProgressDialog(activity);
             if (questionList != null) {
                 for (Question question : questionList) {
-                    dekkohGoogleMap.addMarker(
+                    Marker marker = dekkohGoogleMap.addMarker(
                             new MarkerOptions()
                                     .position(
                                             new LatLng(question.getCoordinates()[1], question
@@ -127,9 +177,10 @@ public class DekkohMapFragment extends BaseFragment {
                                     .title(question.getQuestion())
                                     .icon(BitmapDescriptorFactory
                                             .defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
-                                    // .icon(BitmapDescriptorFactory.fromResource(R.drawable.locationn))
                                     .alpha(0.7f)
-                            ).showInfoWindow();
+                            );
+                    mMarkersHashMap.put(marker, question);
+                    // dekkohGoogleMap.showInfoWindow();
                 }
                 LatLng latLng = new LatLng(dekkohGpsTracker.getLatitude(),
                         dekkohGpsTracker.getLongitude());

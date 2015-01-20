@@ -25,7 +25,7 @@ public class MyAnswersAdapter extends ArrayAdapter<Question> {
     private List<Question> questionsList;
     private LayoutInflater layoutInflater;
     private ImageFetcher mImageFetcher;
-    private static final String IMAGE_CACHE_DIR = ".gallery/cache";
+    private static final String IMAGE_CACHE_DIR = ".dekkoh/cache";
 
     public MyAnswersAdapter(Activity activity, int textViewResourceId,
             List<Question> questionsList, FragmentManager fragmentManager) {

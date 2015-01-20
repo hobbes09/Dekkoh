@@ -2,7 +2,6 @@
 package com.dekkoh.splash;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.json.JSONException;
@@ -42,7 +41,6 @@ import com.dekkoh.R;
 import com.dekkoh.application.BaseActivity;
 import com.dekkoh.application.DekkohApplication;
 import com.dekkoh.datamodel.DekkohUser;
-import com.dekkoh.datamodel.DekkohUser.InterestID;
 import com.dekkoh.googleplusloginhandler.GooglePlusLoginController;
 import com.dekkoh.gpstracker.GPSTracker;
 import com.dekkoh.homefeed.PreHomeScreen;
@@ -51,16 +49,11 @@ import com.dekkoh.service.APIProcessor;
 import com.dekkoh.util.Constants.SharedPreferenceConstants;
 import com.dekkoh.util.Log;
 import com.dekkoh.util.SharedPreferenceManager;
-import com.facebook.FacebookException;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
-import com.facebook.widget.LoginButton;
-import com.facebook.widget.LoginButton.OnErrorListener;
-import com.facebook.widget.LoginButton.UserInfoChangedCallback;
 
 public class SplashActivity extends BaseActivity {
 

@@ -41,7 +41,7 @@ public class QuestionFragment extends BaseFragment {
     private int countLike = 0;
     private int countFollow = 0;
 
-    private static final String IMAGE_CACHE_DIR = ".gallery/cache";
+    private static final String IMAGE_CACHE_DIR = ".dekkoh/cache";
     private ImageFetcher profileImageFetcher;
     private ImageFetcher questionImageFetcher;
 

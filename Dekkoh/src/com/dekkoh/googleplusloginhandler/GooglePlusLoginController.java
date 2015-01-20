@@ -6,7 +6,6 @@ import java.io.IOException;
 import android.content.IntentSender.SendIntentException;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.dekkoh.datamodel.DekkohUser;
 import com.dekkoh.service.APIProcessor;

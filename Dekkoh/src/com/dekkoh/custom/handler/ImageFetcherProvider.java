@@ -12,7 +12,7 @@ import com.kavyasoni.gallery.ui.helper.LocalImageFetcher;
 import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
 
 public class ImageFetcherProvider {
-    private static final String IMAGE_CACHE_DIR = ".iguru/cache";
+    private static final String IMAGE_CACHE_DIR = ".gallery/cache";
     private static ImageFetcher imageFetcher;
 
     public static ImageFetcher getRemoteImageFetcher(Fragment fragment,

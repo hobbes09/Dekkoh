@@ -1,20 +1,8 @@
 
 package com.dekkoh.homefeed;
 
-import com.dekkoh.R;
-import com.dekkoh.custom.view.CircularImageView;
-import com.dekkoh.custom.view.SquareLinearLayout;
-import com.dekkoh.datamodel.Question;
-import com.dekkoh.util.CommonUtils;
-import com.dekkoh.util.Log;
-import com.kavyasoni.gallery.ui.helper.ImageFetcher;
-import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
-import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
-
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +13,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.dekkoh.R;
+import com.dekkoh.custom.view.CircularImageView;
+import com.dekkoh.custom.view.SquareLinearLayout;
+import com.dekkoh.datamodel.Question;
+import com.dekkoh.util.CommonUtils;
+import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
+import com.kavyasoni.gallery.ui.helper.ImageFetcher;
+import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
 
 public class QuestionCardView {
     
