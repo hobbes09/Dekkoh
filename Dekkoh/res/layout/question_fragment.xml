@@ -131,21 +131,21 @@
                             android:layout_height="match_parent"
                             android:layout_weight="70"
                             android:orientation="horizontal"
-                            android:padding="15dp" >
+                            android:padding="20dp" >
 
                             <com.dekkoh.custom.view.SquareLinearLayout
                                 android:id="@+id/sllBack"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginRight="10dp"
-                                android:background="@drawable/ic_back" >
+                                android:layout_marginRight="15dp"
+                                android:background="@drawable/ic_reply" >
                             </com.dekkoh.custom.view.SquareLinearLayout>
 
                             <com.dekkoh.custom.view.SquareLinearLayout
                                 android:id="@+id/sllLike"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginRight="10dp"
+                                android:layout_marginRight="15dp"
                                 android:background="@drawable/ic_like" >
                             </com.dekkoh.custom.view.SquareLinearLayout>
 
@@ -153,7 +153,7 @@
                                 android:id="@+id/sllShare"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginRight="10dp"
+                                android:layout_marginRight="15dp"
                                 android:background="@drawable/ic_share" >
                             </com.dekkoh.custom.view.SquareLinearLayout>
 
@@ -161,7 +161,7 @@
                                 android:id="@+id/sllFollow"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_marginRight="10dp"
+                                android:layout_marginRight="15dp"
                                 android:background="@drawable/ic_follow" >
                             </com.dekkoh.custom.view.SquareLinearLayout>
                         </LinearLayout>
