@@ -326,8 +326,9 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 
         switch (view.getId()) {
             case R.id.ibMap:
-                Toast.makeText(getApplicationContext(), "Map Clicked",
-                        Toast.LENGTH_SHORT).show();
+                Fragment dekkohMapFragment = new DekkohMapFragment();
+                fragmentManager.beginTransaction()
+                .replace(R.id.contentHomeActivity, dekkohMapFragment).commit();
                 break;
             case R.id.ibPost:
                 Fragment postQuestionFragment = new PostQuestionFragment();
