@@ -1,8 +1,20 @@
 
 package com.dekkoh.homefeed;
 
+import com.dekkoh.R;
+import com.dekkoh.custom.view.CircularImageView;
+import com.dekkoh.custom.view.SquareLinearLayout;
+import com.dekkoh.datamodel.Question;
+import com.dekkoh.util.CommonUtils;
+import com.dekkoh.util.Log;
+import com.kavyasoni.gallery.ui.helper.ImageFetcher;
+import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
+import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
+
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,15 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.dekkoh.R;
-import com.dekkoh.custom.view.CircularImageView;
-import com.dekkoh.custom.view.SquareLinearLayout;
-import com.dekkoh.datamodel.Question;
-import com.dekkoh.util.CommonUtils;
-import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
-import com.kavyasoni.gallery.ui.helper.ImageFetcher;
-import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
-
 public class QuestionCardView {
     
     public static String TAG = "QuestionCardView";
@@ -30,7 +33,7 @@ public class QuestionCardView {
     private float screenCenterX, screenCenterY;
     private float x_current, y_current, x_initial, y_initial;
     private float initPosX = 0, initPosY = 0;
-    private float dragLength = 0;
+    private float dragLengthX = 0,  draglengthY = 0;;
     private RelativeLayout parentView;
     private Context context;
 
@@ -60,7 +63,7 @@ public class QuestionCardView {
     }
 
     public static QuestionCardView getInstance() {
-        return questionCardView;
+        return QuestionCardView.questionCardView;
     }
 
     public void setWindowWidth(int windowWidth) {
@@ -202,36 +205,44 @@ public class QuestionCardView {
                 getInstance().y_current = event.getRawY();
 
                 switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
+                    case MotionEvent.ACTION_DOWN:                        
                         getInstance().x_initial = event.getX();
                         getInstance().y_initial = event.getY();
                         break;
                     case MotionEvent.ACTION_MOVE:
                         getInstance().x_current = event.getRawX();
                         getInstance().y_current = event.getRawY();
-                        getInstance().dragLength =  getInstance().x_current - getInstance().x_initial;
-                        if (getInstance().x_current - getInstance().x_initial > 0) {
-                            view.setX(getInstance().x_current
-                                    - getInstance().x_initial);
-                            // m_view.setY(y_curr - y);
-                            view.setRotation((getInstance().x_current - getInstance().x_initial) * 0.001f * 60f);
-                        }
+                        getInstance().dragLengthX = getInstance().x_current - getInstance().x_initial;
+                        getInstance().draglengthY = getInstance().y_current - getInstance().y_initial;
+                        
+                        view.setX(getInstance().initPosX + getInstance().dragLengthX);
+                        view.setY(getInstance().initPosY + getInstance().draglengthY);
+                        view.setRotation(getInstance().dragLengthX * 0.001f * 30f);                       
                         break;
                     case MotionEvent.ACTION_UP:
-                        
-                        if (getInstance().dragLength > getInstance().screenCenterX) {
-                            float temp = getInstance().dragLength;
-                            for (; getInstance().dragLength < 2*getInstance().screenCenterX; getInstance().dragLength++, temp+=0.1){
-                                view.setX(temp);
-                                view.setRotation((temp) * 0.001f * 60f);
+                        float tempDragX = getInstance().dragLengthX; float tempDragY = getInstance().draglengthY;
+                        if (Math.abs(getInstance().dragLengthX) > getInstance().screenCenterX || Math.abs(getInstance().draglengthY) > getInstance().screenCenterX) {                           
+                            while(Math.abs(tempDragX) < 2*getInstance().screenCenterX || Math.abs(tempDragY) < 2*getInstance().screenCenterY){
+                                tempDragX = (tempDragX > 0) ? tempDragX+0.1f : tempDragX-0.1f;
+                                tempDragY = (tempDragY > 0) ? tempDragY+0.1f : tempDragY-0.1f;
+                                view.setX(getInstance().initPosX + tempDragX);
+                                view.setY(getInstance().initPosY + tempDragY);
+                                view.setRotation(tempDragX * 0.001f * 60f);                                 
                             }
                             parentView.removeView(view);                            
                         }else{
-                            for (; getInstance().dragLength >= 0; getInstance().dragLength-=0.1){
-                                view.setX(getInstance().dragLength);
-                                view.setRotation((getInstance().dragLength) * 0.001f * 60f);
+                            while(Math.abs(tempDragX) > 1 && Math.abs(tempDragY) > 1 ){
+                                tempDragX = (tempDragX > 0) ? tempDragX-0.1f : tempDragX+0.1f;
+                                tempDragY = (tempDragY > 0) ? tempDragY-0.1f : tempDragY+0.1f;
+                                view.setX(getInstance().initPosX + tempDragX);
+                                view.setY(getInstance().initPosY + tempDragY);
+                                view.setRotation(tempDragX * 0.001f * 60f); 
                             }
+                            view.setX(getInstance().initPosX);
+                            view.setY(getInstance().initPosY);
+                            view.setRotation(0);        
                         }
+                        
                         break;
                     default:
                         break;

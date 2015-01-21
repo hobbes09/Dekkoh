@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.4"
+            android:padding="2dp"
             android:background="#fff" >
 
             <ImageView
@@ -26,7 +27,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop" 
+                android:background="@drawable/homeimage_background"
+                />
         </RelativeLayout>
 
         <RelativeLayout
