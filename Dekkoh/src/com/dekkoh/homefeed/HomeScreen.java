@@ -330,8 +330,9 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
                         Toast.LENGTH_SHORT).show();
                 break;
             case R.id.ibPost:
-                Toast.makeText(getApplicationContext(), "Post Clicked",
-                        Toast.LENGTH_SHORT).show();
+                Fragment postQuestionFragment = new PostQuestionFragment();
+                fragmentManager.beginTransaction()
+                .replace(R.id.contentHomeActivity, postQuestionFragment).commit();
                 break;
         }
 
