@@ -11,12 +11,17 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +39,13 @@ import com.dekkoh.datamodel.DekkohUser;
 import com.dekkoh.gpstracker.GPSTracker;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.util.RoundedTransformation;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 public class PostAnswerFragment extends BaseFragment {
@@ -59,6 +71,14 @@ public class PostAnswerFragment extends BaseFragment {
 
     // Button to be replaced by action bar icon click for post question
     private Button postAnswer;
+    
+    private Button selectImage;
+    
+    GoogleMap googleMap;
+    
+    View googleMapFragmentHolder;
+    
+    private int RESULT_LOAD_IMAGE = 100;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -101,6 +121,10 @@ public class PostAnswerFragment extends BaseFragment {
                 .findViewById(R.id.post_answer_fragment_questioned_user_Location);
         questionAskerQuestion = (TextView) root.findViewById(R.id.post_answer_fragment_question);
 
+        googleMapFragmentHolder = (View)root.findViewById(R.id.post_answer_fragment_layout_map);
+        
+        selectImage = (Button)root.findViewById(R.id.post_answer_fragment_selectimage);
+        
         // Set Question Asker's textviews and stuff
         questionAskerName.setText(questionAskerUserName);
         questionAskerLocation.setText(questionAskerUserLocation);
@@ -200,6 +224,45 @@ public class PostAnswerFragment extends BaseFragment {
                 }
                
 
+                //Google Map Load
+                
+
+                try {
+                    // Loading map
+                 if (googleMap == null) {
+                        googleMap = ((MapFragment) getActivity().getFragmentManager().findFragmentById(
+                                R.id.post_question_fragment_layout_map)).getMap();
+             
+                        // check if map is created successfully or not
+                        if (googleMap == null) {
+                            Toast.makeText(getActivity().getApplicationContext(),
+                                    "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                                    .show();
+                        }else{
+                          
+                            
+                          final LatLng latlng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                       Marker self_marker = googleMap.addMarker(new MarkerOptions()
+                           .position(latlng)
+                            .title(userLocation.getText().toString())
+                            .icon(BitmapDescriptorFactory
+                                .fromResource(R.drawable.redlocation_marker)));
+                          self_marker.showInfoWindow();
+                          googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
+                       // googleMap.getUiSettings().setZoomControlsEnabled(false);
+                          googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                          googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+                        }
+                    }
+         
+                } catch (Exception e) {
+
+                    Toast.makeText(mContext, "Unable to load Map Location", Toast.LENGTH_SHORT).show();
+                }
+                
+                
+                //End Google Map Load
+                
             } else {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 
@@ -241,6 +304,15 @@ public class PostAnswerFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+                Bitmap userQuestionImageToPostToDekkohServer=null;
+                if(userAnswerImage.isShown()){
+                    userAnswerImage.buildDrawingCache();
+                     userQuestionImageToPostToDekkohServer = userAnswerImage.getDrawingCache();
+                }else if(googleMapFragmentHolder.isShown()){
+                    googleMapFragmentHolder.buildDrawingCache();
+                    userQuestionImageToPostToDekkohServer = googleMapFragmentHolder.getDrawingCache();
+                }
+                
                 if (userAnswer.getText().toString().compareTo("") != 0) {
                     postAnswer.setText("Posting...");
                     new PostAnswer(PostAnswerFragment.this, userAnswer.getText().toString(),
@@ -252,6 +324,18 @@ public class PostAnswerFragment extends BaseFragment {
             }
         });
 
+        
+       selectImage.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent i = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }
+        });
+        
         return root;
     }
 
@@ -265,6 +349,30 @@ public class PostAnswerFragment extends BaseFragment {
         Toast.makeText(getActivity().getApplicationContext(), "Posted Successfully",
                 Toast.LENGTH_LONG).show();
     }
+    
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+       if (data != null && requestCode==RESULT_LOAD_IMAGE) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            Cursor cursor = mContext.getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            userAnswerImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            userAnswerImage.setVisibility(View.VISIBLE);
+            googleMapFragmentHolder.setVisibility(View.GONE);
+            cursor.close();
+        } else {
+            Toast.makeText(getActivity(), "Try Again!!", Toast.LENGTH_SHORT)
+                    .show();
+        }
+    }
+
 
 }
 

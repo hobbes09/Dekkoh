@@ -11,15 +11,17 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +39,13 @@ import com.dekkoh.datamodel.DekkohUser;
 import com.dekkoh.gpstracker.GPSTracker;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.util.RoundedTransformation;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
 public class PostQuestionFragment extends BaseFragment {
@@ -54,12 +63,19 @@ public class PostQuestionFragment extends BaseFragment {
     private TextView userName;
     private TextView userLocation;
     private EditText userQuestion;
+    
+    GoogleMap googleMap;
+    
+    View googleMapFragmentHolder;
+    
+    private int RESULT_LOAD_IMAGE = 100;
 
     // TODO: Interests Ids for the question and how to post Question Image and get it's Url from
     // server ans place it in postQuestion method in AsyncTask.
 
     // Button to be replaced by action bar icon click for post question
     private Button postQuestion;
+    private Button selectImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,8 +100,11 @@ public class PostQuestionFragment extends BaseFragment {
         userLocation = (TextView) root.findViewById(R.id.post_question_fragment_userLocation);
         userQuestion = (EditText) root
                 .findViewById(R.id.post_question_fragment_userQuestionEditText);
+        googleMapFragmentHolder = (View)root.findViewById(R.id.post_question_fragment_layout_map);
+        
         postQuestion = (Button) root.findViewById(R.id.post_question_fragment_postbutton);
-
+        selectImage = (Button)root.findViewById(R.id.post_question_fragment_selectimagebutton);
+        
         // Loading Image of user Profile Picture
         if (dekkohUser.getProfilePic() != null) {
             try {
@@ -117,6 +136,8 @@ public class PostQuestionFragment extends BaseFragment {
                     dekkohApplication, 5, 1 * 60 * 1000);// Meters : 5 ; Time :
                                                          // 1*60*1000 - 1min
             if (gpsTracker.canGetLocation()) {
+                
+                
                 dekkohApplication.updateLocationOfUser(gpsTracker.getLocation());
                 // Acquire a reference to the system Location Manager
                 Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
@@ -157,6 +178,47 @@ public class PostQuestionFragment extends BaseFragment {
                         Toast.makeText(mContext, "Unable to get Location:"+e.toString(), Toast.LENGTH_LONG).show();
                     }
                 }
+               
+                
+                
+                //Google Map Load
+                
+
+                try {
+                    // Loading map
+                 if (googleMap == null) {
+                        googleMap = ((MapFragment) getActivity().getFragmentManager().findFragmentById(
+                                R.id.post_question_fragment_layout_map)).getMap();
+             
+                        // check if map is created successfully or not
+                        if (googleMap == null) {
+                            Toast.makeText(getActivity().getApplicationContext(),
+                                    "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                                    .show();
+                        }else{
+                          
+                            
+                          final LatLng latlng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                       Marker self_marker = googleMap.addMarker(new MarkerOptions()
+                           .position(latlng)
+                            .title(userLocation.getText().toString())
+                            .icon(BitmapDescriptorFactory
+                                .fromResource(R.drawable.redlocation_marker)));
+                          self_marker.showInfoWindow();
+                          googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
+                        // googleMap.getUiSettings().setZoomControlsEnabled(false);
+                          googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                          googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+                        }
+                    }
+         
+                } catch (Exception e) {
+
+                    Toast.makeText(mContext, "Unable to load Map Location", Toast.LENGTH_SHORT).show();
+                }
+                
+                
+                //End Google Map Load
                
 
             } else {
@@ -199,6 +261,16 @@ public class PostQuestionFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+                Bitmap userQuestionImageToPostToDekkohServer=null;
+                if(userQuestionImage.isShown()){
+                    userQuestionImage.buildDrawingCache();
+                     userQuestionImageToPostToDekkohServer = userQuestionImage.getDrawingCache();
+                }else if(googleMapFragmentHolder.isShown()){
+                    googleMapFragmentHolder.buildDrawingCache();
+                    userQuestionImageToPostToDekkohServer = googleMapFragmentHolder.getDrawingCache();
+                }
+                
+                
                 if (userQuestion.getText().toString().compareTo("") != 0) {
                     postQuestion.setText("Posting...");
                     new PostQuestion(PostQuestionFragment.this, userQuestion.getText().toString(),
@@ -207,6 +279,18 @@ public class PostQuestionFragment extends BaseFragment {
                                     .valueOf(dekkohApplication.getLocationLongitude()), dekkohUser
                                     .getProfilePic(), "5462071f6666f6f29891f0000").execute();
                 }
+            }
+        });
+        
+        
+        selectImage.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent i = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(i, RESULT_LOAD_IMAGE);
             }
         });
 
@@ -223,6 +307,30 @@ public class PostQuestionFragment extends BaseFragment {
         Toast.makeText(getActivity().getApplicationContext(), "Posted Successfully",
                 Toast.LENGTH_LONG).show();
     }
+    
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+       if (data != null && requestCode==RESULT_LOAD_IMAGE) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            Cursor cursor = mContext.getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            userQuestionImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            userQuestionImage.setVisibility(View.VISIBLE);
+            googleMapFragmentHolder.setVisibility(View.GONE);
+            cursor.close();
+        } else {
+            Toast.makeText(getActivity(), "Try Again!!", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+}
 
 }
 
