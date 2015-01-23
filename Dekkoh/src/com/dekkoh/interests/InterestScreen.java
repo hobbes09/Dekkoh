@@ -1,4 +1,3 @@
-
 package com.dekkoh.interests;
 
 import java.util.ArrayList;
@@ -28,9 +27,9 @@ import com.dekkoh.application.DekkohApplication;
 import com.dekkoh.datamodel.DekkohUser;
 import com.dekkoh.homefeed.PreHomeScreen;
 import com.dekkoh.service.APIProcessor;
-import com.dekkoh.util.Constants.SharedPreferenceConstants;
 import com.dekkoh.util.Log;
 import com.dekkoh.util.SharedPreferenceManager;
+import com.dekkoh.util.Constants.SharedPreferenceConstants;
 
 public class InterestScreen extends BaseActivity {
 
@@ -232,8 +231,8 @@ public class InterestScreen extends BaseActivity {
                 if (allInterests.length() > 1) {
                     allInterests = allInterests.substring(0,
                             allInterests.length() - 1);
-                    Toast.makeText(mContext, allInterests, Toast.LENGTH_SHORT)
-                            .show();
+                //    Toast.makeText(mContext, allInterests, Toast.LENGTH_SHORT)
+                 //           .show();
                     SharedPreferenceManager sharedPreferenceManager = SharedPreferenceManager
                             .getInstance(InterestScreen.this);
                     sharedPreferenceManager.save(

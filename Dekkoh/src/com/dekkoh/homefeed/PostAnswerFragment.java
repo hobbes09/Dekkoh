@@ -7,13 +7,17 @@ import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +31,7 @@ import com.dekkoh.R;
 import com.dekkoh.application.BaseFragment;
 import com.dekkoh.application.DekkohApplication;
 import com.dekkoh.datamodel.DekkohUser;
+import com.dekkoh.gpstracker.GPSTracker;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.util.RoundedTransformation;
 import com.squareup.picasso.Picasso;
@@ -149,15 +154,88 @@ public class PostAnswerFragment extends BaseFragment {
         userName.setText(dekkohUser.getName());
 
         try {
-            Geocoder gcd = new Geocoder(mContext, Locale.getDefault());
-            List<Address> addresses = gcd.getFromLocation(dekkohApplication.getLocationLatitude(),
-                    dekkohApplication.getLocationLongitude(), 1);
-            if (addresses.size() > 0)
-                userLocation.setText(addresses.get(0).getLocality());
+            GPSTracker gpsTracker = new GPSTracker(activity,
+                    dekkohApplication, 5, 1 * 60 * 1000);// Meters : 5 ; Time :
+                                                         // 1*60*1000 - 1min
+            if (gpsTracker.canGetLocation()) {
+                dekkohApplication.updateLocationOfUser(gpsTracker.getLocation());
+                // Acquire a reference to the system Location Manager
+                Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+                List<Address> addressList = geocoder.getFromLocation(
+                        gpsTracker.getLatitude(), gpsTracker.getLongitude(), 1);
+                if (addressList != null && addressList.size() > 0) {
+                    Address address = addressList.get(0);
+                    
+                    try{
+                        StringBuilder sb1 = new StringBuilder();
+                        for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+                            if(i!=0){
+                                sb1.append(",").append(address.getAddressLine(i));
+                            }else{
+                                sb1.append(address.getAddressLine(i));
+                            }
+                        }
+                        StringBuilder sb2 = new StringBuilder();
+                        String Locality=address.getLocality();
+                        if(Locality!=null && Locality.compareTo("")!=0){
+                            sb2.append(Locality);
+                        }
+                        
+                        String Country=address.getCountryName();
+                        if(Country!=null && Country.compareTo("")!=0){
+                            sb2.append(","+Country);
+                        }
+                        if(sb2.toString()!=null && sb2.toString().compareTo("")!=0){
+
+                            userLocation.setText(sb2.toString());
+                            //Toast.makeText(mContext, sb2.toString(), Toast.LENGTH_LONG).show();   
+                        }else{
+
+                            userLocation.setText(sb1.toString());
+                            //Toast.makeText(mContext, sb1.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }catch(Exception e){
+                        Toast.makeText(mContext, "Unable to get Location:"+e.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+               
+
+            } else {
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+
+                // Setting Dialog Title
+                alertDialog.setTitle("GPS is settings");
+
+                // Setting Dialog Message
+                alertDialog
+                        .setMessage("GPS is not enabled. Do you want to go to settings menu?");
+
+                // On pressing Settings button
+                alertDialog.setPositiveButton("Settings",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                Intent intent = new Intent(
+                                        Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(intent);
+                               
+                            }
+                        });
+
+               
+
+                // Showing Alert Message
+                alertDialog.show();
+            }
+           
         } catch (Exception e) {
 
+            Toast.makeText(mContext, "Unable to get Location:"+e.toString(), Toast.LENGTH_LONG).show();
+            
         }
-
+        
+       
         postAnswer.setOnClickListener(new View.OnClickListener() {
 
             @Override
