@@ -16,6 +16,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.GpsStatus;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -48,7 +52,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
-public class PostAnswerFragment extends BaseFragment {
+public class PostAnswerFragment extends BaseFragment implements LocationListener{
 
     private DekkohApplication dekkohApplication;
 
@@ -77,6 +81,10 @@ public class PostAnswerFragment extends BaseFragment {
     GoogleMap googleMap;
     
     View googleMapFragmentHolder;
+    
+    GPSTracker gpsTracker;
+    
+    LocationManager locationManager;
     
     private int RESULT_LOAD_IMAGE = 100;
 
@@ -178,10 +186,82 @@ public class PostAnswerFragment extends BaseFragment {
         userName.setText(dekkohUser.getName());
 
         try {
-            GPSTracker gpsTracker = new GPSTracker(activity,
+            gpsTracker = new GPSTracker(activity,
                     dekkohApplication, 5, 1 * 60 * 1000);// Meters : 5 ; Time :
                                                          // 1*60*1000 - 1min
-            if (gpsTracker.canGetLocation()) {
+             locationManager = (LocationManager) activity
+                    .getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
+             locationManager.addGpsStatusListener( new GpsStatus.Listener() {
+
+                 @Override
+                 public void onGpsStatusChanged(int event) {
+                     // TODO Auto-generated method stub
+                     if(event==GpsStatus.GPS_EVENT_STARTED){
+                         gpsnMapUpdate();
+                     }
+                 }
+                  
+              });
+              
+              
+              
+              
+              gpsnMapUpdate();
+             
+            
+           
+           
+        } catch (Exception e) {
+
+            Toast.makeText(mContext, "Unable to get Location:"+e.toString(), Toast.LENGTH_LONG).show();
+            
+        }
+        
+       
+        postAnswer.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Bitmap userQuestionImageToPostToDekkohServer=null;
+                if(userAnswerImage.isShown()){
+                    userAnswerImage.buildDrawingCache();
+                     userQuestionImageToPostToDekkohServer = userAnswerImage.getDrawingCache();
+                }else if(googleMapFragmentHolder.isShown()){
+                    googleMapFragmentHolder.buildDrawingCache();
+                    userQuestionImageToPostToDekkohServer = googleMapFragmentHolder.getDrawingCache();
+                }
+                
+                if (userAnswer.getText().toString().compareTo("") != 0) {
+                    postAnswer.setText("Posting...");
+                    new PostAnswer(PostAnswerFragment.this, userAnswer.getText().toString(),
+                            questionId, userLocation.getText().toString(), String
+                                    .valueOf(dekkohApplication.getLocationLatitude()), String
+                                    .valueOf(dekkohApplication.getLocationLongitude()), dekkohUser
+                                    .getProfilePic(), "send answer pic url here").execute();
+                }
+            }
+        });
+
+        
+       selectImage.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent i = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(i, RESULT_LOAD_IMAGE);
+            }
+        });
+        
+        return root;
+    }
+    
+    public void gpsnMapUpdate(){
+        try{
+            if (gpsTracker.canGetLocation() && locationManager
+                    .isProviderEnabled(LocationManager.GPS_PROVIDER)==true) {
                 dekkohApplication.updateLocationOfUser(gpsTracker.getLocation());
                 // Acquire a reference to the system Location Manager
                 Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
@@ -250,8 +330,8 @@ public class PostAnswerFragment extends BaseFragment {
                           self_marker.showInfoWindow();
                           googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
                        // googleMap.getUiSettings().setZoomControlsEnabled(false);
-                          googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                          googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+                        //  googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                          googleMap.animateCamera(CameraUpdateFactory.zoomTo(20), 2000, null);
                         }
                     }
          
@@ -267,7 +347,7 @@ public class PostAnswerFragment extends BaseFragment {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
 
                 // Setting Dialog Title
-                alertDialog.setTitle("GPS is settings");
+                alertDialog.setTitle("GPS - settings");
 
                 // Setting Dialog Message
                 alertDialog
@@ -291,52 +371,9 @@ public class PostAnswerFragment extends BaseFragment {
                 // Showing Alert Message
                 alertDialog.show();
             }
-           
-        } catch (Exception e) {
-
-            Toast.makeText(mContext, "Unable to get Location:"+e.toString(), Toast.LENGTH_LONG).show();
+        }catch(Exception e){
             
         }
-        
-       
-        postAnswer.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Bitmap userQuestionImageToPostToDekkohServer=null;
-                if(userAnswerImage.isShown()){
-                    userAnswerImage.buildDrawingCache();
-                     userQuestionImageToPostToDekkohServer = userAnswerImage.getDrawingCache();
-                }else if(googleMapFragmentHolder.isShown()){
-                    googleMapFragmentHolder.buildDrawingCache();
-                    userQuestionImageToPostToDekkohServer = googleMapFragmentHolder.getDrawingCache();
-                }
-                
-                if (userAnswer.getText().toString().compareTo("") != 0) {
-                    postAnswer.setText("Posting...");
-                    new PostAnswer(PostAnswerFragment.this, userAnswer.getText().toString(),
-                            questionId, userLocation.getText().toString(), String
-                                    .valueOf(dekkohApplication.getLocationLatitude()), String
-                                    .valueOf(dekkohApplication.getLocationLongitude()), dekkohUser
-                                    .getProfilePic(), "send answer pic url here").execute();
-                }
-            }
-        });
-
-        
-       selectImage.setOnClickListener(new View.OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Intent i = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
-        });
-        
-        return root;
     }
 
     public void showNoNetToast() {
@@ -372,6 +409,34 @@ public class PostAnswerFragment extends BaseFragment {
                     .show();
         }
     }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        // TODO Auto-generated method stub
+        if(LocationManager.GPS_PROVIDER.equals(provider)){
+            Toast.makeText(mContext,"GPS on",Toast.LENGTH_SHORT).show();
+            gpsnMapUpdate();
+        }
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        // TODO Auto-generated method stub
+        
+    }
+    
 
 
 }

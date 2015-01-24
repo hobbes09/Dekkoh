@@ -16,6 +16,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.GpsStatus;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -48,7 +52,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
-public class PostQuestionFragment extends BaseFragment {
+public class PostQuestionFragment extends BaseFragment{
 
     private DekkohApplication dekkohApplication;
 
@@ -66,9 +70,13 @@ public class PostQuestionFragment extends BaseFragment {
     
     GoogleMap googleMap;
     
+    LocationManager locationManager;
+    
     View googleMapFragmentHolder;
     
     private int RESULT_LOAD_IMAGE = 100;
+    
+    GPSTracker gpsTracker;
 
     // TODO: Interests Ids for the question and how to post Question Image and get it's Url from
     // server ans place it in postQuestion method in AsyncTask.
@@ -132,123 +140,19 @@ public class PostQuestionFragment extends BaseFragment {
         userName.setText(dekkohUser.getName());
 
         try {
-            GPSTracker gpsTracker = new GPSTracker(activity,
+             gpsTracker = new GPSTracker(activity,
                     dekkohApplication, 5, 1 * 60 * 1000);// Meters : 5 ; Time :
-                                                         // 1*60*1000 - 1min
-            if (gpsTracker.canGetLocation()) {
-                
-                
-                dekkohApplication.updateLocationOfUser(gpsTracker.getLocation());
-                // Acquire a reference to the system Location Manager
-                Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
-                List<Address> addressList = geocoder.getFromLocation(
-                        gpsTracker.getLatitude(), gpsTracker.getLongitude(), 1);
-                if (addressList != null && addressList.size() > 0) {
-                    Address address = addressList.get(0);
-                    
-                    try{
-                        StringBuilder sb1 = new StringBuilder();
-                        for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
-                            if(i!=0){
-                                sb1.append(",").append(address.getAddressLine(i));
-                            }else{
-                                sb1.append(address.getAddressLine(i));
-                            }
-                        }
-                        StringBuilder sb2 = new StringBuilder();
-                        String Locality=address.getLocality();
-                        if(Locality!=null && Locality.compareTo("")!=0){
-                            sb2.append(Locality);
-                        }
-                        
-                        String Country=address.getCountryName();
-                        if(Country!=null && Country.compareTo("")!=0){
-                            sb2.append(","+Country);
-                        }
-                        if(sb2.toString()!=null && sb2.toString().compareTo("")!=0){
-
-                            userLocation.setText(sb2.toString());
-                            //Toast.makeText(mContext, sb2.toString(), Toast.LENGTH_LONG).show();   
-                        }else{
-
-                            userLocation.setText(sb1.toString());
-                            //Toast.makeText(mContext, sb1.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }catch(Exception e){
-                        Toast.makeText(mContext, "Unable to get Location:"+e.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }
-               
-                
-                
-                //Google Map Load
-                
-
-                try {
-                    // Loading map
-                 if (googleMap == null) {
-                        googleMap = ((MapFragment) getActivity().getFragmentManager().findFragmentById(
-                                R.id.post_question_fragment_layout_map)).getMap();
+             locationManager = (LocationManager) activity
+                     .getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);                                    // 1*60*1000 - 1min
+            
              
-                        // check if map is created successfully or not
-                        if (googleMap == null) {
-                            Toast.makeText(getActivity().getApplicationContext(),
-                                    "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                                    .show();
-                        }else{
-                          
-                            
-                          final LatLng latlng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                       Marker self_marker = googleMap.addMarker(new MarkerOptions()
-                           .position(latlng)
-                            .title(userLocation.getText().toString())
-                            .icon(BitmapDescriptorFactory
-                                .fromResource(R.drawable.redlocation_marker)));
-                          self_marker.showInfoWindow();
-                          googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
-                        // googleMap.getUiSettings().setZoomControlsEnabled(false);
-                          googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                          googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
-                        }
-                    }
-         
-                } catch (Exception e) {
-
-                    Toast.makeText(mContext, "Unable to load Map Location", Toast.LENGTH_SHORT).show();
-                }
-                
-                
-                //End Google Map Load
-               
-
-            } else {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-
-                // Setting Dialog Title
-                alertDialog.setTitle("GPS is settings");
-
-                // Setting Dialog Message
-                alertDialog
-                        .setMessage("GPS is not enabled. Do you want to go to settings menu?");
-
-                // On pressing Settings button
-                alertDialog.setPositiveButton("Settings",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                                Intent intent = new Intent(
-                                        Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                mContext.startActivity(intent);
-                               
-                            }
-                        });
-
-               
-
-                // Showing Alert Message
-                alertDialog.show();
-            }
+             
+             
+             
+             
+             
+             gpsAndMapUpdate();
+            
            
         } catch (Exception e) {
 
@@ -296,6 +200,128 @@ public class PostQuestionFragment extends BaseFragment {
 
         return root;
     }
+    
+    public void gpsAndMapUpdate(){
+       try{
+           if (gpsTracker.canGetLocation() && locationManager
+                   .isProviderEnabled(LocationManager.GPS_PROVIDER)==true) {
+               
+               
+               dekkohApplication.updateLocationOfUser(gpsTracker.getLocation());
+               // Acquire a reference to the system Location Manager
+               Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
+               List<Address> addressList = geocoder.getFromLocation(
+                       gpsTracker.getLatitude(), gpsTracker.getLongitude(), 1);
+               if (addressList != null && addressList.size() > 0) {
+                   Address address = addressList.get(0);
+                   
+                   try{
+                       StringBuilder sb1 = new StringBuilder();
+                       for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
+                           if(i!=0){
+                               sb1.append(",").append(address.getAddressLine(i));
+                           }else{
+                               sb1.append(address.getAddressLine(i));
+                           }
+                       }
+                       StringBuilder sb2 = new StringBuilder();
+                       String Locality=address.getLocality();
+                       if(Locality!=null && Locality.compareTo("")!=0){
+                           sb2.append(Locality);
+                       }
+                       
+                       String Country=address.getCountryName();
+                       if(Country!=null && Country.compareTo("")!=0){
+                           sb2.append(","+Country);
+                       }
+                       if(sb2.toString()!=null && sb2.toString().compareTo("")!=0){
+
+                           userLocation.setText(sb2.toString());
+                           //Toast.makeText(mContext, sb2.toString(), Toast.LENGTH_LONG).show();   
+                       }else{
+
+                           userLocation.setText(sb1.toString());
+                           //Toast.makeText(mContext, sb1.toString(), Toast.LENGTH_LONG).show();
+                       }
+                   }catch(Exception e){
+                       Toast.makeText(mContext, "Unable to get Location:"+e.toString(), Toast.LENGTH_LONG).show();
+                   }
+               }
+              
+               
+               
+               //Google Map Load
+               
+
+               try {
+                   // Loading map
+                if (googleMap == null) {
+                       googleMap = ((MapFragment) getActivity().getFragmentManager().findFragmentById(
+                               R.id.post_question_fragment_layout_map)).getMap();
+            
+                       // check if map is created successfully or not
+                       if (googleMap == null) {
+                           Toast.makeText(getActivity().getApplicationContext(),
+                                   "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                                   .show();
+                       }else{
+                         
+                           
+                         final LatLng latlng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                      Marker self_marker = googleMap.addMarker(new MarkerOptions()
+                          .position(latlng)
+                           .title(userLocation.getText().toString())
+                           .icon(BitmapDescriptorFactory
+                               .fromResource(R.drawable.redlocation_marker)));
+                         self_marker.showInfoWindow();
+                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
+                       // googleMap.getUiSettings().setZoomControlsEnabled(false);
+                       //  googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                         googleMap.animateCamera(CameraUpdateFactory.zoomTo(20), 2000, null);
+                       }
+                   }
+        
+               } catch (Exception e) {
+
+                   Toast.makeText(mContext, "Unable to load Map Location", Toast.LENGTH_SHORT).show();
+               }
+               
+               
+               //End Google Map Load
+              
+
+           } else {
+               AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+
+               // Setting Dialog Title
+               alertDialog.setTitle("GPS - settings");
+
+               // Setting Dialog Message
+               alertDialog
+                       .setMessage("GPS is not enabled. Do you want to go to settings menu?");
+
+               // On pressing Settings button
+               alertDialog.setPositiveButton("Settings",
+                       new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int which) {
+                               dialog.cancel();
+                               Intent intent = new Intent(
+                                       Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                               intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                               mContext.startActivity(intent);
+                              
+                           }
+                       });
+
+              
+
+               // Showing Alert Message
+               alertDialog.show();
+           }
+       }catch(Exception e){
+           
+       }
+    }
 
     public void showNoNetToast() {
         Toast.makeText(getActivity().getApplicationContext(),
@@ -331,6 +357,7 @@ public class PostQuestionFragment extends BaseFragment {
         }
 
 }
+
 
 }
 

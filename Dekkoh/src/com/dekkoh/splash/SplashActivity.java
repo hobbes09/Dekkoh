@@ -567,9 +567,9 @@ class LoginTheUser extends AsyncTask<Void, Void, Void> {
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            // Toast.makeText(getApplicationContext(),
-            // "Unable to Login ... Please Try Again.\n"+e.getLocalizedMessage(),
-            // Toast.LENGTH_LONG).show();
+             Toast.makeText(activity.getApplicationContext(),
+             "Unable to Login ... Please Try Again.\n"+e.getLocalizedMessage(),
+             Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
 

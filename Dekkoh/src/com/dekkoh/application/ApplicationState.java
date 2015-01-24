@@ -8,6 +8,11 @@ public class ApplicationState {
     private static int homefeedQuestion_CurrentIndex = -1;
     private final static String questionsFile = "questionsFile";
     private final static String answersFile = "answersFile";
+    private final static String currentUserProfilePicture = "currentUserProfilePicture";
+
+    public static String getCurrentuserprofilepicture() {
+        return currentUserProfilePicture;
+    }
 
     public static String getQuestionsfile() {
         return questionsFile;
