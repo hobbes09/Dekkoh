@@ -57,7 +57,7 @@ public class APIProcessor {
         if (objectId != null) {
             requestJsonObject.put("objectId", objectId);
         } else {
-            requestJsonObject.put("objectId", "uPJgT5nXke");
+            requestJsonObject.put("objectId", "WmVpdpZLer");
         }
         Map<String, String> responseHeaderMap = new HashMap<String, String>();
         String serviceURL = getBaseURL() + APIURL.USER_LOGIN_SUFFIX;
@@ -140,7 +140,7 @@ public class APIProcessor {
         if (objectId != null) {
             requestJsonObject.put("objectId", objectId);
         } else {
-            requestJsonObject.put("objectId", "uPJgT5nXke");
+            requestJsonObject.put("objectId", "WmVpdpZLer");
         }
         Map<String, String> responseHeaderMap = new HashMap<String, String>();
         String serviceURL = getBaseURL() + APIURL.USER_LOGIN_SUFFIX;
