@@ -140,7 +140,7 @@ public class SplashActivity extends BaseActivity {
                 } else {
                     AnimationSet animSet = new AnimationSet(true);
                     TranslateAnimation anim_move = new TranslateAnimation(0, 0,
-                            0, -dpToPx(200));
+                            0, -dpToPx(100));
                     anim_move.setDuration(1000);
                     animSet.addAnimation(anim_move);
                     ScaleAnimation anim_scale = new ScaleAnimation(1f, 0.75f,
