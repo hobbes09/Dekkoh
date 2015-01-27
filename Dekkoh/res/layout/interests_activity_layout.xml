@@ -16,7 +16,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:padding="10dp"
-            android:src="@drawable/ic_menu" />
+            android:src="@drawable/ic_tick" />
 
         <TextView
             android:id="@+id/interests_activity_layout_pick_text"

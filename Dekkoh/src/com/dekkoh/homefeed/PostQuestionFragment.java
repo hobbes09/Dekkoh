@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,11 +15,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.GpsStatus;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -27,11 +27,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +43,9 @@ import com.dekkoh.application.BaseFragment;
 import com.dekkoh.application.DekkohApplication;
 import com.dekkoh.datamodel.DekkohUser;
 import com.dekkoh.gpstracker.GPSTracker;
+import com.dekkoh.map.DekkohMapFragment;
 import com.dekkoh.service.APIProcessor;
+import com.dekkoh.util.Log;
 import com.dekkoh.util.RoundedTransformation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -52,7 +56,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
-public class PostQuestionFragment extends BaseFragment{
+public class PostQuestionFragment extends BaseFragment implements OnClickListener {
 
     private DekkohApplication dekkohApplication;
 
@@ -68,6 +72,8 @@ public class PostQuestionFragment extends BaseFragment{
     private TextView userLocation;
     private EditText userQuestion;
     
+    private boolean paused=false;
+    
     GoogleMap googleMap;
     
     LocationManager locationManager;
@@ -81,9 +87,10 @@ public class PostQuestionFragment extends BaseFragment{
     // TODO: Interests Ids for the question and how to post Question Image and get it's Url from
     // server ans place it in postQuestion method in AsyncTask.
 
-    // Button to be replaced by action bar icon click for post question
-    private Button postQuestion;
-    private Button selectImage;
+   
+    private ImageButton postQuestion;
+    private ImageButton ibMap;
+    private ImageButton selectImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,6 +99,9 @@ public class PostQuestionFragment extends BaseFragment{
 
         // Context
         mContext = getActivity().getApplicationContext();
+        
+        //customize action bar
+        customizeActionBar();
 
         // getting Application
         dekkohApplication = (DekkohApplication) getActivity().getApplication();
@@ -110,8 +120,7 @@ public class PostQuestionFragment extends BaseFragment{
                 .findViewById(R.id.post_question_fragment_userQuestionEditText);
         googleMapFragmentHolder = (View)root.findViewById(R.id.post_question_fragment_layout_map);
         
-        postQuestion = (Button) root.findViewById(R.id.post_question_fragment_postbutton);
-        selectImage = (Button)root.findViewById(R.id.post_question_fragment_selectimagebutton);
+       
         
         // Loading Image of user Profile Picture
         if (dekkohUser.getProfilePic() != null) {
@@ -140,16 +149,10 @@ public class PostQuestionFragment extends BaseFragment{
         userName.setText(dekkohUser.getName());
 
         try {
-             gpsTracker = new GPSTracker(activity,
-                    dekkohApplication, 5, 1 * 60 * 1000);// Meters : 5 ; Time :
+             
              locationManager = (LocationManager) activity
                      .getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);                                    // 1*60*1000 - 1min
             
-             
-             
-             
-             
-             
              
              gpsAndMapUpdate();
             
@@ -160,49 +163,35 @@ public class PostQuestionFragment extends BaseFragment{
             
         }
 
-        postQuestion.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Bitmap userQuestionImageToPostToDekkohServer=null;
-                if(userQuestionImage.isShown()){
-                    userQuestionImage.buildDrawingCache();
-                     userQuestionImageToPostToDekkohServer = userQuestionImage.getDrawingCache();
-                }else if(googleMapFragmentHolder.isShown()){
-                    googleMapFragmentHolder.buildDrawingCache();
-                    userQuestionImageToPostToDekkohServer = googleMapFragmentHolder.getDrawingCache();
-                }
-                
-                
-                if (userQuestion.getText().toString().compareTo("") != 0) {
-                    postQuestion.setText("Posting...");
-                    new PostQuestion(PostQuestionFragment.this, userQuestion.getText().toString(),
-                            dekkohUser.getDekkohUserID(), userLocation.getText().toString(), String
-                                    .valueOf(dekkohApplication.getLocationLatitude()), String
-                                    .valueOf(dekkohApplication.getLocationLongitude()), dekkohUser
-                                    .getProfilePic(), "5462071f6666f6f29891f0000").execute();
-                }
-            }
-        });
-        
-        
-        selectImage.setOnClickListener(new View.OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Intent i = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(i, RESULT_LOAD_IMAGE);
-            }
-        });
-
         return root;
     }
     
+    private void customizeActionBar() {
+     //   getActivity().getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+        getActivity().getActionBar().setBackgroundDrawable(
+                new ColorDrawable(Color.parseColor("#00000000")));
+        ActionBar actionBar = getActivity().getActionBar();
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        View mCustomView = layoutInflater.inflate(R.layout.actionbar_post_question_fragment,
+                null);
+        actionBar.setCustomView(mCustomView);
+        actionBar.setDisplayShowCustomEnabled(true);
+        
+        selectImage = (ImageButton)mCustomView.findViewById(R.id.selectImage_postQuestionFragment_actionbar);
+        ibMap = (ImageButton)mCustomView.findViewById(R.id.iMap_postQuestionFragment_actionbar);
+        postQuestion = (ImageButton) mCustomView.findViewById(R.id.postQuestion_postQuestionFragment_actionbar);
+        
+        selectImage.setOnClickListener(this);
+        ibMap.setOnClickListener(this);
+        postQuestion.setOnClickListener(this);
+    }
+    
+    
+    
     public void gpsAndMapUpdate(){
        try{
+           gpsTracker = new GPSTracker(activity,
+                   dekkohApplication, 5, 1 * 60 * 1000);// Meters : 5 ; Time :
            if (gpsTracker.canGetLocation() && locationManager
                    .isProviderEnabled(LocationManager.GPS_PROVIDER)==true) {
                
@@ -234,7 +223,7 @@ public class PostQuestionFragment extends BaseFragment{
                        if(Country!=null && Country.compareTo("")!=0){
                            sb2.append(","+Country);
                        }
-                       if(sb2.toString()!=null && sb2.toString().compareTo("")!=0){
+                       if(sb2.toString()!=null && sb2.toString().compareTo("")!=0 && sb2.charAt(0)!=','){
 
                            userLocation.setText(sb2.toString());
                            //Toast.makeText(mContext, sb2.toString(), Toast.LENGTH_LONG).show();   
@@ -259,6 +248,7 @@ public class PostQuestionFragment extends BaseFragment{
                        googleMap = ((MapFragment) getActivity().getFragmentManager().findFragmentById(
                                R.id.post_question_fragment_layout_map)).getMap();
             
+                }
                        // check if map is created successfully or not
                        if (googleMap == null) {
                            Toast.makeText(getActivity().getApplicationContext(),
@@ -279,7 +269,7 @@ public class PostQuestionFragment extends BaseFragment{
                        //  googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                          googleMap.animateCamera(CameraUpdateFactory.zoomTo(20), 2000, null);
                        }
-                   }
+                   
         
                } catch (Exception e) {
 
@@ -329,7 +319,6 @@ public class PostQuestionFragment extends BaseFragment{
     }
 
     public void showSuccessToast() {
-        postQuestion.setText("Success!");
         Toast.makeText(getActivity().getApplicationContext(), "Posted Successfully",
                 Toast.LENGTH_LONG).show();
     }
@@ -357,6 +346,62 @@ public class PostQuestionFragment extends BaseFragment{
         }
 
 }
+    
+    @Override
+    public void onResume(){
+      //  Toast.makeText(mContext, "Resumed", Toast.LENGTH_LONG).show();
+        if(paused==true){
+            paused=false;
+            gpsAndMapUpdate();
+        }
+        Log.e("Post Question Fragment", "Resumed");
+        super.onResume();
+    }
+    
+    @Override
+    public void onPause(){
+        Log.e("Post Question Fragment", "Paused");
+       // Toast.makeText(mContext, "Paused", Toast.LENGTH_LONG).show();
+        paused=true;
+        super.onPause();
+    }
+
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        switch (v.getId()) {
+            case R.id.iMap_postQuestionFragment_actionbar:
+                Fragment dekkohMapFragment = new DekkohMapFragment();
+                fragmentManager.beginTransaction()
+                .replace(R.id.contentHomeActivity, dekkohMapFragment).commit();
+                break;
+            case R.id.postQuestion_postQuestionFragment_actionbar:
+                Bitmap userQuestionImageToPostToDekkohServer=null;
+                if(userQuestionImage.isShown()){
+                    userQuestionImage.buildDrawingCache();
+                     userQuestionImageToPostToDekkohServer = userQuestionImage.getDrawingCache();
+                }else if(googleMapFragmentHolder.isShown()){
+                    googleMapFragmentHolder.buildDrawingCache();
+                    userQuestionImageToPostToDekkohServer = googleMapFragmentHolder.getDrawingCache();
+                }
+                
+                
+                if (userQuestion.getText().toString().compareTo("") != 0) {
+                    new PostQuestion(PostQuestionFragment.this, userQuestion.getText().toString(),
+                            dekkohUser.getDekkohUserID(), userLocation.getText().toString(), String
+                                    .valueOf(dekkohApplication.getLocationLatitude()), String
+                                    .valueOf(dekkohApplication.getLocationLongitude()), dekkohUser
+                                    .getProfilePic(), "5462071f6666f6f29891f0000").execute();
+                }
+                break;
+            case R.id.selectImage_postQuestionFragment_actionbar:
+                Intent i = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(i, RESULT_LOAD_IMAGE);
+                break;
+        }
+
+    }
 
 
 }

@@ -183,31 +183,7 @@
                 android:padding="10dp"
                 android:textColor="#000000" />
 
-            <!-- Post Button to be removed when sourin adds action bar -->
-
-            <Button
-                android:id="@+id/post_answer_fragment_postbutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_margin="10dp"
-                android:background="#000000"
-                android:padding="5dp"
-                android:text="Post Answer"
-                android:textColor="#ffffff" />
-            
-            <Button
-                android:id="@+id/post_answer_fragment_selectimage"
-                android:layout_toLeftOf="@id/post_answer_fragment_postbutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="10dp"
-                android:background="#000000"
-                android:padding="5dp"
-                android:text="Select Image"
-                android:textColor="#ffffff" />
+           
         </RelativeLayout>
     </RelativeLayout>
 

@@ -45,6 +45,7 @@ import com.dekkoh.service.APIProcessor;
 import com.dekkoh.slidingmenu.NavDrawerItem;
 import com.dekkoh.slidingmenu.NavDrawerListAdapter;
 import com.dekkoh.util.FileManager;
+import com.dekkoh.util.Log;
 
 public class HomeScreen extends BaseFragmentActivity implements OnClickListener {
     private ImageButton ibPost;
@@ -391,6 +392,18 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View view = inflate.inflate(R.layout.question_fragment, null);
 
+    }
+    
+    @Override
+    public void onResume(){
+        Log.e("Home Screen", "Resumed");
+        super.onResume();
+    }
+    
+    @Override
+    public void onPause(){
+        Log.e("Home Screen", "Paused");
+        super.onPause();
     }
 
 }

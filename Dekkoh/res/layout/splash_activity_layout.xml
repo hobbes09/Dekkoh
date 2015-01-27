@@ -11,6 +11,7 @@
     tools:context="com.dekkoh.splash.SplashActivity" >
 
     <!-- TODO: Update with Dekkoh Logo -->
+   
 
     <ImageView
         android:id="@+id/splash_activity_layout_logo_image"
@@ -19,23 +20,15 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:src="@drawable/splash_app_logo" />
-
-    <RelativeLayout
-        android:id="@+id/splash_activity_layout_logo_holder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:paddingBottom="@dimen/dimen_between_center_of_screen_and_text" >
-
+ 
         <ImageView
             android:id="@+id/splash_activity_layout_app_name"
             android:layout_width="300dp"
             android:layout_height="50dp"
-            android:layout_marginTop="@dimen/dimen_between_logo_and_text"
             android:src="@drawable/splash_app_title"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:visibility="invisible" />
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/splash_activity_layout_login_options_holder"
@@ -53,7 +46,9 @@
             android:layout_centerHorizontal="true"
             android:text="@string/connect_with"
             android:textAppearance="?android:textAppearanceLarge"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="invisible"
+             />
 
         <LinearLayout
             android:id="@+id/splash_activity_layout_login_button_holder"
