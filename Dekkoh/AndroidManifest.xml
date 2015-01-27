@@ -75,6 +75,8 @@
 
         <activity android:name=".myprofile.MyProfileActivity" >
         </activity>
+        <activity android:name=".myconnections.MyConnectionsActivity" >
+        </activity>
     </application>
 
 </manifest>

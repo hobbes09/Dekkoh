@@ -416,11 +416,11 @@ public class APIProcessor {
      * @throws Exception
      */
     public static List<DekkohUserConnection> getUserConnections(
-            Activity activity, String user_id) throws Exception {
+            Activity activity) throws Exception {
         Map<String, String> requestHeader = getJSONRequestHeader(getAuthorizationToken(activity));
-        requestHeader.put("user_id", user_id);
+        requestHeader.put("user_id", getUserId(activity));
         String serviceURL = getBaseURL() + APIURL.USER_CONNECTIONS_SUFFIX
-                + user_id;
+                + getUserId(activity);
         String responseString = HTTPRequestHelper.processGetRequest(serviceURL,
                 requestHeader);
         if (TextUtils.isEmpty(responseString)) {

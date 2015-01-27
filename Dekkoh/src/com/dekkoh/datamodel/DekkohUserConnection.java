@@ -2,7 +2,13 @@
 package com.dekkoh.datamodel;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import android.text.TextUtils;
+
+import com.dekkoh.util.Log;
 import com.google.gson.annotations.SerializedName;
 
 public class DekkohUserConnection implements Serializable {
@@ -15,6 +21,7 @@ public class DekkohUserConnection implements Serializable {
     private boolean delete_flg;
     private ConnectionID _id;
     private UserID user_id;
+    private Date date;
 
     /**
      * @return the connection_id
@@ -179,6 +186,38 @@ public class DekkohUserConnection implements Serializable {
          */
         public void setUserID(String userID) {
             this.userID = userID;
+        }
+
+    }
+
+    public Date getDate() {
+        if (date == null) {
+            SimpleDateFormat simpleDateFormatter = new SimpleDateFormat(
+                    "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            try {
+                if (TextUtils.isEmpty(updated_at))
+                    this.date = simpleDateFormatter.parse(created_at);
+                else
+                    this.date = simpleDateFormatter.parse(updated_at);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Log.e(e);
+            }
+        }
+        return date;
+    }
+
+    /**
+     * @param date the date to set
+     */
+    public void setDate(String created_at) {
+        SimpleDateFormat simpleDateFormatter = new SimpleDateFormat(
+                "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        try {
+            this.date = simpleDateFormatter.parse(created_at);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Log.e(e);
         }
 
     }
