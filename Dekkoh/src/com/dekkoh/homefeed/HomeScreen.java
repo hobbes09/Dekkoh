@@ -30,7 +30,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dekkoh.R;
 import com.dekkoh.application.ApplicationState;
@@ -38,8 +37,8 @@ import com.dekkoh.application.BaseFragmentActivity;
 import com.dekkoh.datamodel.Question;
 import com.dekkoh.following.Following;
 import com.dekkoh.map.DekkohMapFragment;
-import com.dekkoh.messages.Messages;
 import com.dekkoh.myactivity.MyActivity;
+import com.dekkoh.myconnections.MyConnectionsActivity;
 import com.dekkoh.myprofile.MyProfileActivity;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.slidingmenu.NavDrawerItem;
@@ -267,7 +266,8 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
                 fragment = new Following();
                 break;
             case 5:
-                fragment = new Messages();
+                Intent connectionsIntent = new Intent(this, MyConnectionsActivity.class);
+                startActivity(connectionsIntent);
                 break;
             case 6:
                 fragment  =  new DekkohMapFragment();
