@@ -172,7 +172,7 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
                 new ColorDrawable(Color.parseColor("#00000000")));
         ActionBar actionBar = getActivity().getActionBar();
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-        View mCustomView = layoutInflater.inflate(R.layout.actionbar_post_question_fragment,
+        View mCustomView = layoutInflater.inflate(R.layout.action_bar_post_question_fragment,
                 null);
         actionBar.setCustomView(mCustomView);
         actionBar.setDisplayShowCustomEnabled(true);

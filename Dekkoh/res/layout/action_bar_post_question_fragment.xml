@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="#000000ff" >
+
+    <TextView
+        android:id="@+id/tvTitle_postquestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:text="Dekkoh" />
+
+    <LinearLayout 
+          android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:orientation="horizontal"
+        >
+         <ImageButton
+        android:id="@+id/selectImage_postQuestionFragment_actionbar"
+      android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+        android:src="@drawable/ic_attachment" 
+        android:layout_marginRight="4dp"
+        />
+         <ImageButton
+        android:id="@+id/iMap_postQuestionFragment_actionbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+        android:src="@drawable/ic_map" 
+        android:layout_marginRight="4dp"
+        />
+        
+        <ImageButton
+        android:id="@+id/postQuestion_postQuestionFragment_actionbar"
+      android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:scaleX="0.75"
+        android:scaleY="0.75"
+        android:src="@drawable/ic_post" />
+
+   
+    </LinearLayout>
+
+    
+
+</RelativeLayout>
