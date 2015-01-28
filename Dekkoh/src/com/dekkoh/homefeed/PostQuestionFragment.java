@@ -92,6 +92,22 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
     private ImageButton ibMap;
     private ImageButton selectImage;
 
+    private Double latitude,longitude;
+    private String changedAddressByUser="";
+    private boolean addressChanged=false;
+    
+    public PostQuestionFragment(){
+        
+    }
+    
+    public PostQuestionFragment(Double latitude,Double longitude,boolean addressChanged,String changedAddress){
+        this.latitude=latitude;
+        this.longitude=longitude;
+        this.addressChanged=addressChanged;
+        this.changedAddressByUser=changedAddress;
+    }
+    
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -190,6 +206,7 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
     
     public void gpsAndMapUpdate(){
        try{
+           if(addressChanged==false){
            gpsTracker = new GPSTracker(activity,
                    dekkohApplication, 5, 1 * 60 * 1000);// Meters : 5 ; Time :
            if (gpsTracker.canGetLocation() && locationManager
@@ -255,7 +272,7 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
                                    "Sorry! unable to create maps", Toast.LENGTH_SHORT)
                                    .show();
                        }else{
-                         
+                           googleMap.clear();
                            
                          final LatLng latlng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                       Marker self_marker = googleMap.addMarker(new MarkerOptions()
@@ -307,6 +324,45 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
 
                // Showing Alert Message
                alertDialog.show();
+           }
+           }else if(addressChanged==true){
+               //Google Map Load
+               
+
+               try {
+                   // Loading map
+                   userLocation.setText(changedAddressByUser);
+                if (googleMap == null) {
+                       googleMap = ((MapFragment) getActivity().getFragmentManager().findFragmentById(
+                               R.id.post_question_fragment_layout_map)).getMap();
+                }
+                       // check if map is created successfully or not
+                       if (googleMap == null) {
+                           Toast.makeText(getActivity().getApplicationContext(),
+                                   "Sorry! unable to create maps", Toast.LENGTH_SHORT)
+                                   .show();
+                       }else{
+                         
+                           googleMap.clear();
+                         final LatLng latlng = new LatLng(latitude, longitude);
+                      Marker self_marker = googleMap.addMarker(new MarkerOptions()
+                          .position(latlng)
+                           .title(userLocation.getText().toString())
+                           .icon(BitmapDescriptorFactory
+                               .fromResource(R.drawable.redlocation_marker)));
+                         self_marker.showInfoWindow();
+                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
+                      // googleMap.getUiSettings().setZoomControlsEnabled(false);
+                       //  googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                         googleMap.animateCamera(CameraUpdateFactory.zoomTo(20), 2000, null);
+                       }
+                   
+        
+               } catch (Exception e) {
+
+                   Toast.makeText(mContext, "Unable to load Map Location", Toast.LENGTH_SHORT).show();
+               }
+
            }
        }catch(Exception e){
            
