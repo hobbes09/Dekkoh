@@ -35,6 +35,8 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,6 +73,11 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
     private TextView userName;
     private TextView userLocation;
     private EditText userQuestion;
+    private LinearLayout userNameAndLocationHolder;
+    private ImageView editAddress;
+    private LinearLayout editTextForAddressHolder;
+    private ImageView tickForAddressChanged;
+    private EditText editTextForUserAddress;
     
     private boolean paused=false;
     
@@ -135,8 +142,14 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
         userQuestion = (EditText) root
                 .findViewById(R.id.post_question_fragment_userQuestionEditText);
         googleMapFragmentHolder = (View)root.findViewById(R.id.post_question_fragment_layout_map);
+        userNameAndLocationHolder = (LinearLayout)root.findViewById(R.id.userNameAndLocationHolderPostQuestion);
+        editAddress = (ImageView)root.findViewById(R.id.post_question_fragment_userEditIcon);
+        editTextForAddressHolder = (LinearLayout)root.findViewById(R.id.userLocationEditTextHolderPostQuestion);
+        tickForAddressChanged = (ImageView)root.findViewById(R.id.continueAfterUserAddressChangePostQuetion);
+        editTextForUserAddress = (EditText) root.findViewById(R.id.editTextForUserAddressEditPostQuestion);
         
-       
+        editAddress.setOnClickListener(this);
+        tickForAddressChanged.setOnClickListener(this);
         
         // Loading Image of user Profile Picture
         if (dekkohUser.getProfilePic() != null) {
@@ -162,7 +175,7 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
                     .into(userProfilePic);
         }
 
-        userName.setText(dekkohUser.getName());
+        userName.setText(dekkohUser.getName().split(" ")[0]);
 
         try {
              
@@ -455,8 +468,48 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(i, RESULT_LOAD_IMAGE);
                 break;
+            case R.id.post_question_fragment_userEditIcon:
+                userNameAndLocationHolder.setVisibility(View.GONE);
+                editTextForAddressHolder.setVisibility(View.VISIBLE);
+                break;
+            case R.id.continueAfterUserAddressChangePostQuetion:
+                if(editTextForUserAddress.getText().toString().replaceAll("\\s+", "").compareTo("")==0){
+                    userNameAndLocationHolder.setVisibility(View.VISIBLE);
+                    editTextForAddressHolder.setVisibility(View.GONE);
+                }else{
+                    userAddressChangedUpdateUi();
+                }
+                break;
         }
 
+    }
+    
+    public void userAddressChangedUpdateUi(){
+        userNameAndLocationHolder.setVisibility(View.VISIBLE);
+        editTextForAddressHolder.setVisibility(View.GONE);
+        Geocoder coder = new Geocoder(this.getActivity());
+        List<Address> address;
+      
+
+        try {
+            address = coder.getFromLocationName(editTextForUserAddress.getText().toString(),5);
+            if (address == null) {
+               
+            }
+            Address location = address.get(0);
+            if(location!=null ){
+                location.getLatitude();
+                location.getLongitude();
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+                addressChanged=true;
+                changedAddressByUser = editTextForUserAddress.getText().toString();
+                gpsAndMapUpdate();
+                userLocation.setText(changedAddressByUser);
+            }
+        }catch(Exception e){
+            
+        }
     }
 
 

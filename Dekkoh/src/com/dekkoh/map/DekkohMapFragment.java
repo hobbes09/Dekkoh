@@ -42,7 +42,8 @@ public class DekkohMapFragment extends BaseFragment {
     private HashMap<Marker, Question> mMarkersHashMap;
     private ImageFetcher imageFetcher;
     private static final String IMAGE_CACHE_DIR = ".gallery/cache";
-
+   
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.dekkoh_map_fragment_layout, container, false);

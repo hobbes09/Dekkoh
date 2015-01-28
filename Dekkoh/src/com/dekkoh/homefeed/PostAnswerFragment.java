@@ -30,11 +30,13 @@ import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,6 +74,11 @@ public class PostAnswerFragment extends BaseFragment implements OnClickListener{
     private TextView userLocation, questionAskerLocation;
     private TextView questionAskerQuestion;
     private EditText userAnswer;
+    private RelativeLayout userNameAndLocationHolder;
+    private ImageView editAddress;
+    private LinearLayout editTextForAddressHolder;
+    private EditText editTextForUserAddress;
+    private ImageView tickForAddressChanged;
 
     // Data that should be grought here via bundle
     private String questionAskerUserName, questionAskerUserProfilePicUrl,
@@ -153,6 +160,15 @@ public class PostAnswerFragment extends BaseFragment implements OnClickListener{
         questionAskerQuestion = (TextView) root.findViewById(R.id.post_answer_fragment_question);
 
         googleMapFragmentHolder = (View)root.findViewById(R.id.post_answer_fragment_layout_map);
+        userNameAndLocationHolder = (RelativeLayout)root.findViewById(R.id.userNameAndLocationHolderPostAnswer);
+        editAddress = (ImageView)root.findViewById(R.id.post_answer_fragment_userEditIcon);
+        editTextForAddressHolder = (LinearLayout)root.findViewById(R.id.userLocationEditTextHolderPostQuestion);
+        tickForAddressChanged = (ImageView)root.findViewById(R.id.continueAfterUserAddressChangePostAnswer);
+        editTextForUserAddress = (EditText) root.findViewById(R.id.editTextForUserAddressEditPostQuestion);
+        
+        editAddress.setOnClickListener(this);
+        tickForAddressChanged.setOnClickListener(this);
+        
         
         
         // Set Question Asker's textviews and stuff
@@ -205,7 +221,7 @@ public class PostAnswerFragment extends BaseFragment implements OnClickListener{
                     .into(userProfilePic);
         }
 
-        userName.setText(dekkohUser.getName());
+        userName.setText(dekkohUser.getName().split(" ")[0]);
 
         try {
                                                         // 1*60*1000 - 1min
@@ -499,10 +515,50 @@ public class PostAnswerFragment extends BaseFragment implements OnClickListener{
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         startActivityForResult(i, RESULT_LOAD_IMAGE);
                 break;
+            case R.id.post_answer_fragment_userEditIcon:
+                userNameAndLocationHolder.setVisibility(View.GONE);
+                editTextForAddressHolder.setVisibility(View.VISIBLE);
+                break;
+            case R.id.continueAfterUserAddressChangePostAnswer:
+                if(editTextForUserAddress.getText().toString().replaceAll("\\s+", "").compareTo("")==0){
+                    userNameAndLocationHolder.setVisibility(View.VISIBLE);
+                    editTextForAddressHolder.setVisibility(View.GONE);
+                }else{
+                    userAddressChangedUpdateUi();
+                }
+                break;
         }
     }
 
-    
+         public void userAddressChangedUpdateUi(){
+             userNameAndLocationHolder.setVisibility(View.VISIBLE);
+             editTextForAddressHolder.setVisibility(View.GONE);
+             Geocoder coder = new Geocoder(this.getActivity());
+             List<Address> address;
+           
+
+             try {
+                 address = coder.getFromLocationName(editTextForUserAddress.getText().toString(),5);
+                 if (address == null) {
+                    
+                 }
+                 Address location = address.get(0);
+                 if(location!=null ){
+                     location.getLatitude();
+                     location.getLongitude();
+                     latitude = location.getLatitude();
+                     longitude = location.getLongitude();
+                     addressChanged=true;
+                     changedAddressByUser = editTextForUserAddress.getText().toString();
+                     gpsnMapUpdate();
+                     userLocation.setText(changedAddressByUser);
+                 }
+             }catch(Exception e){
+                 
+             }
+                
+                
+            }
 
 
 }

@@ -3,6 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    
+    <RelativeLayout 
+        android:id="@+id/layoutForAddressEditingByUserDekkohMap"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        >
+        <ImageButton
+            android:id="@+id/contiueButtonUserAddressChangeDekkohMap"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:src="@drawable/ic_tick"
+            android:layout_alignParentRight="true"
+	        android:scaleX="0.75"
+	        android:scaleY="0.75"
+	        android:background="@null"
+            android:padding="5dp"
+            />
+        
+        <EditText 
+            android:id="@+id/userAddressEditTextDekkohMapFragment"
+            android:layout_toLeftOf="@id/contiueButtonUserAddressChangeDekkohMap"
+            android:layout_alignTop="@id/contiueButtonUserAddressChangeDekkohMap"
+            android:layout_alignBottom="@id/contiueButtonUserAddressChangeDekkohMap"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:ems="10"
+            android:textColor="#000000"
+            android:hint="Enter Street,City,State"
+            />
+        
+    </RelativeLayout>
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/dekkohMapView"
