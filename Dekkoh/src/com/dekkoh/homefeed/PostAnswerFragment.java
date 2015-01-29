@@ -413,7 +413,7 @@ public class PostAnswerFragment extends BaseFragment implements OnClickListener{
                                 .fromResource(R.drawable.redlocation_marker)));
                           self_marker.showInfoWindow();
                           googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
-                       // googleMap.getUiSettings().setZoomControlsEnabled(false);
+                        googleMap.getUiSettings().setZoomControlsEnabled(false);
                         //  googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
                           googleMap.animateCamera(CameraUpdateFactory.zoomTo(20), 2000, null);
                         }
