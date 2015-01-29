@@ -86,9 +86,8 @@ public class PostAnswerFragment extends BaseFragment implements OnClickListener{
     
     private boolean paused=false;
 
-    private ImageButton postAnswer;
-    private ImageButton ibMap;
-    private ImageButton selectImage;
+    private ImageView postAnswer;
+    private ImageView selectImage;
     
     GoogleMap googleMap;
     
@@ -256,12 +255,10 @@ public class PostAnswerFragment extends BaseFragment implements OnClickListener{
            actionBar.setCustomView(mCustomView);
            actionBar.setDisplayShowCustomEnabled(true);
            
-           selectImage = (ImageButton)mCustomView.findViewById(R.id.selectImage_postQuestionFragment_actionbar);
-           ibMap = (ImageButton)mCustomView.findViewById(R.id.iMap_postQuestionFragment_actionbar);
-           postAnswer = (ImageButton) mCustomView.findViewById(R.id.postQuestion_postQuestionFragment_actionbar);
+           selectImage = (ImageView)mCustomView.findViewById(R.id.selectImage_postQuestionFragment_actionbar);
+           postAnswer = (ImageView) mCustomView.findViewById(R.id.postQuestion_postQuestionFragment_actionbar);
            
            selectImage.setOnClickListener(this);
-           ibMap.setOnClickListener(this);
            postAnswer.setOnClickListener(this);
        }
        
@@ -344,9 +341,9 @@ public class PostAnswerFragment extends BaseFragment implements OnClickListener{
                                     .fromResource(R.drawable.redlocation_marker)));
                               self_marker.showInfoWindow();
                               googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
-                           // googleMap.getUiSettings().setZoomControlsEnabled(false);
+                            googleMap.getUiSettings().setZoomControlsEnabled(false);
                             //  googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                              googleMap.animateCamera(CameraUpdateFactory.zoomTo(20), 2000, null);
+                              googleMap.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
                             }
                         
              
@@ -415,7 +412,7 @@ public class PostAnswerFragment extends BaseFragment implements OnClickListener{
                           googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
                         googleMap.getUiSettings().setZoomControlsEnabled(false);
                         //  googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                          googleMap.animateCamera(CameraUpdateFactory.zoomTo(20), 2000, null);
+                          googleMap.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
                         }
                     
          
@@ -487,11 +484,6 @@ public class PostAnswerFragment extends BaseFragment implements OnClickListener{
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
-            case R.id.iMap_postQuestionFragment_actionbar:
-                Fragment dekkohMapFragment = new DekkohMapFragment();
-                fragmentManager.beginTransaction()
-                .replace(R.id.contentHomeActivity, dekkohMapFragment).commit();
-                break;
             case R.id.postQuestion_postQuestionFragment_actionbar:
                 Bitmap userQuestionImageToPostToDekkohServer=null;
                 if(userAnswerImage.isShown()){

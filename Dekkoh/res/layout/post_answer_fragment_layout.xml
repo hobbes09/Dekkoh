@@ -190,6 +190,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                    android:text=""
+                    android:ellipsize="end"
+                    android:lines="1"
                     android:textColor="#000000"
                     android:textStyle="bold" />
                     
@@ -230,6 +232,7 @@
                    android:lines="1"
                    android:ellipsize="end"
                    android:layout_weight="7"
+                   android:textCursorDrawable="@null"
                    />
              
            </LinearLayout>
@@ -244,7 +247,9 @@
                 android:gravity="left|top"
                 android:hint="Type Your Answer..."
                 android:padding="10dp"
-                android:textColor="#000000" />
+                android:textColor="#000000" 
+                android:textCursorDrawable="@null"
+                />
 
            
         </RelativeLayout>

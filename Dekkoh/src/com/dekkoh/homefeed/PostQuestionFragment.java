@@ -73,7 +73,7 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
     private TextView userName;
     private TextView userLocation;
     private EditText userQuestion;
-    private LinearLayout userNameAndLocationHolder;
+    private RelativeLayout userNameAndLocationHolder;
     private ImageView editAddress;
     private LinearLayout editTextForAddressHolder;
     private ImageView tickForAddressChanged;
@@ -95,9 +95,8 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
     // server ans place it in postQuestion method in AsyncTask.
 
    
-    private ImageButton postQuestion;
-    private ImageButton ibMap;
-    private ImageButton selectImage;
+    private ImageView postQuestion;
+   private ImageView selectImage;
 
     private Double latitude,longitude;
     private String changedAddressByUser="";
@@ -142,7 +141,7 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
         userQuestion = (EditText) root
                 .findViewById(R.id.post_question_fragment_userQuestionEditText);
         googleMapFragmentHolder = (View)root.findViewById(R.id.post_question_fragment_layout_map);
-        userNameAndLocationHolder = (LinearLayout)root.findViewById(R.id.userNameAndLocationHolderPostQuestion);
+        userNameAndLocationHolder = (RelativeLayout)root.findViewById(R.id.userNameAndLocationHolderPostQuestion);
         editAddress = (ImageView)root.findViewById(R.id.post_question_fragment_userEditIcon);
         editTextForAddressHolder = (LinearLayout)root.findViewById(R.id.userLocationEditTextHolderPostQuestion);
         tickForAddressChanged = (ImageView)root.findViewById(R.id.continueAfterUserAddressChangePostQuetion);
@@ -206,12 +205,10 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
         actionBar.setCustomView(mCustomView);
         actionBar.setDisplayShowCustomEnabled(true);
         
-        selectImage = (ImageButton)mCustomView.findViewById(R.id.selectImage_postQuestionFragment_actionbar);
-        ibMap = (ImageButton)mCustomView.findViewById(R.id.iMap_postQuestionFragment_actionbar);
-        postQuestion = (ImageButton) mCustomView.findViewById(R.id.postQuestion_postQuestionFragment_actionbar);
+        selectImage = (ImageView)mCustomView.findViewById(R.id.selectImage_postQuestionFragment_actionbar);
+        postQuestion = (ImageView) mCustomView.findViewById(R.id.postQuestion_postQuestionFragment_actionbar);
         
         selectImage.setOnClickListener(this);
-        ibMap.setOnClickListener(this);
         postQuestion.setOnClickListener(this);
     }
     
@@ -244,22 +241,40 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
                            }
                        }
                        StringBuilder sb2 = new StringBuilder();
-                       String Locality=address.getLocality();
-                       if(Locality!=null && Locality.compareTo("")!=0){
-                           sb2.append(Locality);
+                       String sub_admin_area = address.getSubAdminArea();
+                       if(sub_admin_area!=null && sub_admin_area.compareTo("")!=0){
+                           sb2.append(sub_admin_area);
+                       }else{
+                            sub_admin_area = address.getSubLocality();
+                           if(sub_admin_area!=null && sub_admin_area.compareTo("")!=0){
+                               sb2.append(sub_admin_area);
+                           }   
                        }
                        
-                       String Country=address.getCountryName();
-                       if(Country!=null && Country.compareTo("")!=0){
-                           sb2.append(","+Country);
+                       
+                       String Locality=address.getLocality();
+                       if(Locality!=null && Locality.compareTo("")!=0){
+                           if(sb2.length()>0){
+                               sb2.append(","+Locality);
+                           }else{
+                               sb2.append(Locality);
+                           }
                        }
-                       if(sb2.toString()!=null && sb2.toString().compareTo("")!=0 && sb2.charAt(0)!=','){
+                       
+                      
+                       if(sb2.toString()!=null && sb2.toString().compareTo("")!=0){
 
+                           int flag=0;
+                           while(sb2.charAt(0)==',' && flag<4){
+                               sb2.deleteCharAt(0);
+                               flag++;
+                           }
                            userLocation.setText(sb2.toString());
                            //Toast.makeText(mContext, sb2.toString(), Toast.LENGTH_LONG).show();   
                        }else{
 
-                           userLocation.setText(sb1.toString());
+                           
+                           userLocation.setText(sb1.toString().replaceAll("[^A-Za-z]",""));
                            //Toast.makeText(mContext, sb1.toString(), Toast.LENGTH_LONG).show();
                        }
                    }catch(Exception e){
@@ -297,7 +312,7 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
                          googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
                         googleMap.getUiSettings().setZoomControlsEnabled(false);
                        //  googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                         googleMap.animateCamera(CameraUpdateFactory.zoomTo(20), 2000, null);
+                         googleMap.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
                        }
                    
         
@@ -367,7 +382,7 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
                          googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
                       // googleMap.getUiSettings().setZoomControlsEnabled(false);
                        //  googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                         googleMap.animateCamera(CameraUpdateFactory.zoomTo(20), 2000, null);
+                         googleMap.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
                        }
                    
         
@@ -439,11 +454,6 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
-            case R.id.iMap_postQuestionFragment_actionbar:
-                Fragment dekkohMapFragment = new DekkohMapFragment();
-                fragmentManager.beginTransaction()
-                .replace(R.id.contentHomeActivity, dekkohMapFragment).commit();
-                break;
             case R.id.postQuestion_postQuestionFragment_actionbar:
                 Bitmap userQuestionImageToPostToDekkohServer=null;
                 if(userQuestionImage.isShown()){
