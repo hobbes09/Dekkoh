@@ -50,6 +50,7 @@ import com.dekkoh.myprofile.MyProfileActivity;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.slidingmenu.NavDrawerItem;
 import com.dekkoh.slidingmenu.NavDrawerListAdapter;
+import com.dekkoh.util.CommonUtils;
 import com.dekkoh.util.FileManager;
 import com.dekkoh.util.FlipAnimator;
 import com.dekkoh.util.Log;
@@ -173,6 +174,8 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 
         question = QuestionContentManager.getNextQuestion();
         instanceState = savedInstanceState;
+        
+        setQuestionViewValues();
 
         navigationDrawerInitialisation(savedInstanceState);
     }
@@ -437,6 +440,25 @@ private void initializeInterationListeners(final View viewFront) {
             }
 
         });     
+    }
+
+    private void setQuestionViewValues(){
+        tvLocation.setText(question.getLocation().substring(1));
+        tvUsername.setText(question.getUserName().split(" ", 2)[0] + "  |");
+        tvQuestion.setText(question.getQuestion());
+        tvNumAnswers.setText(Integer.toString(question
+                .getAnswerCount()));
+        if (CommonUtils.isValidURL(question.getImage() + "")) {
+            questionImageFetcher.loadImage(question.getImage(),
+                    ivHomeImage);
+        } else {
+            ivHomeImage.setImageResource(R.drawable.no_image_available);
+        }
+        if (CommonUtils.isValidURL(question.getUserImage() + "")) {
+            profileImageFetcher.loadImage(question.getUserImage(), ivProfilePic);
+        } else {
+            ivProfilePic.setImageResource(R.drawable.ic_noprofilepic);
+        }
     }
 
 
