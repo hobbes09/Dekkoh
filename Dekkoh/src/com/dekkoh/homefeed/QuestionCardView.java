@@ -120,6 +120,13 @@ public class QuestionCardView {
         view.setY(getInstance().initPosY);
 
         getInstance().initializeInteractionListeners(view, index);
+        
+        getInstance().parentView.addView(view, index);
+        Animation expansion = createExpansion(view);
+        expansion.setDuration(1500);
+        expansion.setInterpolator(new BounceInterpolator());
+        view.startAnimation(expansion);        
+        
     }
 
     private void initialize(View root) {
@@ -252,12 +259,6 @@ public class QuestionCardView {
             }
 
         });
-
-        getInstance().parentView.addView(view, index);
-        Animation expansion = createExpansion(view);
-        expansion.setDuration(1500);
-        expansion.setInterpolator(new BounceInterpolator());
-        view.startAnimation(expansion);
 
     }
 
