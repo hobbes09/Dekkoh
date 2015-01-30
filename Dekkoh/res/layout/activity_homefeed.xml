@@ -191,6 +191,7 @@
 	                                android:layout_height="match_parent" >
 	
 	                                <com.dekkoh.custom.view.SquareLinearLayout
+	                                    android:id="@+id/sllAnswerButton"
 	                                    android:layout_width="match_parent"
 	                                    android:layout_height="match_parent"
 	                                    android:layout_alignParentRight="true"
@@ -203,7 +204,7 @@
 	                                        android:layout_width="wrap_content"
 	                                        android:layout_height="wrap_content"
 	                                        android:text="0"
-	                                        android:textColor="#D7CF32"
+	                                        android:textColor="#ffffff"
 	                                        android:textSize="20dp" />
 	                                </com.dekkoh.custom.view.SquareLinearLayout>
 	                            </RelativeLayout>
