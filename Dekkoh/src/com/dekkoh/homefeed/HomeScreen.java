@@ -25,6 +25,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.MotionEvent;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -49,6 +51,7 @@ import com.dekkoh.service.APIProcessor;
 import com.dekkoh.slidingmenu.NavDrawerItem;
 import com.dekkoh.slidingmenu.NavDrawerListAdapter;
 import com.dekkoh.util.FileManager;
+import com.dekkoh.util.FlipAnimator;
 import com.dekkoh.util.Log;
 import com.kavyasoni.gallery.ui.helper.ImageFetcher;
 import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
@@ -76,12 +79,14 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
     private SquareLinearLayout sllShare;
     private SquareLinearLayout sllLike;
     private SquareLinearLayout sllFollow;
+    private SquareLinearLayout sllAnswerButton;
     private LinearLayout questionFragmentLayout;
     private static final String IMAGE_CACHE_DIR = ".gallery/cache";
     private ImageFetcher profileImageFetcher;
     private ImageFetcher questionImageFetcher;
 
     private Question question;
+    private Bundle instanceState;
     
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
@@ -141,7 +146,9 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
         sllShare = (SquareLinearLayout) findViewById(R.id.sllShare);
         sllLike = (SquareLinearLayout) findViewById(R.id.sllLike);
         sllFollow = (SquareLinearLayout) findViewById(R.id.sllFollow);
+        sllAnswerButton = (SquareLinearLayout) findViewById(R.id.sllAnswerButton);
         questionFragmentLayout = (LinearLayout) findViewById(R.id.questionFragmentLayout);
+        parentView = (RelativeLayout)findViewById(R.id.viewCardContainer);
         
         Typeface typeFaceQuestion=Typeface
                 .createFromAsset(HomeScreen.homeScreenContext.getAssets(),"fonts/SortsMillGoudy-Regular.ttf");
@@ -165,7 +172,7 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
         questionImageFetcher.addImageCache(HomeScreen.supportFragmentManager, cacheParams);
 
         question = QuestionContentManager.getNextQuestion();
-
+        instanceState = savedInstanceState;
 
         navigationDrawerInitialisation(savedInstanceState);
     }
@@ -320,8 +327,8 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
                 fragment = new Following();
                 break;
             case 5:
-//                Intent connectionsIntent = new Intent(this, MyConnectionsActivity.class);
-//                startActivity(connectionsIntent);
+                // Intent connectionsIntent = new Intent(this, MyConnectionsActivity.class);
+                // startActivity(connectionsIntent);
                 break;
             case 6:
                 fragment  =  new DekkohMapFragment();
@@ -337,13 +344,101 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
             // update selected item and title, then close the drawer
             mDrawerList.setItemChecked(position, true);
             mDrawerList.setSelection(position);
-//            setTitle(navMenuTitles[position]);
+            // setTitle(navMenuTitles[position]);
             mDrawerLayout.closeDrawer(mDrawerList);
         } else {
-            QuestionCardView.getInstance().createQuestionCard(ApplicationState.getHomefeedQuestion_CurrentIndex());
+            createQuestionAnswerCard(ApplicationState.getHomefeedQuestion_CurrentIndex());
             
         }
     }
+
+    private void createQuestionAnswerCard(int homefeedQuestion_CurrentIndex) {
+        
+        LayoutInflater inflate = (LayoutInflater) getApplicationContext()
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        final View viewFront = (View) findViewById(R.id.questionFragmentLayout);
+        final View viewBack = (View) findViewById(R.id.answerFragmentLayout);
+        
+        if(this.instanceState == null){
+            viewBack.setVisibility(View.INVISIBLE);
+        }
+        
+        initializeInterationListeners(viewFront);
+        
+        sllAnswerButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                FlipAnimator animator = new FlipAnimator(viewFront, viewBack,
+                        viewBack.getWidth() / 2, viewBack.getHeight() / 2);
+                if (viewFront.getVisibility() == View.GONE) {
+                    animator.reverse();
+                }
+                parentView.startAnimation(animator);
+            }
+        });
+    }
+
+private void initializeInterationListeners(final View viewFront) {
+        
+        viewFront.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                x_current = event.getRawX();
+                y_current = event.getRawY();
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        x_initial = event.getX();
+                        y_initial = event.getY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        x_current = event.getRawX();
+                        y_current = event.getRawY();
+                        dragLengthX = x_current - x_initial;
+                        draglengthY = y_current - y_initial;
+                        
+                        viewFront.setX(initPosX + dragLengthX);
+                        viewFront.setY(initPosY + draglengthY);
+                        viewFront.setRotation(dragLengthX * 0.001f * 30f);                       
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        float tempDragX = dragLengthX; float tempDragY = draglengthY;
+                        if (Math.abs(dragLengthX) > screenCenterX || Math.abs(draglengthY) > screenCenterX) {                           
+                            while(Math.abs(tempDragX) < 2*screenCenterX || Math.abs(tempDragY) < 2*screenCenterY){
+                                tempDragX = (tempDragX > 0) ? tempDragX+0.1f : tempDragX-0.1f;
+                                tempDragY = (tempDragY > 0) ? tempDragY+0.1f : tempDragY-0.1f;
+                                viewFront.setX(initPosX + tempDragX);
+                                viewFront.setY(initPosY + tempDragY);
+                                viewFront.setRotation(tempDragX * 0.001f * 60f);                                 
+                            }
+                            parentView.removeView(viewFront); 
+                            
+                        }else{
+                            while(Math.abs(tempDragX) > 1 && Math.abs(tempDragY) > 1 ){
+                                tempDragX = (tempDragX > 0) ? tempDragX-0.1f : tempDragX+0.1f;
+                                tempDragY = (tempDragY > 0) ? tempDragY-0.1f : tempDragY+0.1f;
+                                viewFront.setX(initPosX + tempDragX);
+                                viewFront.setY(initPosY + tempDragY);
+                                viewFront.setRotation(tempDragX * 0.001f * 60f); 
+                            }
+                            viewFront.setX(initPosX);
+                            viewFront.setY(initPosY);
+                            viewFront.setRotation(0);        
+                        }
+                        
+                        break;
+                    default:
+                        break;
+                }
+
+                return true;
+            }
+
+        });     
+    }
+
 
     @Override
     public void setTitle(CharSequence title) {
