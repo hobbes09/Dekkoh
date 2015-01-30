@@ -13,11 +13,11 @@
     
     <!-- Container for question cards -->
     <RelativeLayout 
-                android:id="@+id/viewCardContainer"
-        		android:layout_width="match_parent"
-			    android:layout_height="match_parent"
-			    android:background="@drawable/rounded_border"
-			    android:padding="5dp" >
+        android:id="@+id/viewCardContainer"
+        android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@drawable/rounded_border"
+		android:padding="5dp" >
 			    
         <!-- Start of questionFragmentLayout -->
         <LinearLayout
@@ -217,18 +217,54 @@
 	    <!-- End of questionFragmentLayout -->
 	    
 	    <!-- Start of answerFragmentLayout -->
-        <LinearLayout
-				    android:id="@+id/answerFragmentLayout"
-				    android:layout_width="match_parent"
-				    android:layout_height="match_parent"
-				    android:orientation="vertical" >
-
-				    <CalendarView
-				        android:id="@+id/cvBack"
-				        android:layout_width="match_parent"
-				        android:layout_height="match_parent" />
-				
-		</LinearLayout>
+        <RelativeLayout 
+            android:id="@+id/answerFragmentLayout"
+            android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:background="#000000" >
+		
+		    <RelativeLayout
+		        android:id="@+id/questionLayoutUserAnswerFragment"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_margin="5dp"
+		        android:background="@drawable/tile_zeropadding" >
+		
+		        <ImageView
+		            android:id="@+id/profileImageUserAnswerFragment"
+		            android:layout_width="50dp"
+		            android:layout_height="50dp"
+		            android:layout_alignParentRight="true"
+		            android:layout_centerInParent="true"
+		            android:layout_margin="10dp"
+		            android:src="@drawable/errormap" />
+		
+		        <TextView
+		            android:id="@+id/questionUserAnswerFragment"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_centerInParent="true"
+		            android:layout_margin="10dp"
+		            android:layout_toLeftOf="@id/profileImageUserAnswerFragment"
+		            android:gravity="center"
+		            android:text="QUESTION"
+		            android:textColor="#000000" />
+		    </RelativeLayout>
+		
+		    <!-- Margin Used is 5 dp intentionally - card used have extra margin outside which gives 15dp in total -->
+		
+		    <ListView
+		        android:id="@+id/answersListUserAnswerFragment"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:layout_below="@id/questionLayoutUserAnswerFragment"
+		        android:layout_margin="5dp"
+		        android:divider="@null"
+		        android:dividerHeight="2dp"
+		        android:scrollbars="none" >
+		    </ListView>
+		
+		</RelativeLayout>
           
  	</RelativeLayout>   
  	
