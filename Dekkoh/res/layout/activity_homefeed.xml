@@ -3,15 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000" >
-
+    
+    <!-- Fragment Container -->
     <RelativeLayout
         android:id="@+id/contentHomeActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </RelativeLayout>
+    
+    <!-- Container for question cards Container -->
+    <RelativeLayout android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:layout_weight="1"
+                android:id="@+id/viewCardContainer">
+    
+        
+        
+ 	</RelativeLayout>   
+    
 
     <!-- Listview to display slider menu -->
-
     <ListView
         android:id="@+id/list_slidermenu"
         android:layout_width="240dp"
