@@ -12,6 +12,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,23 +37,52 @@ import android.widget.TextView;
 import com.dekkoh.R;
 import com.dekkoh.application.ApplicationState;
 import com.dekkoh.application.BaseFragmentActivity;
+import com.dekkoh.custom.view.CircularImageView;
+import com.dekkoh.custom.view.SquareLinearLayout;
 import com.dekkoh.datamodel.Question;
 import com.dekkoh.following.Following;
 import com.dekkoh.map.DekkohMapFragment;
 import com.dekkoh.myactivity.MyActivity;
-import com.dekkoh.myconnections.MyConnectionsActivity;
+//import com.dekkoh.myconnections.MyConnectionsActivity;
 import com.dekkoh.myprofile.MyProfileActivity;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.slidingmenu.NavDrawerItem;
 import com.dekkoh.slidingmenu.NavDrawerListAdapter;
 import com.dekkoh.util.FileManager;
 import com.dekkoh.util.Log;
+import com.kavyasoni.gallery.ui.helper.ImageFetcher;
+import com.kavyasoni.gallery.ui.helper.RemoteImageFetcher;
+import com.kavyasoni.gallery.ui.helper.ImageCache.ImageCacheParams;
 
 public class HomeScreen extends BaseFragmentActivity implements OnClickListener {
     private ImageButton ibPost;
     private ImageButton ibMap;
     private TextView tvTitle;
+    
+    private int windowWidth, windowHeight;
+    private float screenCenterX, screenCenterY;
+    private float x_current, y_current, x_initial, y_initial;
+    private float initPosX = 0, initPosY = 0;
+    private float dragLengthX = 0,  draglengthY = 0;;
+    private RelativeLayout parentView;
+    
+    private TextView tvLocation;
+    private TextView tvUsername;
+    private TextView tvQuestion;
+    private TextView tvNumAnswers;
+    private ImageView ivHomeImage;
+    private CircularImageView ivProfilePic;
+    private SquareLinearLayout sllBack;
+    private SquareLinearLayout sllShare;
+    private SquareLinearLayout sllLike;
+    private SquareLinearLayout sllFollow;
+    private LinearLayout questionFragmentLayout;
+    private static final String IMAGE_CACHE_DIR = ".gallery/cache";
+    private ImageFetcher profileImageFetcher;
+    private ImageFetcher questionImageFetcher;
 
+    private Question question;
+    
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -70,10 +102,6 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 
     static FragmentManager supportFragmentManager;
     public static Context homeScreenContext;
-
-    int windowwidth, windowheight;
-    int screenCenterX, screenCenterY;
-    RelativeLayout parentView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,20 +126,46 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
         supportFragmentManager = getSupportFragmentManager();
         homeScreenContext = HomeScreen.this;
 
-        windowwidth = getWindowManager().getDefaultDisplay().getWidth();
-        screenCenterX = windowwidth / 2;
-        windowheight = getWindowManager().getDefaultDisplay().getHeight();
-        screenCenterY = windowheight / 2;
+        windowWidth = getWindowManager().getDefaultDisplay().getWidth();
+        screenCenterX = windowWidth / 2;
+        windowHeight = getWindowManager().getDefaultDisplay().getHeight();
+        screenCenterY = windowHeight / 2;
 
-        QuestionCardView.getInstance().setWindowWidth(windowwidth);
-        QuestionCardView.getInstance().setWindowHeight(windowheight);
-        QuestionCardView.getInstance().setScreenCenterX(screenCenterX);
-        QuestionCardView.getInstance().setScreenCenterY(screenCenterY);
-        QuestionCardView.getInstance().setInitPosX(0);
-        QuestionCardView.getInstance().setInitPosY(0);
-        QuestionCardView.getInstance().setX_initial(0);
-        QuestionCardView.getInstance().setY_initial(0);
-        QuestionCardView.getInstance().setContext(homeScreenContext);
+        tvLocation = (TextView) findViewById(R.id.tvLocation);
+        tvUsername = (TextView) findViewById(R.id.tvUsername);
+        tvQuestion = (TextView) findViewById(R.id.tvQuestion);
+        tvNumAnswers = (TextView) findViewById(R.id.tvNumAnswers);
+        ivHomeImage = (ImageView) findViewById(R.id.ivHomeImage);
+        ivProfilePic = (CircularImageView) findViewById(R.id.ivProfilePic);
+        sllBack = (SquareLinearLayout) findViewById(R.id.sllBack);
+        sllShare = (SquareLinearLayout) findViewById(R.id.sllShare);
+        sllLike = (SquareLinearLayout) findViewById(R.id.sllLike);
+        sllFollow = (SquareLinearLayout) findViewById(R.id.sllFollow);
+        questionFragmentLayout = (LinearLayout) findViewById(R.id.questionFragmentLayout);
+        
+        Typeface typeFaceQuestion=Typeface
+                .createFromAsset(HomeScreen.homeScreenContext.getAssets(),"fonts/SortsMillGoudy-Regular.ttf");
+        tvQuestion.setTypeface(typeFaceQuestion);
+        
+        Typeface typeFaceUser=Typeface
+                .createFromAsset(HomeScreen.homeScreenContext.getAssets(),"fonts/SourceSansPro_Bold.ttf");
+        tvUsername.setTypeface(typeFaceUser);
+        tvLocation.setTypeface(typeFaceUser);
+
+
+        ImageCacheParams cacheParams = new ImageCacheParams(
+                homeScreenContext, IMAGE_CACHE_DIR);
+        // Set memory cache to 25% of app memory
+        cacheParams.setMemCacheSizePercent(0.25f);
+        profileImageFetcher = new RemoteImageFetcher(homeScreenContext, 100);
+        profileImageFetcher.setLoadingImage(R.drawable.loding_album);
+        profileImageFetcher.addImageCache(HomeScreen.supportFragmentManager, cacheParams);
+        questionImageFetcher = new RemoteImageFetcher( homeScreenContext, 500);
+        questionImageFetcher.setLoadingImage(R.drawable.loding_album);
+        questionImageFetcher.addImageCache(HomeScreen.supportFragmentManager, cacheParams);
+
+        question = QuestionContentManager.getNextQuestion();
+
 
         navigationDrawerInitialisation(savedInstanceState);
     }
@@ -266,8 +320,8 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
                 fragment = new Following();
                 break;
             case 5:
-                Intent connectionsIntent = new Intent(this, MyConnectionsActivity.class);
-                startActivity(connectionsIntent);
+//                Intent connectionsIntent = new Intent(this, MyConnectionsActivity.class);
+//                startActivity(connectionsIntent);
                 break;
             case 6:
                 fragment  =  new DekkohMapFragment();
@@ -286,13 +340,8 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
 //            setTitle(navMenuTitles[position]);
             mDrawerLayout.closeDrawer(mDrawerList);
         } else {
-
-            ApplicationState.setHomefeedQuestion_CurrentIndex(0);
-            for(; ApplicationState.getHomefeedQuestion_CurrentIndex() < 10; ApplicationState.setHomefeedQuestion_CurrentIndex(ApplicationState.getHomefeedQuestion_CurrentIndex()+1)){
-                QuestionCardView.getInstance().createQuestionCard(ApplicationState.getHomefeedQuestion_CurrentIndex());
-            }
+            QuestionCardView.getInstance().createQuestionCard(ApplicationState.getHomefeedQuestion_CurrentIndex());
             
-
         }
     }
 
@@ -387,13 +436,6 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
         }
     }
 
-    private void createQuestionCardView() {
-        LayoutInflater inflate = (LayoutInflater) homeScreenContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View view = inflate.inflate(R.layout.question_fragment, null);
-
-    }
-    
     @Override
     public void onResume(){
         Log.e("Home Screen", "Resumed");
