@@ -26,6 +26,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.animation.Animation;
+import android.view.animation.BounceInterpolator;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -367,6 +369,11 @@ public class HomeScreen extends BaseFragmentActivity implements OnClickListener 
             viewBack.setVisibility(View.INVISIBLE);
         }
         
+        Animation expansion = createExpansion(viewFront);
+        expansion.setDuration(1500);
+        expansion.setInterpolator(new BounceInterpolator());
+        viewFront.startAnimation(expansion);        
+        
         initializeInterationListeners(viewFront);
         
         sllAnswerButton.setOnClickListener(new OnClickListener() {
@@ -459,6 +466,12 @@ private void initializeInterationListeners(final View viewFront) {
         } else {
             ivProfilePic.setImageResource(R.drawable.ic_noprofilepic);
         }
+    }
+    
+    private Animation createExpansion(View m_view) {
+        return new CustomScaleAnimation(m_view, 0.f, 1f, 0.1f, 1f,
+                Animation.RELATIVE_TO_PARENT, 0.5f,
+                Animation.RELATIVE_TO_PARENT, 0.5f);
     }
 
 
