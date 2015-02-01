@@ -9,9 +9,14 @@ public class ApplicationState {
     private final static String questionsFile = "questionsFile";
     private final static String answersFile = "answersFile";
     private final static String currentUserProfilePicture = "currentUserProfilePicture";
+    private final static double MAX_VELOCITY = 300;
 
     public static String getCurrentuserprofilepicture() {
         return currentUserProfilePicture;
+    }
+
+    public static double getMaxVelocity() {
+        return MAX_VELOCITY;
     }
 
     public static String getQuestionsfile() {
