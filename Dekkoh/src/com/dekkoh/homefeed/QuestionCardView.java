@@ -2,6 +2,7 @@
 package com.dekkoh.homefeed;
 
 import com.dekkoh.R;
+import com.dekkoh.application.ApplicationState;
 import com.dekkoh.custom.view.CircularImageView;
 import com.dekkoh.custom.view.SquareLinearLayout;
 import com.dekkoh.datamodel.Question;
@@ -17,6 +18,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -34,7 +36,7 @@ public class QuestionCardView {
     public static String TAG = "QuestionCardView";
     private int windowWidth, windowHeight;
     private float screenCenterX, screenCenterY;
-    private float x_current, y_current, x_initial, y_initial;
+    private float x_current, y_current, x_initial, y_initial, x_final, y_final;
     private float initPosX = 0, initPosY = 0;
     private float dragLengthX = 0,  draglengthY = 0;;
     private RelativeLayout parentView;
@@ -60,6 +62,8 @@ public class QuestionCardView {
     private static final String IMAGE_CACHE_DIR = ".gallery/cache";
     private ImageFetcher profileImageFetcher;
     private ImageFetcher questionImageFetcher;
+    
+    private static VelocityTracker velocityTracker = null;
 
     private static QuestionCardView questionCardView = new QuestionCardView();
 
@@ -228,11 +232,12 @@ public class QuestionCardView {
             public boolean onTouch(View v, MotionEvent event) {
                 getInstance().x_current = event.getRawX();
                 getInstance().y_current = event.getRawY();
-
+                
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:                        
                         getInstance().x_initial = event.getX();
                         getInstance().y_initial = event.getY();
+                        velocityTracker = VelocityTracker.obtain();
                         break;
                     case MotionEvent.ACTION_MOVE:
                         getInstance().x_current = event.getRawX();
@@ -242,21 +247,21 @@ public class QuestionCardView {
                         
                         view.setX(getInstance().initPosX + getInstance().dragLengthX);
                         view.setY(getInstance().initPosY + getInstance().draglengthY);
-                        view.setRotation(getInstance().dragLengthX * 0.001f * 30f);                       
+                        view.setRotation(getInstance().dragLengthX * 0.001f * 30f);   
+                        
+                        velocityTracker.addMovement(event);
+                        
                         break;
                     case MotionEvent.ACTION_UP:
-                        float tempDragX = getInstance().dragLengthX; float tempDragY = getInstance().draglengthY;
-                        if (Math.abs(getInstance().dragLengthX) > getInstance().screenCenterX || Math.abs(getInstance().draglengthY) > getInstance().screenCenterX) {                           
-                            while(Math.abs(tempDragX) < 2*getInstance().screenCenterX || Math.abs(tempDragY) < 2*getInstance().screenCenterY){
-                                tempDragX = (tempDragX > 0) ? tempDragX+0.1f : tempDragX-0.1f;
-                                tempDragY = (tempDragY > 0) ? tempDragY+0.1f : tempDragY-0.1f;
-                                view.setX(getInstance().initPosX + tempDragX);
-                                view.setY(getInstance().initPosY + tempDragY);
-                                view.setRotation(tempDragX * 0.001f * 60f);                                 
-                            }
+                        velocityTracker.computeCurrentVelocity(1000); // pixels per second
+                        float velocityX = velocityTracker.getXVelocity(); float velocityY = velocityTracker.getYVelocity();
+                        double velocity = Math.sqrt(velocityX*velocityX + velocityY*velocityY);
+                        x_final = event.getX(); y_final = event.getY();
+                        
+                        if(velocity >= ApplicationState.getMaxVelocity()){
                             parentView.removeView(view);                            
                         }else{
-                              TranslateAnimation anim = new TranslateAnimation(Animation.ABSOLUTE, getInstance().initPosX + tempDragX, Animation.ABSOLUTE, getInstance().initPosX, Animation.ABSOLUTE, getInstance().initPosY + tempDragY, Animation.ABSOLUTE, getInstance().initPosY);
+                              TranslateAnimation anim = new TranslateAnimation(Animation.ABSOLUTE, getInstance().initPosX + getInstance().dragLengthX, Animation.ABSOLUTE, getInstance().initPosX, Animation.ABSOLUTE, getInstance().initPosY + getInstance().draglengthY, Animation.ABSOLUTE, getInstance().initPosY);
                               anim.setDuration(200);
                               anim.setFillAfter( true );
                               view.startAnimation(anim);
