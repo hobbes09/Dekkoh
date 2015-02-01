@@ -49,7 +49,7 @@ public class QuestionCardView {
     private SquareLinearLayout sllFollow;
     private LinearLayout questionFragmentLayout;
 
-    private Question question;
+    public static Question question;
     private int countLike = 0;
     private int countFollow = 0;
 
