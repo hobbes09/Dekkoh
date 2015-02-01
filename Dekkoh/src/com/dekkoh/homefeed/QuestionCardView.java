@@ -22,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -255,18 +256,14 @@ public class QuestionCardView {
                             }
                             parentView.removeView(view);                            
                         }else{
-                            while(Math.abs(tempDragX) > 1 && Math.abs(tempDragY) > 1 ){
-                                tempDragX = (tempDragX > 0) ? tempDragX-0.1f : tempDragX+0.1f;
-                                tempDragY = (tempDragY > 0) ? tempDragY-0.1f : tempDragY+0.1f;
-                                view.setX(getInstance().initPosX + tempDragX);
-                                view.setY(getInstance().initPosY + tempDragY);
-                                view.setRotation(tempDragX * 0.001f * 60f); 
+                              TranslateAnimation anim = new TranslateAnimation(Animation.ABSOLUTE, getInstance().initPosX + tempDragX, Animation.ABSOLUTE, getInstance().initPosX, Animation.ABSOLUTE, getInstance().initPosY + tempDragY, Animation.ABSOLUTE, getInstance().initPosY);
+                              anim.setDuration(200);
+                              anim.setFillAfter( true );
+                              view.startAnimation(anim);
                             }
                             view.setX(getInstance().initPosX);
                             view.setY(getInstance().initPosY);
-                            view.setRotation(0);        
-                        }
-                        
+                            view.setRotation(0);    
                         break;
                     default:
                         break;
