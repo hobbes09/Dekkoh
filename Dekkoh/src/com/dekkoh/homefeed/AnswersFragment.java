@@ -6,9 +6,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -39,6 +42,7 @@ public class AnswersFragment extends BaseFragment implements OnClickListener{
     ProgressDialog progress;
     ListView answers_listView;
     AnswerFragmentListAdapter adapter;
+    ImageView selectImage,postQuestion;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,8 +56,8 @@ public class AnswersFragment extends BaseFragment implements OnClickListener{
         adapter =  new AnswerFragmentListAdapter(mContext,inflater);
         
         // Progress Dialog
-        progress = new ProgressDialog(mContext);
-        progress.setMessage("Saving Your Selection...");
+        progress = new ProgressDialog(this.getActivity());
+        progress.setMessage("Loading Answers...");
         progress.setIndeterminate(true); 
         progress.show();
         //
@@ -96,11 +100,34 @@ public class AnswersFragment extends BaseFragment implements OnClickListener{
         }
         
         
+        answers_listView.setAdapter(adapter);
         
+        customizeActionBar();
         
         
         return root;
     }
+    
+    
+    private void customizeActionBar() {
+        //   getActivity().getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+           getActivity().getActionBar().setBackgroundDrawable(
+                   new ColorDrawable(Color.parseColor("#00000000")));
+           ActionBar actionBar = getActivity().getActionBar();
+           LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+           View mCustomView = layoutInflater.inflate(R.layout.action_bar_post_question_fragment,
+                   null);
+           actionBar.setCustomView(mCustomView);
+           actionBar.setDisplayShowCustomEnabled(true);
+           
+           selectImage = (ImageView)mCustomView.findViewById(R.id.selectImage_postQuestionFragment_actionbar);
+           postQuestion = (ImageView) mCustomView.findViewById(R.id.postQuestion_postQuestionFragment_actionbar);
+          
+           selectImage.setVisibility(View.GONE);
+           postQuestion.setVisibility(View.GONE);
+           
+       }
+       
 
     @Override
     public void onClick(View v) {
@@ -166,7 +193,7 @@ class getAnswers extends AsyncTask<Void, Void, List<Answer>> {
             no_net = true;
         }
 
-        return null;
+        return listAnswers;
         // TODO Auto-generated method stub
 
     }

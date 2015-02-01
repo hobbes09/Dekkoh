@@ -1,31 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/answerCellLayoutUserAnswerFragmentLeft"
+    android:id="@+id/answerCellLayoutUserAnswerFragmentLeftWithOutImage"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/tile_zeropadding" >
-    
-    <ImageView 
-        android:id="@+id/answers_fargemnt_imageAnswerImageViewLeft"
-        android:layout_height="100dp"
-        android:layout_width="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        />
 
-    <RelativeLayout 
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:paddingBottom="10dp"
-        >
-        
-        <ImageView
-        android:id="@+id/profileImageInAnswerCellUserAnswerFragmentLeft"
+    <ImageView
+        android:id="@+id/profileImageInAnswerCellUserAnswerFragmentLeftWithOutImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
@@ -34,18 +16,18 @@
         android:src="@drawable/errormap" />
 
     <RelativeLayout 
-               android:id="@+id/userNameAndLocationHolderPAnswersScreenLeft"
+               android:id="@+id/userNameAndLocationHolderPAnswersScreenLeftWithOutImage"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginTop="25dp"
                  android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/profileImageInAnswerCellUserAnswerFragmentLeft"
+                android:layout_toRightOf="@id/profileImageInAnswerCellUserAnswerFragmentLeftWithOutImage"
                >
                
                 
                
                 <TextView
-                android:id="@+id/userNameInAnswerCellUserAnswerFragmentLeft"
+                android:id="@+id/userNameInAnswerCellUserAnswerFragmentLeftWithOutImageWithOutImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name"
@@ -59,8 +41,8 @@
                  />
 
             <View
-                android:id="@+id/answerCell_question_fragment_seperaterBetweenuserNameandLocation"
-                android:layout_toRightOf="@id/userNameInAnswerCellUserAnswerFragmentLeft"
+                android:id="@+id/answerCell_question_fragment_seperaterBetweenuserNameandLocationWithOutImage"
+                android:layout_toRightOf="@id/userNameInAnswerCellUserAnswerFragmentLeftWithOutImageWithOutImage"
                 android:layout_width="2dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
@@ -69,8 +51,8 @@
                 />
 
             <ImageView
-                android:id="@+id/answerCell_question_fragment_userLocationMarkerImageLeft"
-                android:layout_toRightOf="@id/answerCell_question_fragment_seperaterBetweenuserNameandLocation"
+                android:id="@+id/answerCell_question_fragment_userLocationMarkerImageLeftWithOutImage"
+                android:layout_toRightOf="@id/answerCell_question_fragment_seperaterBetweenuserNameandLocationWithOutImage"
                 android:layout_width="20dp"
                 android:layout_height="30dp"
                 android:adjustViewBounds="true"
@@ -80,8 +62,8 @@
                  />
              
             <TextView
-                android:id="@+id/answerCell_question_fragment_userLocationLeft"
-                android:layout_toRightOf="@id/answerCell_question_fragment_userLocationMarkerImageLeft"
+                android:id="@+id/answerCell_question_fragment_userLocationLeftWithOutImage"
+                android:layout_toRightOf="@id/answerCell_question_fragment_userLocationMarkerImageLeftWithOutImage"
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,19 +79,17 @@
            </RelativeLayout>
 
     <TextView
-        android:id="@+id/answerInAnswerCellUserAnswerFragmentLeft"
+        android:id="@+id/answerInAnswerCellUserAnswerFragmentLeftWithOutImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/userNameAndLocationHolderPAnswersScreenLeft"
+        android:layout_below="@id/userNameAndLocationHolderPAnswersScreenLeftWithOutImage"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_toRightOf="@id/profileImageInAnswerCellUserAnswerFragmentLeft"
+        android:layout_toRightOf="@id/profileImageInAnswerCellUserAnswerFragmentLeftWithOutImage"
         android:gravity="left"
         android:padding="10dp"
         android:text="Answer"
         android:textColor="#000000" />
-        
-    </RelativeLayout>
 
 </RelativeLayout>
