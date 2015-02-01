@@ -1,0 +1,256 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/viewCardContainer"
+        android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@drawable/rounded_border"
+		android:padding="5dp" xmlns:app="http://schemas.android.com/apk/res/com.dekkoh">
+			    
+        <!-- Start of questionFragmentLayout -->
+        <LinearLayout
+	        android:id="@+id/questionFragmentLayout"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_alignParentTop="true"
+	        android:layout_centerHorizontal="true"
+	        android:layout_centerVertical="true"
+	        android:orientation="vertical" >
+	
+	        <RelativeLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="0dp"
+	            android:layout_weight="0.4"
+	            android:padding="2dp"
+	            android:background="#fff" >
+	
+	            <ImageView
+	                android:id="@+id/ivHomeImage"
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent"
+	                android:adjustViewBounds="true"
+	                android:scaleType="centerCrop" 
+	                android:background="@drawable/homeimage_background"
+	                />
+	        </RelativeLayout>
+	
+	        <RelativeLayout
+	            android:layout_width="match_parent"
+	            android:layout_height="0dp"
+	            android:layout_weight="0.6"
+	            android:background="#ffffff" >
+	
+	            <LinearLayout
+	                android:layout_width="match_parent"
+	                android:layout_height="match_parent"
+	                android:orientation="vertical"
+	                android:weightSum="10" >
+	
+	                <LinearLayout
+	                    android:layout_width="match_parent"
+	                    android:layout_height="0dp"
+	                    android:layout_weight="2"
+	                    android:gravity="top"
+	                    android:orientation="horizontal" >
+	
+	                    <com.dekkoh.custom.view.CircularImageView 
+	                        android:id="@+id/ivProfilePic"
+	                        android:layout_width="65dp"
+	                        android:layout_height="65dp"
+	                        android:layout_centerHorizontal="true"
+	                        android:layout_centerVertical="true"
+	                        android:scaleType="fitStart"
+	                        android:src="@drawable/ic_noprofilepic"
+	                        app:border="true"
+	                        app:border_width="1px"
+	                        app:border_color="#F9F9F9"
+	                        app:shadow="true"
+	                        />
+	
+	                    <TextView
+	                        android:id="@+id/tvUsername"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_marginLeft="5dp"
+	                        android:layout_marginTop="15dp"
+	                        android:text="Username"
+	                        android:textColor="#db4437" />
+	
+	                    <TextView
+	                        android:id="@+id/locationPin"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_marginTop="15dp"
+	                        android:drawableLeft="@drawable/greenlocation"
+	                        android:singleLine="true"
+	                        android:textColor="#BC1F1E"
+	                        android:textSize="15sp" />
+	
+	                    <TextView
+	                        android:id="@+id/tvLocation"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_marginTop="15dp"
+	                        android:text="Location"
+	                        android:textColor="#db4437" />
+	                </LinearLayout>
+	
+	                <LinearLayout
+	                    android:layout_width="match_parent"
+	                    android:layout_height="0dp"
+	                    android:layout_weight="8"
+	                    android:background="@android:color/transparent"
+	                    android:gravity="center"
+	                    android:orientation="vertical"
+	                    android:weightSum="100" >
+	
+	                    <LinearLayout
+	                        android:layout_width="match_parent"
+	                        android:layout_height="0dp"
+	                        android:layout_weight="75"
+	                        android:background="@android:color/transparent"
+	                        android:gravity="center" >
+	
+	                        <TextView
+	                            android:id="@+id/tvQuestion"
+	                            android:layout_width="wrap_content"
+	                            android:layout_height="wrap_content"
+	                            android:padding="20dp"
+	                            android:text="Question"
+	                            android:textColor="#000000"
+	                            android:background="@android:color/transparent"
+	                            android:textSize="20dp" />
+	                    </LinearLayout>
+	
+	                    <LinearLayout
+	                        android:layout_width="match_parent"
+	                        android:layout_height="0dp"
+	                        android:layout_weight="25"
+	                        android:orientation="horizontal"
+	                        android:weightSum="100" >
+	
+	                        <LinearLayout
+	                            android:layout_width="0dp"
+	                            android:layout_height="match_parent"
+	                            android:layout_weight="70"
+	                            android:orientation="horizontal"
+	                            android:padding="20dp" >
+	
+	                            <com.dekkoh.custom.view.SquareLinearLayout
+	                                android:id="@+id/sllBack"
+	                                android:layout_width="match_parent"
+	                                android:layout_height="match_parent"
+	                                android:layout_marginRight="15dp"
+	                                android:background="@drawable/ic_reply" >
+	                            </com.dekkoh.custom.view.SquareLinearLayout>
+	
+	                            <com.dekkoh.custom.view.SquareLinearLayout
+	                                android:id="@+id/sllLike"
+	                                android:layout_width="match_parent"
+	                                android:layout_height="match_parent"
+	                                android:layout_marginRight="15dp"
+	                                android:background="@drawable/ic_like" >
+	                            </com.dekkoh.custom.view.SquareLinearLayout>
+	
+	                            <com.dekkoh.custom.view.SquareLinearLayout
+	                                android:id="@+id/sllShare"
+	                                android:layout_width="match_parent"
+	                                android:layout_height="match_parent"
+	                                android:layout_marginRight="15dp"
+	                                android:background="@drawable/ic_share" >
+	                            </com.dekkoh.custom.view.SquareLinearLayout>
+	
+	                            <com.dekkoh.custom.view.SquareLinearLayout
+	                                android:id="@+id/sllFollow"
+	                                android:layout_width="match_parent"
+	                                android:layout_height="match_parent"
+	                                android:layout_marginRight="15dp"
+	                                android:background="@drawable/ic_follow" >
+	                            </com.dekkoh.custom.view.SquareLinearLayout>
+	                        </LinearLayout>
+	
+	                        <LinearLayout
+	                            android:layout_width="0dp"
+	                            android:layout_height="match_parent"
+	                            android:layout_weight="30"
+	                            android:orientation="horizontal" >
+	
+	                            <RelativeLayout
+	                                android:layout_width="match_parent"
+	                                android:layout_height="match_parent" >
+	
+	                                <com.dekkoh.custom.view.SquareLinearLayout
+	                                    android:id="@+id/sllAnswerButton"
+	                                    android:layout_width="match_parent"
+	                                    android:layout_height="match_parent"
+	                                    android:layout_alignParentRight="true"
+	                                    android:layout_marginTop="-5dp"
+	                                    android:background="@drawable/ic_reddot"
+	                                    android:gravity="center" >
+	
+	                                    <TextView
+	                                        android:id="@+id/tvNumAnswers"
+	                                        android:layout_width="wrap_content"
+	                                        android:layout_height="wrap_content"
+	                                        android:text="0"
+	                                        android:textColor="#ffffff"
+	                                        android:textSize="20dp" />
+	                                </com.dekkoh.custom.view.SquareLinearLayout>
+	                            </RelativeLayout>
+	                        </LinearLayout>
+	                    </LinearLayout>
+	                </LinearLayout>
+	            </LinearLayout>
+	        </RelativeLayout>
+	    </LinearLayout>  
+	    <!-- End of questionFragmentLayout -->
+	    
+	    <!-- Start of answerFragmentLayout -->
+        <RelativeLayout 
+            android:id="@+id/answerFragmentLayout"
+            android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:background="#000000" >
+		
+		    <RelativeLayout
+		        android:id="@+id/questionLayoutUserAnswerFragment"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_margin="5dp"
+		        android:background="@drawable/tile_zeropadding" >
+		
+		        <ImageView
+		            android:id="@+id/profileImageUserAnswerFragment"
+		            android:layout_width="50dp"
+		            android:layout_height="50dp"
+		            android:layout_alignParentRight="true"
+		            android:layout_centerInParent="true"
+		            android:layout_margin="10dp"
+		            android:src="@drawable/errormap" />
+		
+		        <TextView
+		            android:id="@+id/questionUserAnswerFragment"
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:layout_centerInParent="true"
+		            android:layout_margin="10dp"
+		            android:layout_toLeftOf="@id/profileImageUserAnswerFragment"
+		            android:gravity="center"
+		            android:text="QUESTION"
+		            android:textColor="#000000" />
+		    </RelativeLayout>
+		
+		    <!-- Margin Used is 5 dp intentionally - card used have extra margin outside which gives 15dp in total -->
+		
+		    <ListView
+		        android:id="@+id/answersListUserAnswerFragment"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:layout_below="@id/questionLayoutUserAnswerFragment"
+		        android:layout_margin="5dp"
+		        android:divider="@null"
+		        android:dividerHeight="2dp"
+		        android:scrollbars="none" >
+		    </ListView>
+		
+		</RelativeLayout>
+          
+ </RelativeLayout>   
