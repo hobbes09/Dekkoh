@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
@@ -25,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class QuestionCardView {
     
@@ -47,6 +49,7 @@ public class QuestionCardView {
     private SquareLinearLayout sllShare;
     private SquareLinearLayout sllLike;
     private SquareLinearLayout sllFollow;
+    private SquareLinearLayout sllAnswerButton;
     private LinearLayout questionFragmentLayout;
 
     public static Question question;
@@ -120,6 +123,8 @@ public class QuestionCardView {
         view.setY(getInstance().initPosY);
 
         getInstance().initializeInteractionListeners(view, index);
+        
+        
     }
 
     private void initialize(View root) {
@@ -143,6 +148,8 @@ public class QuestionCardView {
                 .findViewById(R.id.sllLike);
         getInstance().sllFollow = (SquareLinearLayout) root
                 .findViewById(R.id.sllFollow);
+        getInstance().sllAnswerButton = (SquareLinearLayout) root
+                .findViewById(R.id.sllAnswerButton);
         getInstance().questionFragmentLayout = (LinearLayout) root
                 .findViewById(R.id.questionFragmentLayout);
         
@@ -197,6 +204,15 @@ public class QuestionCardView {
     }
 
     private void initializeInteractionListeners(final View view, int index) {
+        
+        sllAnswerButton.setOnClickListener( new OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                
+                Toast.makeText(HomeScreen.homeScreenContext, "Call answer fragment", Toast.LENGTH_SHORT).show();
+            }    
+        });
 
         questionFragmentLayout.setOnTouchListener(new OnTouchListener() {
             @Override
