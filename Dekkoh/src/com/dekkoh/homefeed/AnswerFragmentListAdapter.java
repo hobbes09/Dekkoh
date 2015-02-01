@@ -2,6 +2,7 @@
 package com.dekkoh.homefeed;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dekkoh.R;
+import com.dekkoh.datamodel.Answer;
+import com.dekkoh.util.RoundedTransformation;
+import com.squareup.picasso.Picasso;
 
 public class AnswerFragmentListAdapter extends BaseAdapter {
 
@@ -20,9 +24,10 @@ public class AnswerFragmentListAdapter extends BaseAdapter {
 
     private LayoutInflater mLayoutInflater;
     public String sessionid = "";
+    private RoundedTransformation transformation = new RoundedTransformation(40, 0);
 
     // Can make custom Util class for user answer info
-    private ArrayList<String> mEntries = new ArrayList<String>();
+    private List<Answer> mEntries = new ArrayList<Answer>();
 
     public AnswerFragmentListAdapter(Context context, LayoutInflater inflater) {
         mContext = context;
@@ -70,6 +75,31 @@ public class AnswerFragmentListAdapter extends BaseAdapter {
                 userProfilePic = (ImageView) itemView
                         .findViewById(R.id.profileImageInAnswerCellUserAnswerFragmentRight);
             }
+            
+            Answer presentAnswer=mEntries.get(position);
+            
+            answerOfUser.setText(presentAnswer.getAnswer());
+            if(presentAnswer.getImage().compareTo("")!=0){
+                try {
+                    Picasso.with(mContext)
+                            .load(presentAnswer.getImage())
+                            .placeholder(R.drawable.user_profile_pic_temporary_image)
+                            .transform(transformation)
+                            .into(userProfilePic);
+                } catch (Exception e) {
+                    Picasso.with(mContext)
+                            .load(R.drawable.user_profile_pic_temporary_image)
+                            .placeholder(R.drawable.user_profile_pic_temporary_image)
+                            .transform(transformation)
+                            .into(userProfilePic);
+                }
+            }else{
+                Picasso.with(mContext)
+                .load(R.drawable.user_profile_pic_temporary_image)
+                .placeholder(R.drawable.user_profile_pic_temporary_image)
+                .transform(transformation)
+                .into(userProfilePic);
+            }
 
         } else {
             itemView = (RelativeLayout) convertView;
@@ -78,7 +108,7 @@ public class AnswerFragmentListAdapter extends BaseAdapter {
         return itemView;
     }
 
-    public void upDateEntries(ArrayList<String> entries) {
+    public void upDateEntries(List<Answer> entries) {
         mEntries = entries;
         notifyDataSetChanged();
     }
