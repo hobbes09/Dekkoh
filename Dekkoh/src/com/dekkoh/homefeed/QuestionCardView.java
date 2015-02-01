@@ -209,8 +209,16 @@ public class QuestionCardView {
 
             @Override
             public void onClick(View view) {
-                
-                Toast.makeText(HomeScreen.homeScreenContext, "Call answer fragment", Toast.LENGTH_SHORT).show();
+                AnswersFragment answersFragment = new AnswersFragment(); 
+                Bundle questionBundle = new Bundle();
+                questionBundle.putString("userName", getInstance().question.getUserName());
+                questionBundle.putString("userLocation", getInstance().question.getLocation());
+                questionBundle.putString("userQuestion", getInstance().question.getQuestion());
+                questionBundle.putString("questionId", getInstance().question.getQuestionId());
+                questionBundle.putString("profilePicUrl", getInstance().question.getUserImage());
+                answersFragment.setArguments(questionBundle);
+                HomeScreen.supportFragmentManager.beginTransaction()
+                .replace(R.id.contentHomeActivity, answersFragment).commit();
             }    
         });
 

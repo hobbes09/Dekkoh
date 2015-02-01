@@ -177,6 +177,7 @@
                                 android:layout_height="match_parent" >
 
                                 <com.dekkoh.custom.view.SquareLinearLayout
+                                    android:id="@+id/sllAnswerButton"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_alignParentRight="true"
