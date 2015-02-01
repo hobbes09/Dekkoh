@@ -75,13 +75,11 @@
 
                     <TextView
                         android:id="@+id/locationPin"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="15dp"
+                        android:layout_height="22dp"
                         android:layout_marginTop="15dp"
-                        android:drawableLeft="@drawable/redlocation"
-                        android:singleLine="true"
-                        android:textColor="#BC1F1E"
-                        android:textSize="15sp" />
+                        android:background="@drawable/redlocation"
+                        android:singleLine="true" />
 
                     <TextView
                         android:id="@+id/tvLocation"
