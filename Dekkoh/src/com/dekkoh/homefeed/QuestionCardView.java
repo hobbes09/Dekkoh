@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -222,8 +223,11 @@ public class QuestionCardView {
                 questionBundle.putString("questionId", getInstance().question.getQuestionId());
                 questionBundle.putString("profilePicUrl", getInstance().question.getUserImage());
                 answersFragment.setArguments(questionBundle);
-                HomeScreen.supportFragmentManager.beginTransaction()
-                .replace(R.id.contentHomeActivity, answersFragment).commit();
+                /*HomeScreen.supportFragmentManager.beginTransaction()
+                .replace(R.id.contentHomeActivity, answersFragment).commit();*/
+                FragmentTransaction fragmentTransaction = HomeScreen.supportFragmentManager.beginTransaction()
+                .add(R.id.contentHomeActivity, answersFragment);
+                fragmentTransaction.addToBackStack(null).commit();
             }    
         });
 
