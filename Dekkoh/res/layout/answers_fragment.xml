@@ -5,93 +5,81 @@
     android:background="#000000" >
 
     <RelativeLayout
-            android:id="@+id/answers_fragment_userInfo_layout"
+        android:id="@+id/answers_fragment_userInfo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="#ffffff" >
+
+        <ImageView
+            android:id="@+id/answers_fragment_userProfileImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp" />
+
+        <RelativeLayout
+            android:id="@+id/userNameAndLocationHolderPostQuestion"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="#ffffff">
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="25dp"
+            android:layout_toRightOf="@id/answers_fragment_userProfileImage" >
 
-            <ImageView
-                android:id="@+id/answers_fragment_userProfileImage"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginLeft="10dp" 
-                />
-
-           <RelativeLayout 
-               android:id="@+id/userNameAndLocationHolderPostQuestion" 
-               android:layout_marginTop="25dp"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/answers_fragment_userProfileImage"
-               >
-                
-                <TextView
+            <TextView
                 android:id="@+id/answers_fragment_userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:maxLength="15"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxLength="15"
+                android:singleLine="true"
+                android:text=""
                 android:textColor="#d05656"
-                android:textStyle="bold"  
-                 />
+                android:textStyle="bold" />
 
             <View
                 android:id="@+id/answers_fragment_seperaterBetweenuserNameandLocation"
-                android:layout_toRightOf="@id/answers_fragment_userName"
                 android:layout_width="2dp"
                 android:layout_height="20dp"
-                android:layout_marginLeft="5dp"
                 android:layout_centerVertical="true"
-                android:background="#d05656" 
-                />
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/answers_fragment_userName"
+                android:background="#d05656" />
 
             <ImageView
                 android:id="@+id/answers_fragment_userLocationMarkerImage"
-                android:layout_toRightOf="@id/answers_fragment_seperaterBetweenuserNameandLocation"
                 android:layout_width="20dp"
                 android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@id/answers_fragment_seperaterBetweenuserNameandLocation"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_gravity="center"
-                android:src="@drawable/redlocation"
-                 />
-             
+                android:src="@drawable/redlocation" />
+
             <TextView
                 android:id="@+id/answers_fragment_userLocation"
-                android:layout_toRightOf="@id/answers_fragment_userLocationMarkerImage"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center"
+                android:layout_toRightOf="@id/answers_fragment_userLocationMarkerImage"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text=""
                 android:textColor="#d05656"
-                android:textStyle="bold" 
-                />
-           
-           
-               
-           </RelativeLayout>
-            <TextView 
-                android:id="@+id/answers_fragment_question_text_textView"
-                android:layout_below="@id/answers_fragment_userProfileImage"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textColor="#000000"
-                android:padding="10dp"
-                android:gravity="center"
-                />
-           
-           
-           
+                android:textStyle="bold" />
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/answers_fragment_question_text_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/answers_fragment_userProfileImage"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="#000000" />
+    </RelativeLayout>
 
     <!-- Margin Used is 5 dp intentionally - card used have extra margin outside which gives 15dp in total -->
 

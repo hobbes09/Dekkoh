@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffff" >
-   
+
         <View
             android:id="@+id/post_question_fragment_horizontal_center_line"
             android:layout_width="match_parent"
@@ -24,18 +24,15 @@
             android:layout_marginBottom="60dp"
             android:scaleType="centerCrop"
             android:src="@drawable/background"
-            android:visibility="gone"
-             />
-        
+            android:visibility="gone" />
+
         <fragment
-        android:id="@+id/post_question_fragment_layout_map"
-        android:name="com.google.android.gms.maps.MapFragment"
-        android:layout_width="match_parent"
+            android:id="@+id/post_question_fragment_layout_map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/post_question_fragment_horizontal_center_line"
-            android:layout_marginBottom="60dp"
-            
-        />
+            android:layout_marginBottom="60dp" />
 
         <RelativeLayout
             android:id="@+id/post_question_fragment_userInfo_layout"
@@ -50,121 +47,108 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp" />
 
-           <RelativeLayout 
-               android:id="@+id/userNameAndLocationHolderPostQuestion"
+            <RelativeLayout
+                android:id="@+id/userNameAndLocationHolderPostQuestion"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
-                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/post_question_fragment_userProfileImage"
-               >
-               
-                <ImageView
-                android:id="@+id/post_question_fragment_userEditIcon"
-                android:layout_alignParentRight="true"
-                android:layout_width="20dp"
-                android:layout_height="30dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:layout_gravity="center"
-                android:src="@drawable/edit_red_icon"
-                android:layout_marginRight="7dp"
-                android:layout_marginLeft="3dp"
-                 />
-               
-                <TextView
-                android:id="@+id/post_question_fragment_userName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:maxLength="15"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:textColor="#d05656"
-                android:textStyle="bold"  
-                 />
-
-            <View
-                android:id="@+id/post_question_fragment_seperaterBetweenuserNameandLocation"
-                android:layout_toRightOf="@id/post_question_fragment_userName"
-                android:layout_width="2dp"
-                android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
-                android:layout_centerVertical="true"
-                android:background="#d05656" 
-                />
+                android:layout_toRightOf="@id/post_question_fragment_userProfileImage" >
 
-            <ImageView
-                android:id="@+id/post_question_fragment_userLocationMarkerImage"
-                android:layout_toRightOf="@id/post_question_fragment_seperaterBetweenuserNameandLocation"
-                android:layout_width="20dp"
-                android:layout_height="30dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:layout_gravity="center"
-                android:src="@drawable/redlocation"
-                 />
-             
-            <TextView
-                android:id="@+id/post_question_fragment_userLocation"
-                android:layout_toRightOf="@id/post_question_fragment_userLocationMarkerImage"
-                android:layout_toLeftOf="@id/post_question_fragment_userEditIcon"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:text=""
-                android:textColor="#d05656"
-                android:textStyle="bold" 
-                />
-           
-               
-           </RelativeLayout>
-           
-           <LinearLayout 
-               android:id="@+id/userLocationEditTextHolderPostQuestion"
+                <ImageView
+                    android:id="@+id/post_question_fragment_userEditIcon"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginRight="7dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/edit_red_icon" />
+
+                <TextView
+                    android:id="@+id/post_question_fragment_userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:maxLength="15"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="#d05656"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/post_question_fragment_seperaterBetweenuserNameandLocation"
+                    android:layout_width="2dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/post_question_fragment_userName"
+                    android:background="#d05656" />
+
+                <ImageView
+                    android:id="@+id/post_question_fragment_userLocationMarkerImage"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_toRightOf="@id/post_question_fragment_seperaterBetweenuserNameandLocation"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/redlocation" />
+
+                <TextView
+                    android:id="@+id/post_question_fragment_userLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_toLeftOf="@id/post_question_fragment_userEditIcon"
+                    android:layout_toRightOf="@id/post_question_fragment_userLocationMarkerImage"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="#d05656"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/userLocationEditTextHolderPostQuestion"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_centerVertical="true"
-                 android:layout_marginLeft="5dp"
+                android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/post_question_fragment_userProfileImage"
                 android:orientation="horizontal"
-                android:weightSum="10"
                 android:visibility="gone"
-               >
-               
-               <EditText 
-                   android:id="@+id/editTextForUserAddressEditPostQuestion"
-                   android:layout_height="match_parent"
-                   android:layout_width="match_parent"
-                   android:ems="10"
-                   android:paddingLeft="10dp"
-                   android:textColor="#000000"
-                   android:hint="Street,City,State"
-                   android:lines="1"
-                   android:ellipsize="end"
-                   android:layout_weight="7"
-                   android:textCursorDrawable="@null"
-                   />
-               
-               <ImageView
-                   android:id="@+id/continueAfterUserAddressChangePostQuetion"
-                   android:layout_height="wrap_content"
-                   android:layout_width="wrap_content"
-                   android:layout_gravity="center"
-                   android:layout_marginRight="5dp"
-                   android:layout_marginLeft="5dp"
-                   android:src="@drawable/ic_tick"
-                   android:background="@null"
-                   android:layout_weight="3"
-                   />
-               
-           </LinearLayout>
-           
+                android:weightSum="10" >
+
+                <EditText
+                    android:id="@+id/editTextForUserAddressEditPostQuestion"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:ellipsize="end"
+                    android:ems="10"
+                    android:hint="Street,City,State"
+                    android:lines="1"
+                    android:paddingLeft="10dp"
+                    android:textColor="#000000"
+                    android:textCursorDrawable="@null" />
+
+                <ImageView
+                    android:id="@+id/continueAfterUserAddressChangePostQuetion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="3"
+                    android:background="@null"
+                    android:src="@drawable/ic_tick" />
+            </LinearLayout>
         </RelativeLayout>
 
         <EditText
@@ -178,12 +162,9 @@
             android:layout_marginTop="5dp"
             android:background="#ffffff"
             android:ems="10"
-            android:gravity="top|left" 
+            android:gravity="top|left"
             android:textColor="#000000"
-            android:textCursorDrawable="@null"
-            />
-
-       
+            android:textCursorDrawable="@null" />
     </RelativeLayout>
 
 </RelativeLayout>

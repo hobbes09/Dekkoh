@@ -20,24 +20,24 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".application.DekkohApplication"
+        android:name="com.dekkoh.DekkohApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Dekkoh" >
         <activity
-            android:name=".homefeed.HomeScreen"
+            android:name="com.dekkoh.activities.HomeFeedActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/CustomActionBarTheme" >
         </activity>
         <activity
-            android:name=".homefeed.PreHomeScreen"
+            android:name="com.dekkoh.activities.PreHomeActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".splash.SplashActivity"
+            android:name="com.dekkoh.activities.SplashActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,14 +49,14 @@
             android:name="com.facebook.LoginActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".interests.InterestScreen"
+            android:name="com.dekkoh.activities.InterestActivity"
             android:label="@string/app_name"
             android:theme="@style/CustomActionBarTheme" />
         <activity
-            android:name=".myactivity.MyActivity"
+            android:name="com.dekkoh.activities.MyActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".interests.MyProfile"
+            android:name="com.dekkoh.activities.MyProfile"
             android:label="@string/app_name" />
 
         <!-- Facebook SDK Integration -->
@@ -73,10 +73,13 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAM6rh-8EF_u_vKlX2eqQNYvaBumDCd1U4" />
 
-        <activity android:name=".myprofile.MyProfileActivity" >
+        <activity android:name="com.dekkoh.activities.MyProfileActivity" >
         </activity>
-        <activity android:name=".myconnections.MyConnectionsActivity" >
+        <activity android:name="com.dekkoh.activities.MyConnectionsActivity" >
         </activity>
+
+        <service android:name=".service.GPSTrackerService" >
+        </service>
     </application>
 
 </manifest>

@@ -5,111 +5,99 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/tile_zeropadding" >
-    
-    <ImageView 
+
+    <ImageView
         android:id="@+id/answers_fargemnt_imageAnswerImageViewLeft"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_width="match_parent"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        />
+        android:layout_marginTop="10dp" />
 
-    <RelativeLayout 
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_marginTop="100dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:paddingBottom="10dp"
-        >
-        
-        <ImageView
-        android:id="@+id/profileImageInAnswerCellUserAnswerFragmentLeft"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_centerInParent="true"
-        android:layout_margin="10dp"
-        android:src="@drawable/errormap" />
+        android:layout_marginTop="100dp"
+        android:paddingBottom="10dp" >
 
-    <RelativeLayout 
-               android:id="@+id/userNameAndLocationHolderPAnswersScreenLeft"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="25dp"
-                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/profileImageInAnswerCellUserAnswerFragmentLeft"
-               >
-               
-                
-               
-                <TextView
+        <ImageView
+            android:id="@+id/profileImageInAnswerCellUserAnswerFragmentLeft"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/errormap" />
+
+        <RelativeLayout
+            android:id="@+id/userNameAndLocationHolderPAnswersScreenLeft"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="25dp"
+            android:layout_toRightOf="@id/profileImageInAnswerCellUserAnswerFragmentLeft" >
+
+            <TextView
                 android:id="@+id/userNameInAnswerCellUserAnswerFragmentLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:maxLength="15"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
+                android:ellipsize="end"
+                android:maxLength="15"
+                android:singleLine="true"
+                android:text="Name"
                 android:textColor="#d05656"
-                android:textStyle="bold"  
-                 />
+                android:textStyle="bold" />
 
             <View
                 android:id="@+id/answerCell_question_fragment_seperaterBetweenuserNameandLocation"
-                android:layout_toRightOf="@id/userNameInAnswerCellUserAnswerFragmentLeft"
                 android:layout_width="2dp"
                 android:layout_height="20dp"
-                android:layout_marginLeft="5dp"
                 android:layout_centerVertical="true"
-                android:background="#d05656" 
-                />
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/userNameInAnswerCellUserAnswerFragmentLeft"
+                android:background="#d05656" />
 
             <ImageView
                 android:id="@+id/answerCell_question_fragment_userLocationMarkerImageLeft"
-                android:layout_toRightOf="@id/answerCell_question_fragment_seperaterBetweenuserNameandLocation"
                 android:layout_width="20dp"
                 android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@id/answerCell_question_fragment_seperaterBetweenuserNameandLocation"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:layout_gravity="center"
-                android:src="@drawable/redlocation"
-                 />
-             
+                android:src="@drawable/redlocation" />
+
             <TextView
                 android:id="@+id/answerCell_question_fragment_userLocationLeft"
-                android:layout_toRightOf="@id/answerCell_question_fragment_userLocationMarkerImageLeft"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center"
+                android:layout_toRightOf="@id/answerCell_question_fragment_userLocationMarkerImageLeft"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="Location"
                 android:textColor="#d05656"
-                android:textStyle="bold" 
-                />
-           
-               
-           </RelativeLayout>
+                android:textStyle="bold" />
+        </RelativeLayout>
 
-    <TextView
-        android:id="@+id/answerInAnswerCellUserAnswerFragmentLeft"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/userNameAndLocationHolderPAnswersScreenLeft"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_toRightOf="@id/profileImageInAnswerCellUserAnswerFragmentLeft"
-        android:gravity="left"
-        android:padding="10dp"
-        android:text="Answer"
-        android:textColor="#000000" />
-        
+        <TextView
+            android:id="@+id/answerInAnswerCellUserAnswerFragmentLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/userNameAndLocationHolderPAnswersScreenLeft"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/profileImageInAnswerCellUserAnswerFragmentLeft"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="Answer"
+            android:textColor="#000000" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -1,15 +1,16 @@
+
 package com.dekkoh.util;
 
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
 import android.graphics.Camera;
 import android.graphics.Matrix;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 
 /**
- * An animation that rotates the view on the Y axis between two specified angles.
- * This animation also adds a translation on the Z axis (depth) to improve the effect.
+ * An animation that rotates the view on the Y axis between two specified angles. This animation
+ * also adds a translation on the Z axis (depth) to improve the effect.
  */
-public class Rotate3dAnimation extends Animation {  
+public class Rotate3dAnimation extends Animation {
     private final float mFromDegrees;
     private final float mToDegrees;
     private final float mCenterX;
@@ -19,14 +20,14 @@ public class Rotate3dAnimation extends Animation {
     private Camera mCamera;
 
     /**
-     *
      * @param fromDegrees the start angle of the 3D rotation
      * @param toDegrees the end angle of the 3D rotation
      * @param centerX the X center of the 3D rotation
      * @param centerY the Y center of the 3D rotation
      * @param reverse true if the translation should be reversed, false otherwise
      */
-    public Rotate3dAnimation(float fromDegrees, float toDegrees, float centerX, float centerY, float depthZ, boolean reverse) {
+    public Rotate3dAnimation(float fromDegrees, float toDegrees, float centerX, float centerY,
+            float depthZ, boolean reverse) {
         mFromDegrees = fromDegrees;
         mToDegrees = toDegrees;
         mCenterX = centerX;
@@ -66,4 +67,3 @@ public class Rotate3dAnimation extends Animation {
         matrix.postTranslate(centerX, centerY);
     }
 }
-

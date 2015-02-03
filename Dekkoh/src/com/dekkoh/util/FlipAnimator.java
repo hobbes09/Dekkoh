@@ -1,3 +1,4 @@
+
 package com.dekkoh.util;
 
 import android.graphics.Camera;
@@ -23,7 +24,6 @@ public class FlipAnimator extends Animation {
     private boolean visibilitySwapped;
 
     /**
-     * 
      * @param fromView First view in the transition.
      * @param toView Second view in the transition.
      * @param centerX The center of the views in the x-axis.

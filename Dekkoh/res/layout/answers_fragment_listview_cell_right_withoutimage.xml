@@ -15,67 +15,62 @@
         android:layout_margin="10dp"
         android:src="@drawable/errormap" />
 
-    <RelativeLayout 
-               android:id="@+id/userNameAndLocationHolderAnswersScreenRightWithOutImage"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="30dp"
-                 android:layout_marginLeft="5dp"
-                android:layout_toLeftOf="@id/profileImageInAnswerCellUserAnswerFragmentRightWithOutImage"
-               >
-               
-              
-                    
-                    <TextView
-                    android:id="@+id/answerCell_answer_fragment_answering_userLocationRightWithOutImage"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:text="Location"
-                android:textColor="#d05656"
-                    android:textStyle="bold" />
+    <RelativeLayout
+        android:id="@+id/userNameAndLocationHolderAnswersScreenRightWithOutImage"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="30dp"
+        android:layout_toLeftOf="@id/profileImageInAnswerCellUserAnswerFragmentRightWithOutImage" >
 
-                <ImageView
-                    android:id="@+id/answerCell_answer_fragment_answering_userLocationMarkerImageRightWithOutImage"
-                    android:layout_width="20dp"
-                    android:layout_height="30dp"
-                    android:layout_alignBottom="@id/answerCell_answer_fragment_answering_userLocationRightWithOutImage"
-                    android:layout_alignTop="@id/answerCell_answer_fragment_answering_userLocationRightWithOutImage"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/answerCell_answer_fragment_answering_userLocationRightWithOutImage"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/redlocation" />
+        <TextView
+            android:id="@+id/answerCell_answer_fragment_answering_userLocationRightWithOutImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="Location"
+            android:textColor="#d05656"
+            android:textStyle="bold" />
 
-                <View
-                    android:id="@+id/answerCell_answer_fragment_seperaterBetween_answering_userNameandLocationRightWithOutImage"
-                    android:layout_width="2dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignBottom="@id/answerCell_answer_fragment_answering_userLocationRightWithOutImage"
-                    android:layout_alignTop="@id/answerCell_answer_fragment_answering_userLocationRightWithOutImage"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toLeftOf="@id/answerCell_answer_fragment_answering_userLocationMarkerImageRightWithOutImage"
-                    android:background="#000000" />
+        <ImageView
+            android:id="@+id/answerCell_answer_fragment_answering_userLocationMarkerImageRightWithOutImage"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@id/answerCell_answer_fragment_answering_userLocationRightWithOutImage"
+            android:layout_alignTop="@id/answerCell_answer_fragment_answering_userLocationRightWithOutImage"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/answerCell_answer_fragment_answering_userLocationRightWithOutImage"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/redlocation" />
 
-                <TextView
-                    android:id="@+id/userNameInAnswerCellUserAnswerFragmentRightWithOutImage" 
-                    android:layout_toLeftOf="@id/answerCell_answer_fragment_seperaterBetween_answering_userNameandLocationRightWithOutImage"
-                   
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="right"
-                   android:text="Name"
-                    android:ellipsize="end"
-                    android:lines="1"
-                android:textColor="#d05656"
-                    android:textStyle="bold" />
-               
-           </RelativeLayout>
+        <View
+            android:id="@+id/answerCell_answer_fragment_seperaterBetween_answering_userNameandLocationRightWithOutImage"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@id/answerCell_answer_fragment_answering_userLocationRightWithOutImage"
+            android:layout_alignTop="@id/answerCell_answer_fragment_answering_userLocationRightWithOutImage"
+            android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@id/answerCell_answer_fragment_answering_userLocationMarkerImageRightWithOutImage"
+            android:background="#000000" />
+
+        <TextView
+            android:id="@+id/userNameInAnswerCellUserAnswerFragmentRightWithOutImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@id/answerCell_answer_fragment_seperaterBetween_answering_userNameandLocationRightWithOutImage"
+            android:ellipsize="end"
+            android:gravity="right"
+            android:lines="1"
+            android:text="Name"
+            android:textColor="#d05656"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/answerInAnswerCellUserAnswerFragmentRightWithOutImage"

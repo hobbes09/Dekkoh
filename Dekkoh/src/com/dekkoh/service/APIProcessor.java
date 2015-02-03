@@ -17,7 +17,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.text.TextUtils;
 
-import com.dekkoh.application.DekkohApplication;
+import com.dekkoh.DekkohApplication;
 import com.dekkoh.datamodel.Answer;
 import com.dekkoh.datamodel.DekkohUser;
 import com.dekkoh.datamodel.DekkohUserConnection;

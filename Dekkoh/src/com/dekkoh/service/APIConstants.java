@@ -17,8 +17,8 @@ public final class APIConstants {
     }
 
     public static final class APIURL {
-        public static final String QA_SERVICE_URL = "http://104.131.64.246:3000";
-        public static final String PROD_SERVICE_URL = "http://104.131.64.246:3000";
+        public static final String QA_SERVICE_URL = "http://74.207.245.138:80";
+        public static final String PROD_SERVICE_URL = "http://74.207.245.138:80";
 
         public static final String INTERESTS_SUFFIX = "/interests";
         public static final String QUESTIONS_SUFFIX = "/questions";
