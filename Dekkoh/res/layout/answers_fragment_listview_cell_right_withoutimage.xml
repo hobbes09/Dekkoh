@@ -3,8 +3,7 @@
     android:id="@+id/answerCellLayoutUserAnswerFragmentRightWithOutImage"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:background="@drawable/tile_zeropadding" >
+    android:background="#ffffff" >
 
     <ImageView
         android:id="@+id/profileImageInAnswerCellUserAnswerFragmentRightWithOutImage"
@@ -12,7 +11,6 @@
         android:layout_height="50dp"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
-        android:layout_margin="10dp"
         android:src="@drawable/errormap" />
 
     <RelativeLayout

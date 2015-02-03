@@ -3,23 +3,17 @@
     android:id="@+id/answerCellLayoutUserAnswerFragmentRight"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/tile_zeropadding"
-    android:paddingBottom="14dp" >
+    android:background="#ffffff">
 
     <ImageView
         android:id="@+id/answerImageInAnswerCellUserAnswerFragmentRight"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp" />
+        android:layout_height="100dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="100dp" >
+        android:layout_marginTop="80dp" >
 
         <ImageView
             android:id="@+id/profileImageInAnswerCellUserAnswerFragmentRight"
@@ -95,7 +89,6 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
             android:layout_toLeftOf="@id/profileImageInAnswerCellUserAnswerFragmentRight"
             android:gravity="center"
             android:text="Answer"

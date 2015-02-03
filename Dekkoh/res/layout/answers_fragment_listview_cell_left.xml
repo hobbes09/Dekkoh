@@ -3,23 +3,17 @@
     android:id="@+id/answerCellLayoutUserAnswerFragmentLeft"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:background="@drawable/tile_zeropadding" >
+    android:background="#ffffff" >
 
     <ImageView
         android:id="@+id/answers_fargemnt_imageAnswerImageViewLeft"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp" />
+        android:layout_height="100dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:paddingBottom="10dp" >
 
         <ImageView

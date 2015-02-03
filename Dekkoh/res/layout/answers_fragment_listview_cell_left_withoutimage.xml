@@ -3,8 +3,7 @@
     android:id="@+id/answerCellLayoutUserAnswerFragmentLeftWithOutImage"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:background="@drawable/tile_zeropadding" >
+    android:background="#ffffff" >
 
     <ImageView
         android:id="@+id/profileImageInAnswerCellUserAnswerFragmentLeftWithOutImage"
