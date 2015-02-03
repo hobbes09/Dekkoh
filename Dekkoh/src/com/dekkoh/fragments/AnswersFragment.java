@@ -11,6 +11,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -24,12 +25,14 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dekkoh.BaseFragment;
 import com.dekkoh.R;
 import com.dekkoh.custom.adapter.AnswerFragmentListAdapter;
+import com.dekkoh.custom.handler.CaptureAndShare;
 import com.dekkoh.custom.handler.wrapSlidingDrawer;
 import com.dekkoh.datamodel.Answer;
 import com.dekkoh.service.APIProcessor;
@@ -54,6 +57,10 @@ public class AnswersFragment extends BaseFragment implements OnClickListener {
     CheckBox followTheQuestionAsker,followTheQuestion;
     
     View bottomOptionsButtonHandler,bottomOptionsButtonContent;
+    
+    CaptureAndShare captureAndShareTheScreenShot;
+    
+    RelativeLayout answersFeedCompleteLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +72,10 @@ public class AnswersFragment extends BaseFragment implements OnClickListener {
         mContext = this.getActivity().getApplicationContext();
 
         adapter = new AnswerFragmentListAdapter(mContext, inflater);
+        
+        
+        //complete Answer Feed Layout
+        answersFeedCompleteLayout = (RelativeLayout)root.findViewById(R.id.answers_fragment_completeLayout);
 
         // Progress Dialog
         progress = new ProgressDialog(this.getActivity());
@@ -86,7 +97,9 @@ public class AnswersFragment extends BaseFragment implements OnClickListener {
         followTheQuestion = (CheckBox)root.findViewById(R.id.answers_fragment_bottom_options_followQuestion);
         shareQuestion = (ImageView)root.findViewById(R.id.answers_fragment_bottom_options_shareQuestion);
         
+        captureAndShareTheScreenShot = new CaptureAndShare();
         
+        //Question Asker and answers List UI Initialization
         
         userProfilePic = (ImageView) root.findViewById(R.id.answers_fragment_userProfileImage);
         userName = (TextView) root.findViewById(R.id.answers_fragment_userName);
@@ -126,6 +139,22 @@ public class AnswersFragment extends BaseFragment implements OnClickListener {
         answers_listView.setAdapter(adapter);
 
         customizeActionBar();
+        
+        
+        //Bottom Options Buttons On Click listeners and actions
+        
+        shareQuestion.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Bitmap bitmap = captureAndShareTheScreenShot.getBitmapOfView(answersFeedCompleteLayout); 
+                captureAndShareTheScreenShot.createImageFromBitmap(bitmap,getActivity().getWindow());
+                captureAndShareTheScreenShot.shareIt(shareQuestion,getActivity());
+
+            }
+        });
+        
 
         return root;
     }

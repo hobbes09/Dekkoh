@@ -26,7 +26,7 @@ public class CaptureAndShare {
      * You can even pass the parent container like RelativeLayout or LinearLayout as a param
      * @param : View v
      */
-	public void shareIt(View view,Context ctx,String id){
+	public void shareIt(View view,Context ctx){
 	    //sharing implementation
 	    List<Intent> targetedShareIntents = new ArrayList<Intent>();
 	    
@@ -38,7 +38,7 @@ public class CaptureAndShare {
 	    Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 	    sharingIntent.setType("image/*");
 	   
-	    String shareBody = "Dekkoh ,India's friendly search engine."+"\n"+"Get the app at "+"http://107.170.169.216:4000/questions/"+id;
+	    String shareBody = "Dekkoh ,India's friendly search engine."+"\n"+"Get the app at "+"http://dekkoh.com";
 
 	    PackageManager pm = view.getContext().getPackageManager();
 	    List<ResolveInfo> activityList = pm.queryIntentActivities(sharingIntent, 0);
