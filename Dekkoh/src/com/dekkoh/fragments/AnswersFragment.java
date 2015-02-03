@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 import com.dekkoh.BaseFragment;
 import com.dekkoh.R;
 import com.dekkoh.custom.adapter.AnswerFragmentListAdapter;
+import com.dekkoh.custom.handler.wrapSlidingDrawer;
 import com.dekkoh.datamodel.Answer;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.util.RoundedTransformation;
@@ -44,6 +46,14 @@ public class AnswersFragment extends BaseFragment implements OnClickListener {
     ListView answers_listView;
     AnswerFragmentListAdapter adapter;
     ImageView selectImage, postQuestion;
+    
+    wrapSlidingDrawer bottomOptionsSlidingDrawer;
+    
+    ImageView openBottomOptionsButton,closeBottomOptionsButton,answerTheQuestion,shareQuestion;
+    
+    CheckBox followTheQuestionAsker,followTheQuestion;
+    
+    View bottomOptionsButtonHandler,bottomOptionsButtonContent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,7 +72,22 @@ public class AnswersFragment extends BaseFragment implements OnClickListener {
         progress.setIndeterminate(true);
         progress.show();
         //
+        
+        
+      //sliding tray at the bottom
+        bottomOptionsSlidingDrawer = (wrapSlidingDrawer)root.findViewById(R.id.answers_fragment_bottom_options_slidingDrawer);
 
+        openBottomOptionsButton = (ImageView)root.findViewById(R.id.answers_fragment_closed_moreButton_handleimage);
+        closeBottomOptionsButton = (ImageView)root.findViewById(R.id.answers_fragment_bottom_options_opened_more_closer);
+        bottomOptionsButtonHandler = root.findViewById(R.id.answers_fragment_bottom_options_handle);
+        bottomOptionsButtonContent = root.findViewById(R.id.answers_fragment_bottom_options_content);
+        answerTheQuestion = (ImageView)root.findViewById(R.id.answers_fragment_bottom_options_reply_answer);
+        followTheQuestionAsker = (CheckBox)root.findViewById(R.id.answers_fragment_bottom_options_followUser);
+        followTheQuestion = (CheckBox)root.findViewById(R.id.answers_fragment_bottom_options_followQuestion);
+        shareQuestion = (ImageView)root.findViewById(R.id.answers_fragment_bottom_options_shareQuestion);
+        
+        
+        
         userProfilePic = (ImageView) root.findViewById(R.id.answers_fragment_userProfileImage);
         userName = (TextView) root.findViewById(R.id.answers_fragment_userName);
         userLocation = (TextView) root.findViewById(R.id.answers_fragment_userLocation);

@@ -96,5 +96,100 @@
         android:dividerHeight="1dp"
         android:scrollbars="none" >
     </ListView>
+    
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@null" >
+
+        <com.dekkoh.custom.handler.wrapSlidingDrawer
+            android:id="@+id/answers_fragment_bottom_options_slidingDrawer"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="top"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:content="@+id/answers_fragment_bottom_options_content"
+            android:gravity="center_horizontal"
+            android:handle="@+id/answers_fragment_bottom_options_handle"
+            android:orientation="horizontal"
+            android:rotation="180" >
+
+            <LinearLayout
+                android:id="@+id/answers_fragment_bottom_options_handle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <ImageView
+                    android:id="@+id/answers_fragment_closed_moreButton_handleimage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:rotation="180"
+                    android:src="@drawable/more_glow" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/answers_fragment_bottom_options_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:weightSum="5" >
+
+                <CheckBox
+                    android:id="@+id/answers_fragment_bottom_options_followUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:button="@drawable/userconnection_checkbox"
+                    android:rotation="180" />
+
+                <ImageView
+                    android:id="@+id/answers_fragment_bottom_options_shareQuestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:rotation="180"
+                    android:src="@drawable/share" />
+
+                <CheckBox
+                    android:id="@+id/answers_fragment_bottom_options_followQuestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:button="@drawable/starr_checkbox"
+                    android:rotation="180" />
+
+                <ImageView
+                    android:id="@+id/answers_fragment_bottom_options_reply_answer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:rotation="180"
+                    android:src="@drawable/reply" />
+
+                <ImageView
+                    android:id="@+id/answers_fragment_bottom_options_opened_more_closer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:rotation="180"
+                    android:src="@drawable/more" />
+            </LinearLayout>
+        </com.dekkoh.custom.handler.wrapSlidingDrawer>
+    </LinearLayout>
+    
 
 </RelativeLayout>
