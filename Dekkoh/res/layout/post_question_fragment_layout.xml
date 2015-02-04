@@ -151,11 +151,23 @@
             </LinearLayout>
         </RelativeLayout>
 
+        <Spinner 
+            android:id="@+id/post_question_fragment_user_interests_selection_spinner"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="5dp"
+            
+            />
+        
         <EditText
             android:id="@+id/post_question_fragment_userQuestionEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/post_question_fragment_horizontal_center_line"
+            android:layout_above="@id/post_question_fragment_user_interests_selection_spinner"
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
@@ -164,6 +176,7 @@
             android:ems="10"
             android:gravity="top|left"
             android:textColor="#000000"
+            android:hint="Ask your Question here...."
             android:textCursorDrawable="@null" />
     </RelativeLayout>
 

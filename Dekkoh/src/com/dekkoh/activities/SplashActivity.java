@@ -507,6 +507,7 @@ public class SplashActivity extends BaseActivity {
             String iDs[] = interestIds.split(",");
             for (int u = 0; u < iDs.length; u++) {
                 DekkohUser.InterestID interest_ID_new = dekkohUser.new InterestID();
+                Log.e("InterestId", iDs[u]);
                 interest_ID_new.setInterestID(iDs[u]);
                 listInterestIds.add(interest_ID_new);
             }
@@ -554,6 +555,7 @@ class LoginTheUser extends AsyncTask<Void, Void, Void> {
                 if (dekkohUser.getInterestIds().size() == 0) {
                     activity.sendtoInterestsScreen();
                 } else {
+                   // Log.e("IterestId", dekkohUser.getInterestIds().get(0).getInterestID());
                     activity.sendtoHomeScreen();
                 }
 

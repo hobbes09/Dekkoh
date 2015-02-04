@@ -223,7 +223,7 @@ public class InterestActivity extends BaseActivity {
                                 .setInterestID(interest_id[completeInterests
                                         .indexOf(interest)]);
                         interestIdList.add(interest_ID_new);
-                        allInterests += interest_ID_new + ",";
+                        allInterests += interest_ID_new.getInterestID() + ",";
                     }
 
                 }

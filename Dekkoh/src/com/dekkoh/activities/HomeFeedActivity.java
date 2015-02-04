@@ -291,8 +291,12 @@ public class HomeFeedActivity extends BaseFragmentActivity implements OnClickLis
             for (; ApplicationState.getHomefeedQuestion_CurrentIndex() < 10; ApplicationState
                     .setHomefeedQuestion_CurrentIndex(ApplicationState
                             .getHomefeedQuestion_CurrentIndex() + 1)) {
-                QuestionCardView.getInstance().createQuestionCard(
-                        ApplicationState.getHomefeedQuestion_CurrentIndex());
+                if(QuestionContentManager.getInstance().getQuestionList().size()>ApplicationState.getHomefeedQuestion_CurrentIndex()){
+                    QuestionCardView.getInstance().createQuestionCard(
+                            ApplicationState.getHomefeedQuestion_CurrentIndex());
+                }else{
+                    break;
+                }
             }
 
         }

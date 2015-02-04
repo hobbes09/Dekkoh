@@ -4,11 +4,13 @@ package com.dekkoh.fragments;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,17 +33,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dekkoh.BaseFragment;
 import com.dekkoh.DekkohApplication;
 import com.dekkoh.R;
+import com.dekkoh.activities.HomeFeedActivity;
 import com.dekkoh.datamodel.DekkohUser;
+import com.dekkoh.datamodel.DekkohUser.InterestID;
 import com.dekkoh.service.APIProcessor;
 import com.dekkoh.service.GPSTrackerService;
 import com.dekkoh.util.Log;
@@ -75,6 +81,7 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
     private LinearLayout editTextForAddressHolder;
     private ImageView tickForAddressChanged;
     private EditText editTextForUserAddress;
+    private Spinner interestTagSelection;
 
     private boolean paused = false;
 
@@ -87,6 +94,14 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
     private int RESULT_LOAD_IMAGE = 100;
 
     GPSTrackerService gpsTracker;
+    
+    ArrayList<String> allInterestsOidsAvailable = new ArrayList<String>();
+    
+    String[] interestsAllAvailableNames={};
+    
+    List<InterestID> userSelectedInterests = new ArrayList<InterestID>();
+    
+    ProgressDialog progress;
 
     // TODO: Interests Ids for the question and how to post Question Image and get it's Url from
     // server ans place it in postQuestion method in AsyncTask.
@@ -117,9 +132,23 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
 
         // Context
         mContext = getActivity().getApplicationContext();
+        
+     // Progress Dialog
+        progress = new ProgressDialog(this.getActivity());
+        progress.setMessage("Posting...");
+        progress.setIndeterminate(true);
+        //
 
         // customize action bar
         customizeActionBar();
+        
+        //Populating Interests names and ids
+        interestsAllAvailableNames = getResources().getStringArray(R.array.Interests_list);
+        String allAvailableIds[]=getResources().getStringArray(R.array.Interest_ids);
+        
+        for(int i=0;i<allAvailableIds.length;i++){
+            allInterestsOidsAvailable.add(allAvailableIds[i]);
+        }
 
         // getting Application
         dekkohApplication = (DekkohApplication) getActivity().getApplication();
@@ -146,10 +175,31 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
                 .findViewById(R.id.continueAfterUserAddressChangePostQuetion);
         editTextForUserAddress = (EditText) root
                 .findViewById(R.id.editTextForUserAddressEditPostQuestion);
+        interestTagSelection = (Spinner) root
+                .findViewById(R.id.post_question_fragment_user_interests_selection_spinner);
 
         editAddress.setOnClickListener(this);
         tickForAddressChanged.setOnClickListener(this);
+        
+        
+        userSelectedInterests = dekkohUser.getInterestIds();
+        String userInterests[]=new String[userSelectedInterests.size()];
+        
+        for(int i=0;i<userSelectedInterests.size();i++){
+            if(allInterestsOidsAvailable.contains(userSelectedInterests.get(i).getInterestID())){
+                //Log.e("InterestId PostQuestion", userSelectedInterests.get(i).getInterestID());
+                userInterests[i]=interestsAllAvailableNames[allInterestsOidsAvailable.indexOf(userSelectedInterests.get(i).getInterestID())];
+            }
+        }
+        
 
+        if(userInterests.length>0){
+            ArrayAdapter<String> interestsAdapter = new ArrayAdapter<String>(this.getActivity(), R.layout.spinner_item_layout,userInterests);
+            interestTagSelection.setAdapter(interestsAdapter);
+            interestTagSelection.setSelection(0);    
+        }
+        
+        
         // Loading Image of user Profile Picture
         if (dekkohUser.getProfilePic() != null) {
             try {
@@ -393,11 +443,19 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
     }
 
     public void showNoNetToast() {
+        progress.cancel();
         Toast.makeText(getActivity().getApplicationContext(),
                 "Unable to reach Servers. Check you net connectivity", Toast.LENGTH_LONG).show();
     }
 
     public void showSuccessToast() {
+        progress.cancel();
+        
+        if(this.getActivity() instanceof HomeFeedActivity){
+            HomeFeedActivity parent=(HomeFeedActivity)this.getActivity();
+            parent.supportFragmentManager.popBackStackImmediate();
+        }
+        
         Toast.makeText(getActivity().getApplicationContext(), "Posted Successfully",
                 Toast.LENGTH_LONG).show();
     }
@@ -462,11 +520,12 @@ public class PostQuestionFragment extends BaseFragment implements OnClickListene
                 }
 
                 if (userQuestion.getText().toString().compareTo("") != 0) {
+                    progress.show();
                     new PostQuestion(PostQuestionFragment.this, userQuestion.getText().toString(),
                             dekkohUser.getDekkohUserID(), userLocation.getText().toString(), String
                                     .valueOf(dekkohApplication.getLocationLatitude()), String
                                     .valueOf(dekkohApplication.getLocationLongitude()), dekkohUser
-                                    .getProfilePic(), "5462071f6666f6f29891f0000").execute();
+                                    .getProfilePic(), userSelectedInterests.get(interestTagSelection.getSelectedItemPosition()).getInterestID()).execute();
                 }
                 break;
             case R.id.selectImage_postQuestionFragment_actionbar:
